@@ -9,7 +9,7 @@
 
 Use one local Next.js application for the form, bounded image assessment, optional image-analysis escalation, and customer chat. The user selected `openai/gpt-6-luna-decisions` for initial assessment and `openai/gpt-6-luna` for conversation and escalation, both through OpenRouter. No database, authentication, staff handoff, or claims integration participates in this PoC.
 
-The user confirmed five observations, local Windows operation, npm, and real provider endpoints for application use, manual QA and E2E. Only unit and integration tests may mock external models. The PRD's 10%/90% values are now **candidate thresholds pending representative-case evaluation**, as agreed during ADR clarification. AC-16 through AC-18 describe candidate boundaries, not measured accuracy. Record an evaluated profile and reconcile those numerical PRD criteria before enabling a different shortcut profile.
+The user confirmed five observations, local Windows operation, npm, and real provider endpoints for application use, manual QA and E2E. Only unit and integration tests may mock external models. The PRD's 10%/90% values are **candidate thresholds pending representative-case evaluation**. AC-16 through AC-18 describe outcome-distribution boundaries under an evaluated profile, not measured accuracy or an enabled default. Record the evaluated profile before enabling a shortcut; no evidence means escalation.
 
 ## 2. Technology Documentation References
 
@@ -93,6 +93,8 @@ Case capabilities remain in tab memory, never URLs, cookies, browser storage or 
 | `DELETE /api/case` | Case capability | Idempotent 204 after cancellation/deletion |
 
 After assessment headers are sent, provider failures produce a terminal result event with review required and an unavailable stage, not fabricated success or another HTTP status. Disconnect cancels unfinished work; partial results cannot authorize chat. Assessment NDJSON is never the chat protocol.
+
+A valid case whose conversational provider fails also gains a persistent server-owned review reason. Preserve assessment evidence; return the updated status projection with a pre-stream error or as stream metadata before a post-header error when possible. A successful retry never clears that requirement. Customer cancellation alone is not a provider outage.
 
 Validate Origin when present, restrict requests to same origin, avoid permissive CORS and bind to localhost. A capability is a local PoC boundary, not production authentication. Accept only user text/delta on chat requests. Reject client system prompts, policies, assistant history, tools, provider URLs and replacements for observations/status. Reconstruct full context on the server. No customer-service notification or external business mutation endpoint exists.
 

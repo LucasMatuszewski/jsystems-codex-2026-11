@@ -53,7 +53,7 @@ Support and hardware service staff are downstream beneficiaries, not users of a 
 1. If image preparation fails, the system reports the failure on the form and retains the other fields for image replacement; no image is sent for analysis.
 2. If the initial decision provider is unavailable, the system displays review required with the reason that visual assessment was unavailable. It does not fabricate observations or silently substitute a successful assessment.
 3. If the escalation provider fails, the system displays review required and preserves all completed assessment information.
-4. If the conversational provider fails, the system shows an explicit service error, the available structured result, and a non-generated fallback explanation. A retry can retry the failed chat response, without repeating image assessment or clearing review status.
+4. If the conversational provider fails, the system adds the persistent review-required status and shows an explicit service error, the available structured result, and a non-generated fallback explanation. A retry can retry the failed chat response, without repeating image assessment or clearing that review status.
 5. If all model services are unavailable, the customer still sees the retained form summary, the failure reason, review required, and an official support link.
 
 ### 4.5 New case and session end
@@ -88,7 +88,7 @@ Support and hardware service staff are downstream beneficiaries, not users of a 
 - AC-07: A receipt date earlier than the purchase date produces a field-level error.
 - AC-08: The form rejects a second attached image.
 - AC-09: A file exceeding 10,000,000 bytes is rejected with a visible size-limit message.
-- AC-10: A file outside the accepted image formats, or a file that cannot be decoded as its declared image format, is rejected before model analysis.
+- AC-10: Image acceptance uses the decoded format: a valid supported image is accepted despite a mismatched filename extension or browser MIME type, while an unsupported or undecodable image is rejected before model analysis.
 - AC-11: The attached image can be previewed, removed, or replaced before submission.
 - AC-12: No model receives the image before server-side image compression completes successfully.
 - AC-13: A form validation or image-preparation error preserves all other entered fields.
@@ -97,9 +97,9 @@ Support and hardware service staff are downstream beneficiaries, not users of a 
 
 - AC-14: A successful initial assessment returns all five observation records defined in Section 11.
 - AC-15: Each observation distinguishes a numeric probability from unavailable evidence.
-- AC-16: A supported probability of exactly 10% is classified as a clear negative.
-- AC-17: A supported probability of exactly 90% is classified as a clear positive.
-- AC-18: A probability strictly between 10% and 90% triggers the deeper analysis route.
+- AC-16: Under an evaluated 10%/90% profile, an observation with negative probability 90%, positive probability 10% and unknown probability 0% is classified as a clear negative.
+- AC-17: Under an evaluated 10%/90% profile, an observation with positive probability 90%, negative probability 10% and unknown probability 0% is classified as a clear positive.
+- AC-18: An observation without a qualifying positive or negative outcome under an evaluated profile triggers deeper analysis.
 - AC-19: Missing evidence or conflicting evidence triggers deeper analysis even when a supplied probability is outside the intermediate range.
 - AC-20: A clear negative for image usability or item relevance triggers deeper analysis.
 - AC-21: At most one deeper multimodal assessment is attempted per submitted case.
@@ -122,8 +122,8 @@ Support and hardware service staff are downstream beneficiaries, not users of a 
 - AC-35: Business follow-up questions cover entity type and professional character of the purchase without requiring identifying data.
 - AC-36: Procedure-based guidance identifies the source and section supporting it.
 - AC-37: The first response explicitly states that the chat has not submitted a return or complaint.
-- AC-38: Failure to generate a chat response shows an error and a fallback result without displaying generated success text.
-- AC-39: Retrying a failed chat response preserves the existing assessment and review status.
+- AC-38: Conversational-provider failure shows an error, known fallback facts and persistent review required without displaying generated success text.
+- AC-39: Retrying a failed chat response preserves the original assessment evidence and the review requirement added by that failure.
 - AC-40: Requesting a summary returns the current recommendation or review status, known facts, unresolved questions, and next steps.
 
 ### UX, session, and boundaries
@@ -176,6 +176,7 @@ Future modules may retrieve customer and purchase data, save sessions and action
 | Purchase channel | Required; `Na odległość`, `W salonie`, `Nie wiem`; explanatory text distinguishes contract formation from collection location |
 | Reason/description | Textarea; required for complaint, optional for return |
 | Equipment image | Exactly one JPEG, PNG, or WebP image, at most 10,000,000 bytes |
+| Additional input limits | Equipment name/model: 200 characters; description and each chat message: 4,000 characters; images must be static, single-frame and at most 40 million decoded pixels |
 | Image handling | Server-side compression before either visual model; do not interpret details lost in processing as absent damage |
 | Conversation | Text messages only after initial submission; one active case per tab |
 | Language | Polish customer interface and agent responses; English project requirements |
@@ -304,11 +305,11 @@ The conversation context contains the complete submitted form, initial observati
 | Visible dents | Dents are visible in the pictured areas |
 | Visible scratches | Scratches are visible in the pictured areas |
 
-Each record includes its category, probability from 0 to 1 when supportable, evidence basis, uncertainty or missing evidence, and conflicts. Unavailable evidence is explicitly unknown, not probability zero. The categories are independent observations, so their probabilities need not sum to one. Item relevance is not authentication or proof of an exact model when identifiers are not visible.
+Each record includes its category, probabilities for positive, negative and not-assessable outcomes when available, evidence basis, uncertainty or missing evidence, and conflicts. Unavailable evidence is explicitly unknown, not probability zero. Each observation's outcome distribution sums approximately to one; positive probabilities across the five independent observations need not sum to one. Item relevance is not authentication or proof of an exact model when identifiers are not visible.
 
-For a supported observation, probabilities at or below 0.10 are clear negatives, at or above 0.90 are clear positives, and the interval between them is uncertain. These are selected PoC routing thresholds, not measured accuracy or calibrated guarantees.
+The 0.10/0.90 boundaries are candidate PoC thresholds, not an enabled default or an accuracy guarantee. A shortcut requires a profile evaluated for the observation/category combination. Under that profile a clear positive or negative requires that outcome to meet its high threshold and all competing outcomes, including not-assessable, to meet the low bound. Otherwise use deeper analysis. Before a profile is evaluated, keep its shortcut disabled. The initial evaluation covers laptops and phones only; other combinations continue through escalation.
 
-A low probability of cracks can be a confident negative. A low probability of usability or relevance means the image is inadequate or inconsistent and must be escalated. Missing evidence, processing loss, or contradictions override numeric confidence for routing. An unpictured surface is unknown; lack of damage in the visible area cannot establish the whole device's condition or function.
+A low positive probability can support a confident negative only when the negative outcome is sufficiently supported; a high not-assessable probability is missing evidence instead. A supported negative for usability or relevance means inadequate or inconsistent input and requires escalation. Missing evidence, processing loss, or contradictions override numeric confidence. An unpictured surface is unknown; lack of damage in the visible area cannot establish the whole device's condition or function.
 
 The deeper analysis must explicitly state which uncertainty was resolved and why. A fluent explanation without new supported evidence does not resolve uncertainty.
 

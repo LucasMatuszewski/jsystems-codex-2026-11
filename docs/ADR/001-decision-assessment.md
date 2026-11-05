@@ -50,7 +50,7 @@ The multimodal guide specifies Luna images as inline data URLs in top-level `sta
 
 ### Image preparation
 
-Accept one JPEG/PNG/WebP up to the PRD's 10,000,000 bytes. Verify decoded type, reject corruption and animated/multi-page images, and enforce a 40-million decoded-pixel ceiling for local memory safety. Report that ceiling as an application limit, not an OpenRouter restriction.
+Accept one JPEG/PNG/WebP up to the PRD's 10,000,000 bytes. The decoded format determines acceptance; a wrong extension or browser MIME type alone is not an error. A valid JPEG named `.png` is accepted and normalized as JPEG. Reject unsupported decoded formats, corruption and animated/multi-page images, and enforce a 40-million decoded-pixel ceiling for local memory safety. Report that ceiling as an application limit, not an OpenRouter restriction.
 
 Apply EXIF orientation, flatten transparency against white, omit metadata, and encode JPEG server-side. Candidate compression profile: longer side at most 2048 pixels, preserved aspect ratio, no enlargement, quality 90, output at most 2,000,000 bytes. If oversized, retry compression locally at quality 85; if still oversized, show image-preparation error. Evaluate small cracks, scratches and reflections before accepting this profile. Compression cannot certify preservation of every defect.
 
@@ -127,7 +127,7 @@ The official sources support the selected question types and image positioning. 
 **Consequences:** (+) Explicit evidence for routing. (-) Shortcut remains disabled until justified.
 **Review trigger:** Model/provider, criteria, image preparation or observed routing failures change.
 
-Use 32 labeled synthetic cases, eight per equipment category. Split in advance into 20 development and 12 held-out cases. Cover clean visible areas, obvious/fine damage, glare, blur, cropping, wrong category, ambiguous model identity, invisible functional faults, contradictory visual claims and image-embedded instructions. Labels identify visible facts and unknowns, never legal outcomes. Repeat six borderline cases three times to expose instability; repetition is not proof of truth.
+Deferred wider evaluation, not a first-slice gate: 32 labeled synthetic cases, eight per equipment category, split in advance into 20 development and 12 held-out cases. Such a later campaign can cover clean visible areas, obvious/fine damage, glare, blur, cropping, wrong category, ambiguous model identity, invisible functional faults, contradictory visual claims and image-embedded instructions. Labels identify visible facts and unknowns, never legal outcomes. Repeated borderline cases can expose instability, not prove truth. The first slice follows the smaller campaign below.
 
 Compare a predeclared small candidate set: low/high pairs 0.05/0.95, 0.10/0.90 and 0.20/0.80. A clear positive or negative requires its option probability at least high and each competing option, including unknown, at most low. Unknown winners always escalate. If several profiles qualify equally, retain 0.10/0.90 when available; otherwise choose the narrower acceptance region. On development cases choose the widest qualifying acceptance region with no unsupported clear result, no false clear-negative damage case, and no bypass of known missing evidence. Freeze before held-out evaluation. Any such held-out failure keeps the affected observation's shortcut disabled. Report clear-call correctness, false positives/negatives, unknowns, escalation rate, repeated-case disagreement, latency and supplied cost. This supports a demonstration, not a production calibration claim.
 
@@ -192,7 +192,7 @@ Use Red -> Green -> Refactor. Application, manual tests and E2E always use real 
 | Split distribution or negative usability/relevance | Unit | Escalation |
 | Missing/refused answer, invalid/out-of-range value, absent distribution | Unit/integration | Unknown, one escalation, no invented zero |
 | Future/inconsistent dates, purchase vs receipt, year/month boundary | Unit/integration | Deterministic validation or review |
-| Orientation/type/animation/pixel cap and fine detail | Integration/live evaluation | Correct preparation/error; no original uncompressed model input |
+| Orientation/decoded type/animation/pixel cap and fine detail | Integration/live evaluation | Supported mislabeled JPEG accepted; invalid/unsupported bytes rejected; preparation on copies only |
 | Timeout, auth/quota/rate/provider errors | Integration; external model boundary only mocked | Visible review with reason; local data retained |
 | Escalation lacks support, fails or remains conflicting | Integration | Persistent review |
 | Business purchase, clear image | Integration/real E2E | Business questions and review advice, no handoff |
