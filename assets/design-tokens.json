@@ -1,0 +1,37 @@
+{
+  "source": {
+    "url": "https://www.x-kom.pl/",
+    "capturedAt": "2026-11-05",
+    "browser": "Google Chrome, headed, Playwright CLI",
+    "viewport": { "width": 1440, "height": 1000 },
+    "scope": "Homepage desktop default state after rejecting optional cookies. Semantic names are an interpretation of measured computed styles, not an official brand specification.",
+    "unverified": ["Error states", "Hover and focus states", "Mobile breakpoints", "Dark theme", "Overlay styling"]
+  },
+  "colors": {
+    "brand": { "primary": "#222222", "accent": "#0082fa", "promotion": "#b50067", "error": null, "success": "#007d00" },
+    "background": { "default": "#ffffff", "light": "#f7f7f7", "control": "#f2f2f2", "success": "#eef7ed", "overlay": null },
+    "text": { "primary": "#1a1a1a", "secondary": "#444444", "muted": "#6e6e6e", "onDark": "#ffffff", "link": "#0070cc" },
+    "border": { "default": "#dddddd", "subtle": "#ebebeb" }
+  },
+  "typography": {
+    "fontFamily": { "primary": "\"Instrument Sans\", sans-serif" },
+    "fontWeights": { "regular": 400, "semibold": 600, "bold": 700 },
+    "fontSize": { "xs": "10px", "sm": "12px", "label": "13px", "base": "14px", "md": "16px", "lg": "18px", "xl": "20px", "2xl": "24px", "section": "26px", "3xl": "28px" },
+    "lineHeight": { "small": "16px", "base": "20px", "md": "22px", "lg": "24px", "xl": "26px", "section": "32px" },
+    "fontFace": { "file": "fonts/instrument-sans/InstrumentSans-VariableFont_wdth,wght.woff2", "style": "normal", "weight": "400 700", "display": "swap", "variationSettings": "\"wdth\" 100" }
+  },
+  "spacing": { "1": "4px", "2": "8px", "3": "12px", "4": "16px", "5": "20px", "6": "24px", "8": "32px", "12": "48px" },
+  "borderRadius": { "none": "0px", "xs": "2px", "sm": "4px", "md": "8px", "lg": "12px", "circle": "100%" },
+  "components": {
+    "button": {
+      "primary": { "backgroundColor": "#222222", "color": "#ffffff", "padding": "12px 24px", "borderRadius": "8px", "fontSize": "16px", "fontWeight": 400, "height": "48px", "border": "0" },
+      "icon": { "backgroundColor": "#ffffff", "color": "#444444", "borderRadius": "8px", "height": "36px", "padding": "0px" }
+    },
+    "header": { "backgroundColor": "#ffffff", "padding": "0px", "fontSize": "14px", "height": "72px" },
+    "nav": { "color": "#1a1a1a", "fontSize": "16px", "fontWeight": 400, "height": "58px" },
+    "search": { "backgroundColor": "#f2f2f2", "borderRadius": "8px", "height": "40px", "inputPadding": "8px 0px 8px 20px", "inputFontSize": "14px", "inputLineHeight": "20px" },
+    "sectionHeading": { "fontSize": "26px", "lineHeight": "32px", "fontWeight": 600, "color": "#1a1a1a" },
+    "discountBadge": { "backgroundColor": "#eef7ed", "color": "#007d00", "borderRadius": "4px", "padding": "2.5px 4px 1.5px", "fontSize": "13px", "height": "20px" },
+    "promoBar": { "backgroundColor": "#222222", "color": "#ffffff", "linkFontSize": "14px", "outlineButtonPadding": "5px 11px", "outlineButtonRadius": "8px", "outlineButtonBorder": "1px solid rgba(255, 255, 255, 0.48)" }
+  }
+}
