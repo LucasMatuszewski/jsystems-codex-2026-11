@@ -131,6 +131,14 @@ Use 32 labeled synthetic cases, eight per equipment category. Split in advance i
 
 Compare a predeclared small candidate set: low/high pairs 0.05/0.95, 0.10/0.90 and 0.20/0.80. A clear positive or negative requires its option probability at least high and each competing option, including unknown, at most low. Unknown winners always escalate. If several profiles qualify equally, retain 0.10/0.90 when available; otherwise choose the narrower acceptance region. On development cases choose the widest qualifying acceptance region with no unsupported clear result, no false clear-negative damage case, and no bypass of known missing evidence. Freeze before held-out evaluation. Any such held-out failure keeps the affected observation's shortcut disabled. Report clear-call correctness, false positives/negatives, unknowns, escalation rate, repeated-case disagreement, latency and supplied cost. This supports a demonstration, not a production calibration claim.
 
+### First-slice evaluation amendment (proposed)
+
+For the first implementation slice, the user limited live/manual testing to laptops and mobile phones. Both return and complaint conversation paths remain in scope. The broader four-category evaluation above is deferred; do not present it as completed.
+
+Use eight predeclared synthetic case descriptions paired with reviewed non-identifying laptop/phone photos: six development cases and two held-out cases, with at most two additional borderline repeats. Keep expected visible facts and unknowns in evaluation-only labels, never in model input. Preserve original repository photos; backend image normalization operates on copies. At least the live demonstration covers a laptop return, a phone complaint and one unclear case. Other branches receive unit/integration coverage where relevant rather than an exhaustive live scenario sweep.
+
+Evaluate the existing candidate profiles under the same failure conditions stated above. The resulting evidence is limited to the tested observation/category combinations. Combinations without representative evidence, including monitors and accessories, retain escalation rather than an unvalidated shortcut. If the small sample cannot justify a profile, keep the shortcut disabled and report that limit; successful real Decisions plus Luna escalation is still a demonstrable but explicitly narrower slice. This amendment awaits review with the implementation plan and does not authorize execution.
+
 ## 7. Diagrams
 
 ### Components and data flow

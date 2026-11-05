@@ -34,6 +34,12 @@ course-materials/    Notes, scripts, examples, research
 
 ## Agent Workflow
 
+### Documentation and command discovery
+
+Always use Context7 first for library, framework and API documentation. Use Web search only when the needed information could not be found in Context7; an unavailable Context7 connection is not evidence that the documentation is absent.
+
+For CLI tools, start with the built-in `--help` for the specific tool or subcommand (for example, `gh pr create --help`). If help is insufficient, use Context7 next, and Web search only as the last resort when both sources are insufficient.
+
 ### When implementing new or refactoring functionality
 1. Read the relevant PRD and ADR files for the affected area.
 2. Define the expected behavior from the specification before writing or changing any code.
