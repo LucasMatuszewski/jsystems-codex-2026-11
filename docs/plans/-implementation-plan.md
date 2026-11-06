@@ -54,6 +54,8 @@ Use only the [ADR-000 initialization procedure][init] to populate missing `app/f
 
 Application models remain the [ADR-selected OpenRouter IDs][models]: `openai/gpt-6-luna-decisions` for direct Decisions HTTP and `openai/gpt-6-luna` for escalation/chat. These are separate from worker/harness model names.
 
+**Execution preference, 2026-11-06:** the user confirmed OpenCode/MiMo-V2.6-Pro as the primary implementation subagent after its successful smoke test. This supersedes C/M implementation assignments below. Runs use fresh standalone, output-only sessions with all tools denied; O reviews/applies proposals and executes verification. Luna remains the bounded documentation-research role required by AGENTS.md; R remains independent. T03's implementation transport reset used O's documented fallback; T05 was implemented by O while disjoint MiMo tasks ran. No application model was substituted.
+
 Prefer cheap bounded workers, without imposing spend, test-call-count or evaluation-sample caps. Actual account quotas/access remain operational constraints; no balance, tariff or quota was verified. Stop and escalate to O on a source/spec contradiction, API/type mismatch, out-of-whitelist edit, or repeated failure after a focused repair. Do not let a small worker change dependencies, policy, scope or model to make a test pass. Report account/access failure instead of silently changing providers.
 
 Use ad hoc agents; create no custom role files for this one-off slice. After execution authorization, O verifies model selection, effective restrictions and tool availability before each mechanism's first use. If the harness cannot supply the requested mechanism or enforce needed restrictions, O executes the same matrix sequentially; this does not relax tests or review. MiMo can remain blocked while other accepted tasks proceed.
@@ -145,7 +147,7 @@ This checklist is the single execution-status tracker selected by the user. Matr
 - [x] T00 - Freeze implementation contracts; accepted catalogue: [contracts](../qa/first-slice/contracts.md). Commit: this focused T00 commit (resolve using its `Docs: freeze first-slice implementation contracts` subject).
 - [x] T01 - Prepare existing scaffold and runners; [evidence](../qa/first-slice/T01/verification.md), local commit subject `App: initialize Angular and Express workspace`.
 - [x] T02 - Approve source and instruction inputs; [source/privacy acceptance](../qa/first-slice/T02/acceptance.md), local commit subject `Docs: add bounded procedure and scenario inputs`.
-- [ ] T03 - Deterministic rules.
+- [x] T03 - Deterministic rules; [verification](../qa/first-slice/T03/verification.md), local commit subject `Backend: add deterministic case rules`.
 - [x] T04 - Image preparation; [verification](../qa/first-slice/T04/verification.md), local commit subject `Backend: prepare validated model images`.
 - [ ] T05 - Material intake.
 - [ ] T06 - Establish live provider captures.

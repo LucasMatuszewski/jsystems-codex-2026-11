@@ -1,0 +1,58 @@
+{
+  "today": "2026-11-06",
+  "consumer": {
+    "findings": {
+      "assessmentDate": "2026-11-06",
+      "daysSinceReceipt": 0,
+      "withinStatutoryBaseline": true,
+      "withinCompanyBaseline": true,
+      "withinComplaintBaseline": true,
+      "sourceVersion": "2026-11-06",
+      "sourceIds": [
+        "S1",
+        "S2",
+        "S4"
+      ],
+      "limitations": [
+        "To bazowe wyliczenia kalendarzowe i wstępna wskazówka, nie rozstrzygnięcie uprawnień ani wygaśnięcia praw.",
+        "Nietypowe dostawy, wyjątki i niepewne przedłużenia terminów wymagają weryfikacji.",
+        "Data oceny nie jest datą zgłoszenia zwrotu ani reklamacji. Rozmowa niczego nie zgłasza."
+      ]
+    },
+    "review": {
+      "required": false,
+      "reasons": []
+    }
+  },
+  "business": {
+    "findings": {
+      "assessmentDate": "2026-11-06",
+      "daysSinceReceipt": 0,
+      "withinStatutoryBaseline": true,
+      "withinCompanyBaseline": true,
+      "withinComplaintBaseline": true,
+      "sourceVersion": "2026-11-06",
+      "sourceIds": [
+        "S1",
+        "S2",
+        "S4"
+      ],
+      "limitations": [
+        "To bazowe wyliczenia kalendarzowe i wstępna wskazówka, nie rozstrzygnięcie uprawnień ani wygaśnięcia praw.",
+        "Nietypowe dostawy, wyjątki i niepewne przedłużenia terminów wymagają weryfikacji.",
+        "Data oceny nie jest datą zgłoszenia zwrotu ani reklamacji. Rozmowa niczego nie zgłasza."
+      ]
+    },
+    "review": {
+      "required": true,
+      "reasons": [
+        {
+          "code": "business_purchase",
+          "message": "Zakup firmowy wymaga indywidualnej weryfikacji statusu kupującego i celu zakupu.",
+          "origin": "policy"
+        }
+      ]
+    }
+  },
+  "startupHTTP": 200
+}
