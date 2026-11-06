@@ -146,7 +146,7 @@ This checklist is the single execution-status tracker selected by the user. Matr
 - [x] T01 - Prepare existing scaffold and runners; [evidence](../qa/first-slice/T01/verification.md), local commit subject `App: initialize Angular and Express workspace`.
 - [x] T02 - Approve source and instruction inputs; [source/privacy acceptance](../qa/first-slice/T02/acceptance.md), local commit subject `Docs: add bounded procedure and scenario inputs`.
 - [ ] T03 - Deterministic rules.
-- [ ] T04 - Image preparation.
+- [x] T04 - Image preparation; [verification](../qa/first-slice/T04/verification.md), local commit subject `Backend: prepare validated model images`.
 - [ ] T05 - Material intake.
 - [ ] T06 - Establish live provider captures.
 - [ ] T07 - Decisions HTTP client.

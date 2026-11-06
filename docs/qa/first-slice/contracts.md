@@ -48,6 +48,10 @@ Effective status is `review_required` when review is required, otherwise
 `return_guidance` or `complaint_guidance`. UI labels are exactly the three
 statuses in PRD 11.3. No status means accepted claim, staff assignment or refund.
 
+T04 dimension clarification: prepared-image source width/height describe the
+EXIF-oriented display frame before resize; output width/height describe the
+produced JPEG. The image hash identifies produced bytes.
+
 ## Intake and assessment transport
 
 `POST /api/assessment`: multipart fields are `CaseInput`, `operationId` and

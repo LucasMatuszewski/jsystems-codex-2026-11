@@ -1,0 +1,34 @@
+[
+  {
+    "original": "laptop-2.webp",
+    "output": "laptop-2-prepared.jpg",
+    "mime": "image/jpeg",
+    "sourceWidth": 863,
+    "sourceHeight": 843,
+    "width": 863,
+    "height": 843,
+    "inputBytes": 165974,
+    "outputBytes": 212297,
+    "sha256": "f8f958dae49282c1c6ef2a82555f4ee437c428c400c619aac28c3ee48a62431a",
+    "pipelineVersion": "jpeg1568-q85-v1",
+    "limitations": [
+      "Kompresja zdjęcia może ograniczyć widoczność drobnych szczegółów. Brak widocznego uszkodzenia nie potwierdza jego braku."
+    ]
+  },
+  {
+    "original": "phone-2.jpeg",
+    "output": "phone-2-prepared.jpg",
+    "mime": "image/jpeg",
+    "sourceWidth": 387,
+    "sourceHeight": 516,
+    "width": 387,
+    "height": 516,
+    "inputBytes": 14979,
+    "outputBytes": 17441,
+    "sha256": "67793968363a0a364f990b1c8afa1bc0a2604872679fbd19ba06835fe3aafdea",
+    "pipelineVersion": "jpeg1568-q85-v1",
+    "limitations": [
+      "Kompresja zdjęcia może ograniczyć widoczność drobnych szczegółów. Brak widocznego uszkodzenia nie potwierdza jego braku."
+    ]
+  }
+]
