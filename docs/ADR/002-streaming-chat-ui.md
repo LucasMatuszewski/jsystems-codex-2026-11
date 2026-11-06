@@ -84,7 +84,9 @@ The server validates and monotonically accumulates review reasons. No API or too
 
 ### Timeouts, errors and trust
 
-Set a 60-second total chat deadline. Pre-header failure returns a sanitized HTTP error; post-header failure uses SDK stream error/failed outcome. Keep incomplete text visibly labeled, retain the panel/status, and retry only the failed explanation. Never commit empty partial text as successful completion.
+Set a 60-second total chat deadline. A conversational-provider error, refusal or timeout adds a server-owned `provider_unavailable` review reason, even after a successful initial assessment. Retain the original observations and recommendation as historical evidence; the current status becomes review required and cannot be cleared by a successful retry. This server reason does not depend on the model invoking `requireReview`. Deliberate customer cancellation or local input/validation errors are not provider failures by themselves.
+
+Pre-header failure returns a sanitized HTTP error with the updated case-status projection when a valid case exists; post-header failure emits the updated status through the UI stream before its error/failed outcome when the connection permits. Keep partial text visibly incomplete and retry only the failed explanation using the latest canonical status. Never commit empty partial text as successful completion.
 
 Customer text and text embedded in images are untrusted data. Do not forward frontend system prompts or tools from examples. The chat has no image-analysis tool or business-action capability. System instructions separate policy facts, deterministic findings, visual judgments and customer statements. Prompt compliance and grounded language remain evaluation concerns; a valid stream does not prove factual correctness.
 
@@ -164,7 +166,8 @@ Use Red -> Green -> Refactor. Unit/integration chat tests use `MockLanguageModel
 | Full context recalled | Integration/real E2E | Follow-up uses form, initial/escalated evidence and first reply |
 | Forged prompt/status/history/tool | Integration | Rejected; canonical state unaffected |
 | Duplicate initial/send/retry | Integration | One accepted user turn/complete answer per operation |
-| Partial failure/abort | Unit/integration | Incomplete label; retry without assessment repetition |
+| Provider failure/timeout after successful assessment | Unit/integration | Persistent review added; retry cannot clear it or repeat assessment |
+| Customer abort | Unit/integration | Incomplete label, no automatic provider-failure classification; retry without assessment repetition |
 | Correction, conflict or unsupported new request | Integration/live evaluation | Restricted tool adds review before explanation; never clears it |
 | Ordinary procedural question | Integration/real E2E | Answer uses history; no unnecessary review flag solely because a question was sent |
 | Business buyer or demand to clear review | Integration/real E2E | Clarifying questions continue; no removal or fake handoff |

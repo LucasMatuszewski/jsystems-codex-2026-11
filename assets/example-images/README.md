@@ -1,6 +1,6 @@
 # Przykładowe zdjęcia urządzeń
 
-Zdjęcia do testowania aplikacji, którą budujemy na kursie: pracownik wgrywa zdjęcie sprzętu, a model ocenia jego stan i pomaga zdecydować o zwrocie albo reklamacji.
+Zdjęcia do testowania aplikacji, którą budujemy na kursie: klient wgrywa zdjęcie sprzętu, a model ocenia widoczny stan i wyjaśnia wstępną rekomendację dotyczącą zwrotu albo reklamacji.
 
 | Plik | Format | Wymiary | Rozmiar |
 | --- | --- | --- | --- |
@@ -16,13 +16,14 @@ Zestaw jest różnorodny, tak jak pliki, które klienci naprawdę wysyłają: r�
 
 - W testach E2E wgrywaj te pliki przez prawdziwy formularz aplikacji (Playwright `setInputFiles`).
 - W ręcznym sprawdzeniu aplikacji wgraj każde zdjęcie i przeczytaj ocenę modelu.
+- `laptop-1.png` ma zostać przyjęty jako poprawny JPEG na podstawie zawartości, mimo mylącego rozszerzenia lub MIME przeglądarki. Nie zmieniaj jego nazwy ani źródłowych bajtów.
 - Wskaż ten katalog w głównym `AGENTS.md`, żeby agent korzystał z tych plików.
 
 ## Zasady
 
 - Nie zmieniaj nazw plików i nie dodawaj do nich opisu stanu urządzenia. Nazwa mówi tylko, czy to laptop, czy telefon.
-- Nie przycinaj zdjęć, nie zmieniaj formatu, nie dopisuj na nich etykiet ani podpisów.
+- Nie przycinaj oryginałów, nie zmieniaj ich formatu, nie dopisuj na nich etykiet ani podpisów. Wymagana normalizacja i kompresja backendu dotyczy kopii w pamięci, nie plików źródłowych.
 - Nie podawaj modelowi, co jest na zdjęciu, ani w prompcie, ani w danych testowych. Model ma to ocenić sam, tak jak przy zdjęciu od klienta.
-- Opis sprawy wpisany przez pracownika w formularzu to osobne dane. Nie mieszaj go z tym, co widać na zdjęciu.
-- Test sprawdza faktyczną ocenę modelu. Nie zakładaj z góry, co model powinien zobaczyć.
+- Syntetyczny opis sprawy wpisany przez klienta w formularzu to osobne dane. Nie mieszaj go z tym, co widać na zdjęciu.
+- Test sprawdza faktyczną ocenę modelu; nie wpisuj oczekiwanej odpowiedzi w jego wejściu. Do ewaluacji progów zapisz wcześniej ocenione przez człowieka widoczne fakty i braki dowodów w osobnych etykietach testowych, których model nie otrzymuje.
 - Do testów wgrywania zdjęć nie generuj własnych obrazów, ilustracji ani pustych plików. Używaj tylko prawdziwych zdjęć.

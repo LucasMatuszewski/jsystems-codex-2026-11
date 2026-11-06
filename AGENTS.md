@@ -6,7 +6,7 @@ This is a **course project** for the "Codex - od zera do zespołu agentów AI" t
 
 This is only the **base starting repository** for the course; concrete decisions are made live with the group.
 
-Chat in Polish unless the user asks for another language. Repository documentation uses English unless another project language is agreed. Use full Polish diacritics and ASCII punctuation in prose. Use only synthetic data; never read or publish secrets, participant data or customer records.
+Chat in Polish unless the user asks for another language. Repository documentation uses English unless another project language is agreed. Use full Polish diacritics and ASCII punctuation in prose. Use only synthetic case/customer data and reviewed non-identifying equipment images; never read or publish secrets, participant data or customer records.
 
 **Key docs** (created during the course - load only when in doubt):
 - `docs/PRD.md` - product requirements and acceptance criteria
@@ -60,7 +60,7 @@ For every feature and bug fix:
 
 If the area has no suitable test infrastructure yet, add it as part of the task - do not silently skip tests.
 
-For unit/integration LLM tests, use the installed AI SDK's synthetic mock model and streaming helpers without an API key; verify their types in current docs. Do not replace the real application endpoint or streaming protocol. For other endpoint/database mocks, first capture a fresh authorized local/test response using synthetic data. Save status, headers and body, or rows and schema, with date, target and service version, excluding secrets. Derive mocks from that capture; report a missing safe capture instead of inventing a response shape.
+For unit/integration LLM calls made through the AI SDK, use its installed synthetic mock model and streaming helpers without an API key; verify their types in current docs. A separate native Decisions HTTP client uses fresh capture-derived boundary mocks instead; do not replace it with the chat mock model. Do not replace the real application endpoint or streaming protocol. For other endpoint/database mocks, first capture a fresh authorized local/test response using synthetic data. Save status, headers and body, or rows and schema, with date, target and service version, excluding secrets. Derive mocks from that capture; report a missing safe capture instead of inventing a response shape.
 
 For behavior-preserving legacy refactoring, write characterization tests against the original code and get them green before changing it. Assert observable inputs, outputs, state changes and errors rather than private methods or the current class layout. Demonstrate that critical assertions detect a controlled behavioral mutation, then revert that mutation. Existing tests may protect a pure refactor; a new behavior or bug fix still requires Red -> Green -> Refactor.
 
@@ -95,7 +95,7 @@ Verify only the scope relevant to your change. If the change affects runtime beh
 **Env Vars:** See `.env.example`. `OPENROUTER_API_KEY` is server-only and needed for live OpenRouter calls, not synthetic unit/integration tests. Set `LLM_MODEL` to the provider's actual model ID during the configuration exercise. Store real values locally using the framework's agreed loader. Never expose a key in a client bundle, prompt or commit. Full E2E uses the real model; report missing credentials as blocked E2E, not a pass with mocks.
 
 ### Sub-agents
-- Add `be-developer`, `fe-developer` and `qa-engineer` under `.codex/agents/` during the taught exercise; the starting repository has no active custom roles.
+- Use ad hoc agents for one-off product tasks. Add `be-developer`, `fe-developer` and `qa-engineer` under `.codex/agents/` only when the trainer explicitly requests the custom-role exercise, or use short definitions for an approved recurring role; do not create roles merely to match a tutorial.
 - Delegate bounded tasks with explicit dependencies and disjoint file ownership. The coordinating agent reviews diffs and verification evidence before committing.
 
 ### Commit Rules
