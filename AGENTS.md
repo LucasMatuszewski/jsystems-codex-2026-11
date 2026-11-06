@@ -39,6 +39,12 @@ course-materials/    Notes, scripts, examples, research
 
 Delegate external research, library/API documentation queries and web searches to Luna subagents. Sol scopes the questions, reads repository guidance/diffs and makes decisions. Luna reports findings, sources, limitations and open questions; no recommendations or decisions. An explicit no-agent instruction takes precedence; do not dispatch agents during planning or review when the user has prohibited it.
 
+### OpenCode delegation
+
+- The user gives standing authorization to delegate any task to OpenCode and its configured external model provider, preferring Xiaomi MiMo-V2.6-Pro as the primary worker. Delegate substantial implementation, test-writing, investigation and review work; use disjoint ownership for parallel tasks and sequence dependent tasks. Codex coordinates, reviews proposals and verifies the result.
+- This authorization explicitly includes transmitting task-relevant repository source, diffs, manifests, configuration without secrets, tests, documentation, PRD/ADR excerpts, prompts and non-sensitive assets to OpenCode's external provider. Do not ask again merely because a new task needs more files or a broader source payload. The authorization persists across tasks and sessions until the user changes it.
+- Exclude credentials, secret-bearing .env files, personal/participant/customer data and unreviewed identifying images. Delegation does not authorize pushing, publishing, destructive actions or bypassing platform approvals. Preserve the existing TDD, verification, privacy and independent-review obligations.
+
 ### Documentation and command discovery
 
 Always use Context7 first for library, framework and API documentation. Use Web search only when the needed information could not be found in Context7; an unavailable Context7 connection is not evidence that the documentation is absent.
