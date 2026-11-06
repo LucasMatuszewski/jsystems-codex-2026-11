@@ -1,0 +1,51 @@
+{
+  "available": true,
+  "observations": [
+    {
+      "id": "image_usable",
+      "finding": "Zdjęcie pozwala ocenić widoczne części przedmiotu, choć drobne szczegóły ogranicza ziarnistość obrazu.",
+      "location": "Cały kadr."
+    },
+    {
+      "id": "item_relevant",
+      "finding": "Widoczny jest otwarty laptop z ekranem, klawiaturą i gładzikiem; odpowiada kategorii laptopa.",
+      "location": "Środek kadru."
+    },
+    {
+      "id": "visible_cracks",
+      "finding": "Nie widać wyraźnych linii pęknięcia ani rozbitego fragmentu na ekranie lub widocznej obudowie.",
+      "location": "Ekran oraz widoczne krawędzie i powierzchnie obudowy."
+    },
+    {
+      "id": "visible_dents",
+      "finding": "Na tym ujęciu nie da się wiarygodnie ocenić drobnych wgnieceń; nie widać jednoznacznego dużego odkształcenia.",
+      "location": "Widoczna pokrywa podstawy, krawędzie obudowy i okolice klawiatury."
+    },
+    {
+      "id": "visible_scratches",
+      "finding": "Drobnych rys nie da się wiarygodnie potwierdzić ani wykluczyć na podstawie tego ujęcia.",
+      "location": "Ekran i widoczne powierzchnie obudowy."
+    }
+  ],
+  "resolvedIssues": [
+    {
+      "id": "image_usable",
+      "evidence": "Laptop i jego główne widoczne części są rozpoznawalne w kadrze, mimo ziarnistości zdjęcia."
+    },
+    {
+      "id": "item_relevant",
+      "evidence": "Widać otwarty komputer przenośny z ekranem i klawiaturą."
+    },
+    {
+      "id": "visible_cracks",
+      "evidence": "Na widocznym ekranie oraz obudowie nie są dostrzegalne wyraźne pęknięcia."
+    }
+  ],
+  "unknowns": [
+    "Czy występują drobne wgniecenia lub rysy, których nie można ocenić z tego ujęcia.",
+    "Stan powierzchni i elementów niewidocznych w tym pojedynczym widoku."
+  ],
+  "contradictions": [],
+  "model": "openai/gpt-6-luna",
+  "requestId": "gen-1793973279-7SQBrVHqOIc8w2XosIhy"
+}
