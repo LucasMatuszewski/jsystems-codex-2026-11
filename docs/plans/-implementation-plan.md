@@ -198,3 +198,11 @@ This checklist is the single execution-status tracker selected by the user. Matr
 [photos]: ../../assets/example-images/README.md
 [review]: ../../AGENTS.md#code-review-rules
 [commits]: ../../AGENTS.md#commit-rules
+
+### Shutdown checkpoint - 2026-11-06
+
+The user explicitly requested stopping work, committing and pushing the current
+WIP before VM shutdown. T11-T13 implementation and evidence are preserved but
+remain unaccepted; T14/T15 remain pending. See [handoff](../HANDOFF-2026-11-06.md)
+for verification counts, interrupted checks, environment setup and continuation order.
+This checkpoint does not mark any pending task complete or authorize a merge.

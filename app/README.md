@@ -2,8 +2,9 @@
 
 Local hardware-service PoC workspace. Product behavior is defined by the
 [PRD](../docs/PRD.md), [ADRs](../docs/ADR/000-main-architecture.md) and
-[execution tracker](../docs/plans/-implementation-plan.md). The T01 shell is
-infrastructure only; assessment and conversation are not connected yet.
+[execution tracker](../docs/plans/-implementation-plan.md). Intake, assessment and
+conversation are connected; final acceptance remains pending. Start with the
+[shutdown handoff](../docs/HANDOFF-2026-11-06.md) for current evidence and TODOs.
 
 Use Node 24.15+ within Node 24 and npm 11. From this directory:
 
@@ -32,9 +33,11 @@ Angular serves port 4200 and proxies `/api/**` to port 3000. `GET /api/health`
 is the startup smoke endpoint. Stop processes with Ctrl+C.
 
 Frontend tests use Angular's Vitest builder; backend tests use Node's test
-runner and tsx. No endpoint/provider mocks exist in T01. E2E runner config is
-under `e2e/`; real provider cases are added at T13, not represented by a
-zero-test success. Playwright CLI 0.1.23 is verified for manual browser QA.
+runner and tsx. E2E configuration and real-provider browser cases are under
+`e2e/`. Run `npm run e2e -- --workers=1` against the started built app; these
+tests call real models. The separate negative profile requires a separately
+started invalid-credential backend on port 3001 and is excluded by default.
+Playwright CLI 0.1.23 is verified for manual browser QA.
 Windows sandbox restrictions may require host execution for npm workspace
 links and Chrome. The four native build-script approvals are pinned in the
 workspace manifest; no blanket script approval is needed.
