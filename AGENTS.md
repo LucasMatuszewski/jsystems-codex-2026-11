@@ -8,7 +8,7 @@ This is only the **base starting repository** for the course; concrete decisions
 
 This branch targets the PRD's hardware-service PoC with Angular and Angular Material. Initialize the application only after its implementation plan is approved.
 
-Chat in Polish unless the user asks for another language. Repository documentation uses English unless another project language is agreed. Use full Polish diacritics and ASCII punctuation in prose. Use only synthetic data; never read or publish secrets, participant data or customer records.
+For Chat, Reasoning and Repository documentation use English only. Use full Polish diacritics and ASCII punctuation in prose. Use only synthetic data; never read or publish secrets, participant data or customer records.
 
 **Key docs** (created during the course - load only when in doubt):
 - `docs/PRD.md` - product requirements and acceptance criteria
