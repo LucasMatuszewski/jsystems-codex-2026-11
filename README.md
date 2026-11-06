@@ -1,5 +1,11 @@
 # UPDATES !!!
 
+## Po dniu 3 (6.11)
+
+- Kod aplikacji: [Angular](https://github.com/LucasMatuszewski/jsystems-codex-2026-11/tree/angular-implementation); [PRD, ADR i plan - PR #6](https://github.com/LucasMatuszewski/jsystems-codex-2026-11/pull/6).
+- Gałąź `main` pozostaje bazą kursu z materiałami.
+- Dzień 3: [historia czatu](course-materials/zoom-summary-chat-history/day-3-chat-history.md).
+
 ## Windows Codex sandbox — ważne przed ćwiczeniami (5.11)
 
 - Najpierw ustaw globalny sandbox użytkownika i wyłącz preferencję MXC według instrukcji poniżej, potem zrestartuj daemon i rozpocznij nową sesję (nie wznawiaj poprzedniej). Repozytorium kursu wybiera profil course-tools.
