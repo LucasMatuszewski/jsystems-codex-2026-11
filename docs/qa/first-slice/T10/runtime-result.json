@@ -1,0 +1,32 @@
+{
+  "startup": "http://127.0.0.1:3000",
+  "httpStatus": 200,
+  "contentType": "application/x-ndjson; charset=utf-8",
+  "stages": [
+    "image_preparation",
+    "initial_assessment",
+    "escalation",
+    "ready_for_chat"
+  ],
+  "terminalRecords": 1,
+  "pendingDuplicateStatus": 409,
+  "completedDuplicateReused": true,
+  "deletedTokenStatus": 410,
+  "cancellationWithoutSuccess": true,
+  "decisionModel": "openai/gpt-6-luna-decisions-20261006",
+  "escalationModel": "openai/gpt-6-luna",
+  "requestIds": [
+    "gen-dec-1793973788-wfpz0tLd1eT9GW3yV3N6",
+    "gen-1793973789-LBYzwQkNp78Ywptfb7Dp"
+  ],
+  "review": {
+    "required": true,
+    "reasons": [
+      {
+        "code": "unresolved_evidence",
+        "message": "Pozostały niepewności lub sprzeczności w ocenie zdjęcia. Potrzebna weryfikacja pracownika.",
+        "origin": "assessment"
+      }
+    ]
+  }
+}

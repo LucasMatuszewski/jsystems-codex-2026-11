@@ -1,0 +1,53 @@
+import assert from 'node:assert/strict';
+import { readFile, writeFile } from 'node:fs/promises';
+import { randomUUID } from 'node:crypto';
+const base = process.env.APP_URL ?? 'http://127.0.0.1:3000';
+const operationId = randomUUID();
+const today = new Intl.DateTimeFormat('sv-SE', { timeZone: 'Europe/Warsaw' }).format(new Date());
+const body = new FormData();
+for (const [key, value] of Object.entries({ operationId, requestType: 'Zwrot', category: 'Laptop', model: 'Dokładny model nieznany', purchaseDate: today, receiptDate: today, buyerType: 'Konsument', purchaseChannel: 'Na odległość', description: '' })) body.set(key, value);
+body.set('image', new Blob([await readFile(new URL('../../../../assets/example-images/laptop-2.webp', import.meta.url))], { type: 'image/webp' }), 'device.webp');
+const response = await fetch(`${base}/api/assessment`, { method: 'POST', body });
+assert.equal(response.status, 200);
+assert.match(response.headers.get('content-type'), /application\/x-ndjson/);
+const overlap = await fetch(`${base}/api/assessment`, { method: 'POST', body });
+assert.equal(overlap.status, 409);
+const text = await response.text();
+const records = text.trim().split('\n').map(line => JSON.parse(line));
+assert.equal(records.filter(record => ['result', 'error'].includes(record.type)).length, 1);
+const result = records.find(record => record.type === 'result');
+assert.ok(result);
+assert.ok(result.case.assessment.decision.available);
+assert.ok(result.case.assessment.escalation.available);
+assert.equal(result.case.assessment.decision.observations.length, 5);
+assert.equal('rawAnswers' in result.case.assessment.decision, false);
+assert.equal('bytes' in result.case.assessment.image, false);
+const token = result.caseToken;
+const headers = { 'x-case-token': token };
+const current = await fetch(`${base}/api/case`, { headers });
+assert.equal(current.status, 200);
+assert.deepEqual(await current.json(), result.case);
+const duplicate = await fetch(`${base}/api/assessment`, { method: 'POST', body });
+const duplicateRecords = (await duplicate.text()).trim().split('\n').map(line => JSON.parse(line));
+assert.equal(duplicateRecords.filter(record => record.type === 'result').length, 1);
+assert.equal(duplicateRecords.at(-1).caseToken, token);
+assert.equal((await fetch(`${base}/api/case`, { method: 'DELETE', headers })).status, 204);
+assert.equal((await fetch(`${base}/api/case`, { headers })).status, 410);
+assert.equal((await fetch(`${base}/api/assessment`, { method: 'POST', body })).status, 410);
+
+body.set('operationId', randomUUID());
+const cancelled = await fetch(`${base}/api/assessment`, { method: 'POST', body });
+const reader = cancelled.body.getReader();
+const first = JSON.parse(new TextDecoder().decode((await reader.read()).value).trim().split('\n')[0]);
+assert.equal(first.type, 'stage');
+assert.equal((await fetch(`${base}/api/case`, { method: 'DELETE', headers: { 'x-case-token': first.caseToken } })).status, 204);
+let remaining = '';
+while (true) { const next = await reader.read(); if (next.done) break; remaining += new TextDecoder().decode(next.value); }
+assert.equal(remaining.includes('"type":"result"'), false);
+assert.equal((await fetch(`${base}/api/case`, { headers: { 'x-case-token': first.caseToken } })).status, 410);
+
+// Captured local HTTP contract for review. Case bearer tokens are deliberately redacted.
+const redacted = text.replaceAll(token, '[redacted-case-token]');
+await writeFile(new URL('assessment.ndjson', import.meta.url), redacted);
+await writeFile(new URL('runtime-result.json', import.meta.url), JSON.stringify({ startup: base, httpStatus: response.status, contentType: response.headers.get('content-type'), stages: records.filter(record => record.type === 'stage').map(record => record.stage), terminalRecords: 1, pendingDuplicateStatus: overlap.status, completedDuplicateReused: true, deletedTokenStatus: 410, cancellationWithoutSuccess: true, decisionModel: result.case.assessment.decision.model, escalationModel: result.case.assessment.escalation.model, requestIds: [result.case.assessment.decision.requestId, result.case.assessment.escalation.requestId], review: result.case.review }, null, 2) + '\n');
+console.log('Real assessment, overlap, idempotence, read/delete and cancellation checks passed.');

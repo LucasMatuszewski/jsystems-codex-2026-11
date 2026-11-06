@@ -154,7 +154,7 @@ This checklist is the single execution-status tracker selected by the user. Matr
 - [x] T07 - Decisions HTTP client; [parser/live verification](../qa/first-slice/T07/verification.md), local commit subject `Backend: integrate bounded Decisions assessment`.
 - [x] T08 - Single multimodal escalation; [schema/live verification](../qa/first-slice/T08/verification.md), local commit subject `Backend: add one bounded visual escalation`.
 - [x] T09 - Canonical case state; [state/runtime verification](../qa/first-slice/T09/verification.md), local commit subject `Backend: add ephemeral canonical case state`.
-- [ ] T10 - Assessment API integration.
+- [x] T10 - Assessment API integration; [real API verification](../qa/first-slice/T10/verification.md), local commit subject `Backend: connect initial assessment flow`.
 - [ ] T11 - Conversation backend.
 - [ ] T12 - Case/chat presentation.
 - [ ] T13 - Connect and demonstrate slice.

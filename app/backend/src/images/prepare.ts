@@ -35,7 +35,7 @@ const DECLARED_FORMAT: Record<string, string | undefined> = {
 const MAX_INPUT_BYTES = 10_000_000;
 const LONG_EDGE = 1568;
 
-export async function prepareImage(bytes: Buffer, declaredMime: string): Promise<PreparedImage> {
+async function inspectImage(bytes: Buffer, declaredMime: string) {
   if (!Buffer.isBuffer(bytes) || bytes.length === 0) {
     throw new ImagePreparationError(422, 'EMPTY_INPUT', 'Brak danych obrazu do przetworzenia.');
   }
@@ -62,6 +62,16 @@ export async function prepareImage(bytes: Buffer, declaredMime: string): Promise
   if (!sourceWidth || !sourceHeight) {
     throw new ImagePreparationError(422, 'UNDECODABLE_IMAGE', 'Dane obrazu są uszkodzone lub niekompletne.');
   }
+
+  return { image, metadata, sourceWidth, sourceHeight };
+}
+
+export async function checkImageInput(bytes: Buffer, declaredMime: string): Promise<void> {
+  await inspectImage(bytes, declaredMime);
+}
+
+export async function prepareImage(bytes: Buffer, declaredMime: string): Promise<PreparedImage> {
+  const { image, metadata, sourceWidth, sourceHeight } = await inspectImage(bytes, declaredMime);
 
   const { data, info } = await image
     .autoOrient()
