@@ -28,7 +28,7 @@ Wiadomości publiczne w kolejności chronologicznej. Reakcje oznaczają zliczeni
 
 - **09:26 — Łukasz Matuszewski:** powinna być już dzisiaj 0.167.0
 
-- **09:27 — P.B.:** ![Zrzut ekranu terminala PowerShell z komunikatem o ponownym uruchomieniu usługi Codex.](https://raw.githubusercontent.com/LucasMatuszewski/jsystems-codex-2026-11/docs/day-3-chat-history/course-materials/zoom-summary-chat-history/day-3-01.png)
+- **09:27 — P.B.:** ![Zrzut ekranu terminala PowerShell z komunikatem o ponownym uruchomieniu usługi Codex.](day-3-01.png)
 
 - **09:31 — Łukasz Matuszewski:** powershell -ExecutionPolicy ByPass -c "irm https://chatgpt.com/codex/install.ps1 | iex"
 
@@ -364,7 +364,7 @@ Wiadomości publiczne w kolejności chronologicznej. Reakcje oznaczają zliczeni
   https://v0.app/templates  
   https://bolt.new/
 
-- **14:36 — Łukasz Matuszewski:** ![Makieta formularza zgłoszenia serwisowego z polami dotyczącymi sprzętu i podglądem błędów.](https://raw.githubusercontent.com/LucasMatuszewski/jsystems-codex-2026-11/docs/day-3-chat-history/course-materials/zoom-summary-chat-history/day-3-02.png)
+- **14:36 — Łukasz Matuszewski:** ![Makieta formularza zgłoszenia serwisowego z polami dotyczącymi sprzętu i podglądem błędów.](day-3-02.png)
 
 - **14:57 — Łukasz Matuszewski:** https://git-scm.com/docs/git-worktree  
   Git Worktree
@@ -427,7 +427,7 @@ Wiadomości publiczne w kolejności chronologicznej. Reakcje oznaczają zliczeni
 - **16:09 — Łukasz Matuszewski:** Code review z Codex w GitHub i GitLab w chmurze  
   https://chatgpt.com/settings/code-review
 
-- **16:10 — Łukasz Matuszewski:** ![Ekran ustawień automatycznego przeglądu kodu i przeglądu bezpieczeństwa.](https://raw.githubusercontent.com/LucasMatuszewski/jsystems-codex-2026-11/docs/day-3-chat-history/course-materials/zoom-summary-chat-history/day-3-03.png)
+- **16:10 — Łukasz Matuszewski:** ![Ekran ustawień automatycznego przeglądu kodu i przeglądu bezpieczeństwa.](day-3-03.png)
 
 - **16:11 — Łukasz Matuszewski:** SECURITY.md
 
