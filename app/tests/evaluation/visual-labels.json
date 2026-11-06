@@ -1,0 +1,47 @@
+{
+  "reviewedOn": "2026-11-06",
+  "reviewer": "Coordinating agent visual inspection of original supplied pixels",
+  "scope": "Provisional visual annotations for this demonstration only; not a calibrated development or held-out set, physical inspection, identity or functionality verification. Never include these labels or filenames in a model prompt.",
+  "cases": [
+    {
+      "file": "laptop-2.webp",
+      "originalSha256": "ca694b473018e37af2b5d9fd27deccc2402240c95c41cc3a521e1d28b55dee73",
+      "category": "Laptop",
+      "scenario": "Zwrot",
+      "observations": {
+        "image_usable": { "label": true, "evaluable": true, "scope": "Coarse visible front/top areas only; lower/rear surfaces are unpictured." },
+        "item_relevant": { "label": true, "evaluable": true, "scope": "Broad laptop category; declared exact model will be unknown, no exact identity verification." },
+        "visible_cracks": { "label": false, "evaluable": true, "scope": "No conspicuous cracks established in the pictured screen/frame/top housing; fine or hidden cracks are not ruled out." },
+        "visible_dents": { "label": null, "evaluable": false, "scope": "Angle, shading and detail do not reliably establish small dents." },
+        "visible_scratches": { "label": null, "evaluable": false, "scope": "Fine surface scratches cannot reliably be distinguished from lighting/wear at this view." }
+      },
+      "expectedRoute": "single_escalation",
+      "reason": "Unvalidated profile and unresolved fine-detail evidence. No legal or functional conclusion."
+    },
+    {
+      "file": "phone-2.jpeg",
+      "originalSha256": "ed4df956aa26a579ac44df2dc8a3cb5e848b29ce5e3f8898a82b8202b39a4a27",
+      "category": "Smartfon",
+      "scenario": "Reklamacja",
+      "observations": {
+        "image_usable": { "label": true, "evaluable": true, "scope": "Coarse rear housing view only, 387 x 516 pixels; screen/front and functional symptom are not visible." },
+        "item_relevant": { "label": true, "evaluable": true, "scope": "Broad smartphone category; declared exact model will be unknown, no exact identity verification." },
+        "visible_cracks": { "label": false, "evaluable": true, "scope": "No conspicuous rear-housing cracks established; no conclusion about front glass, fine or hidden cracks." },
+        "visible_dents": { "label": null, "evaluable": false, "scope": "Small oblique rear view and limited detail do not reliably establish small dents." },
+        "visible_scratches": { "label": null, "evaluable": false, "scope": "Low resolution/compression cannot reliably establish fine scratches." }
+      },
+      "expectedRoute": "single_escalation",
+      "reason": "Unvalidated profile and unresolved fine-detail evidence; an invisible symptom must stay separate from the image assessment."
+    }
+  ],
+  "uncoveredStrata": [
+    "Monitor and computer-accessory categories",
+    "Reviewed conspicuous crack, dent and scratch positives",
+    "Category mismatch and reliable exact-model cues",
+    "Controlled blur, glare, occlusion and fine-detail loss comparisons",
+    "Conflicting descriptions and instructions embedded in image pixels",
+    "Independent development and held-out datasets"
+  ],
+  "shortcutEnabled": false,
+  "thresholds": null
+}

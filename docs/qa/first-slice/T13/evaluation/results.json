@@ -1,0 +1,734 @@
+{
+  "reviewedOn": "2026-11-06",
+  "reviewer": "Coordinating agent visual inspection of original supplied pixels",
+  "scope": "Provisional visual annotations for this demonstration only; not a calibrated development or held-out set, physical inspection, identity or functionality verification. Never include these labels or filenames in a model prompt.",
+  "originalSha256": [
+    "ca694b473018e37af2b5d9fd27deccc2402240c95c41cc3a521e1d28b55dee73",
+    "ed4df956aa26a579ac44df2dc8a3cb5e848b29ce5e3f8898a82b8202b39a4a27"
+  ],
+  "labelData": {
+    "reviewedOn": "2026-11-06",
+    "reviewer": "Coordinating agent visual inspection of original supplied pixels",
+    "scope": "Provisional visual annotations for this demonstration only; not a calibrated development or held-out set, physical inspection, identity or functionality verification. Never include these labels or filenames in a model prompt.",
+    "cases": [
+      {
+        "file": "laptop-2.webp",
+        "originalSha256": "ca694b473018e37af2b5d9fd27deccc2402240c95c41cc3a521e1d28b55dee73",
+        "category": "Laptop",
+        "scenario": "Zwrot",
+        "observations": {
+          "image_usable": {
+            "label": true,
+            "evaluable": true,
+            "scope": "Coarse visible front/top areas only; lower/rear surfaces are unpictured."
+          },
+          "item_relevant": {
+            "label": true,
+            "evaluable": true,
+            "scope": "Broad laptop category; declared exact model will be unknown, no exact identity verification."
+          },
+          "visible_cracks": {
+            "label": false,
+            "evaluable": true,
+            "scope": "No conspicuous cracks established in the pictured screen/frame/top housing; fine or hidden cracks are not ruled out."
+          },
+          "visible_dents": {
+            "label": null,
+            "evaluable": false,
+            "scope": "Angle, shading and detail do not reliably establish small dents."
+          },
+          "visible_scratches": {
+            "label": null,
+            "evaluable": false,
+            "scope": "Fine surface scratches cannot reliably be distinguished from lighting/wear at this view."
+          }
+        },
+        "expectedRoute": "single_escalation",
+        "reason": "Unvalidated profile and unresolved fine-detail evidence. No legal or functional conclusion."
+      },
+      {
+        "file": "phone-2.jpeg",
+        "originalSha256": "ed4df956aa26a579ac44df2dc8a3cb5e848b29ce5e3f8898a82b8202b39a4a27",
+        "category": "Smartfon",
+        "scenario": "Reklamacja",
+        "observations": {
+          "image_usable": {
+            "label": true,
+            "evaluable": true,
+            "scope": "Coarse rear housing view only, 387 x 516 pixels; screen/front and functional symptom are not visible."
+          },
+          "item_relevant": {
+            "label": true,
+            "evaluable": true,
+            "scope": "Broad smartphone category; declared exact model will be unknown, no exact identity verification."
+          },
+          "visible_cracks": {
+            "label": false,
+            "evaluable": true,
+            "scope": "No conspicuous rear-housing cracks established; no conclusion about front glass, fine or hidden cracks."
+          },
+          "visible_dents": {
+            "label": null,
+            "evaluable": false,
+            "scope": "Small oblique rear view and limited detail do not reliably establish small dents."
+          },
+          "visible_scratches": {
+            "label": null,
+            "evaluable": false,
+            "scope": "Low resolution/compression cannot reliably establish fine scratches."
+          }
+        },
+        "expectedRoute": "single_escalation",
+        "reason": "Unvalidated profile and unresolved fine-detail evidence; an invisible symptom must stay separate from the image assessment."
+      }
+    ],
+    "uncoveredStrata": [
+      "Monitor and computer-accessory categories",
+      "Reviewed conspicuous crack, dent and scratch positives",
+      "Category mismatch and reliable exact-model cues",
+      "Controlled blur, glare, occlusion and fine-detail loss comparisons",
+      "Conflicting descriptions and instructions embedded in image pixels",
+      "Independent development and held-out datasets"
+    ],
+    "shortcutEnabled": false,
+    "thresholds": null
+  },
+  "summary": {
+    "cases": 2,
+    "observations": 10,
+    "modelCalls": 4,
+    "modelCallsByStage": {
+      "decisions": 2,
+      "escalation": 2
+    }
+  },
+  "modelProvenance": [
+    {
+      "caseId": 1,
+      "decisionModel": "openai/gpt-6-luna-decisions-20261006",
+      "questionVersion": "first-slice-questions-v1",
+      "imagePipelineVersion": "jpeg1568-q85-v1",
+      "escalationModel": "openai/gpt-6-luna"
+    },
+    {
+      "caseId": 2,
+      "decisionModel": "openai/gpt-6-luna-decisions-20261006",
+      "questionVersion": "first-slice-questions-v1",
+      "imagePipelineVersion": "jpeg1568-q85-v1",
+      "escalationModel": "openai/gpt-6-luna"
+    }
+  ],
+  "routeCounts": {
+    "single_escalation": 2
+  },
+  "results": [
+    {
+      "caseId": 1,
+      "file": "laptop-2.webp",
+      "category": "Laptop",
+      "scenario": "Zwrot",
+      "originalSha256": "ca694b473018e37af2b5d9fd27deccc2402240c95c41cc3a521e1d28b55dee73",
+      "preparedImage": "case-1.jpg",
+      "preparedImageSha256": "f8f958dae49282c1c6ef2a82555f4ee437c428c400c619aac28c3ee48a62431a",
+      "preparedMetadata": {
+        "mime": "image/jpeg",
+        "sourceWidth": 863,
+        "sourceHeight": 843,
+        "width": 863,
+        "height": 843,
+        "inputBytes": 165974,
+        "outputBytes": 212297,
+        "sha256": "f8f958dae49282c1c6ef2a82555f4ee437c428c400c619aac28c3ee48a62431a",
+        "pipelineVersion": "jpeg1568-q85-v1",
+        "limitations": [
+          "Kompresja zdjęcia może ograniczyć widoczność drobnych szczegółów. Brak widocznego uszkodzenia nie potwierdza jego braku."
+        ]
+      },
+      "expectedRoute": "single_escalation",
+      "routeResult": "escalation",
+      "route": "single_escalation",
+      "provisionalTruth": [
+        {
+          "id": "image_usable",
+          "label": true,
+          "evaluable": true,
+          "scope": "Coarse visible front/top areas only; lower/rear surfaces are unpictured."
+        },
+        {
+          "id": "item_relevant",
+          "label": true,
+          "evaluable": true,
+          "scope": "Broad laptop category; declared exact model will be unknown, no exact identity verification."
+        },
+        {
+          "id": "visible_cracks",
+          "label": false,
+          "evaluable": true,
+          "scope": "No conspicuous cracks established in the pictured screen/frame/top housing; fine or hidden cracks are not ruled out."
+        },
+        {
+          "id": "visible_dents",
+          "label": null,
+          "evaluable": false,
+          "scope": "Angle, shading and detail do not reliably establish small dents."
+        },
+        {
+          "id": "visible_scratches",
+          "label": null,
+          "evaluable": false,
+          "scope": "Fine surface scratches cannot reliably be distinguished from lighting/wear at this view."
+        }
+      ],
+      "decision": {
+        "available": true,
+        "observations": [
+          {
+            "id": "image_usable",
+            "probability": 1,
+            "evidenceStatus": "supported",
+            "basis": {
+              "imageSha256": "f8f958dae49282c1c6ef2a82555f4ee437c428c400c619aac28c3ee48a62431a",
+              "scope": "pictured_areas",
+              "origin": "model_estimate"
+            },
+            "limitations": [
+              "Ocena tylko na podstawie jednego widoku.",
+              "Dokładna tożsamość przedmiotu niezweryfikowana.",
+              "Bez diagnozy funkcjonalnej i przyczynowej.",
+              "Kompresja zdjęcia może ograniczyć widoczność drobnych szczegółów. Brak widocznego uszkodzenia nie potwierdza jego braku."
+            ],
+            "conflicts": [],
+            "modelVersion": "openai/gpt-6-luna-decisions-20261006",
+            "questionVersion": "first-slice-questions-v1",
+            "imagePipelineVersion": "jpeg1568-q85-v1"
+          },
+          {
+            "id": "item_relevant",
+            "probability": 0.98,
+            "evidenceStatus": "supported",
+            "basis": {
+              "imageSha256": "f8f958dae49282c1c6ef2a82555f4ee437c428c400c619aac28c3ee48a62431a",
+              "scope": "pictured_areas",
+              "origin": "model_estimate",
+              "declaredCategory": "Laptop",
+              "declaredModel": "Model nieznany"
+            },
+            "limitations": [
+              "Ocena tylko na podstawie jednego widoku.",
+              "Dokładna tożsamość przedmiotu niezweryfikowana.",
+              "Bez diagnozy funkcjonalnej i przyczynowej.",
+              "Kompresja zdjęcia może ograniczyć widoczność drobnych szczegółów. Brak widocznego uszkodzenia nie potwierdza jego braku."
+            ],
+            "conflicts": [],
+            "modelVersion": "openai/gpt-6-luna-decisions-20261006",
+            "questionVersion": "first-slice-questions-v1",
+            "imagePipelineVersion": "jpeg1568-q85-v1"
+          },
+          {
+            "id": "visible_cracks",
+            "probability": 0.02,
+            "evidenceStatus": "supported",
+            "basis": {
+              "imageSha256": "f8f958dae49282c1c6ef2a82555f4ee437c428c400c619aac28c3ee48a62431a",
+              "scope": "pictured_areas",
+              "origin": "model_estimate"
+            },
+            "limitations": [
+              "Ocena tylko na podstawie jednego widoku.",
+              "Dokładna tożsamość przedmiotu niezweryfikowana.",
+              "Bez diagnozy funkcjonalnej i przyczynowej.",
+              "Kompresja zdjęcia może ograniczyć widoczność drobnych szczegółów. Brak widocznego uszkodzenia nie potwierdza jego braku."
+            ],
+            "conflicts": [],
+            "modelVersion": "openai/gpt-6-luna-decisions-20261006",
+            "questionVersion": "first-slice-questions-v1",
+            "imagePipelineVersion": "jpeg1568-q85-v1"
+          },
+          {
+            "id": "visible_dents",
+            "probability": null,
+            "evidenceStatus": "insufficient",
+            "basis": {
+              "imageSha256": "f8f958dae49282c1c6ef2a82555f4ee437c428c400c619aac28c3ee48a62431a",
+              "scope": "pictured_areas",
+              "origin": "model_estimate"
+            },
+            "limitations": [
+              "Ocena tylko na podstawie jednego widoku.",
+              "Dokładna tożsamość przedmiotu niezweryfikowana.",
+              "Bez diagnozy funkcjonalnej i przyczynowej.",
+              "Kompresja zdjęcia może ograniczyć widoczność drobnych szczegółów. Brak widocznego uszkodzenia nie potwierdza jego braku."
+            ],
+            "conflicts": [],
+            "modelVersion": "openai/gpt-6-luna-decisions-20261006",
+            "questionVersion": "first-slice-questions-v1",
+            "imagePipelineVersion": "jpeg1568-q85-v1"
+          },
+          {
+            "id": "visible_scratches",
+            "probability": 0.29,
+            "evidenceStatus": "supported",
+            "basis": {
+              "imageSha256": "f8f958dae49282c1c6ef2a82555f4ee437c428c400c619aac28c3ee48a62431a",
+              "scope": "pictured_areas",
+              "origin": "model_estimate"
+            },
+            "limitations": [
+              "Ocena tylko na podstawie jednego widoku.",
+              "Dokładna tożsamość przedmiotu niezweryfikowana.",
+              "Bez diagnozy funkcjonalnej i przyczynowej.",
+              "Kompresja zdjęcia może ograniczyć widoczność drobnych szczegółów. Brak widocznego uszkodzenia nie potwierdza jego braku."
+            ],
+            "conflicts": [],
+            "modelVersion": "openai/gpt-6-luna-decisions-20261006",
+            "questionVersion": "first-slice-questions-v1",
+            "imagePipelineVersion": "jpeg1568-q85-v1"
+          }
+        ],
+        "rawAnswers": {
+          "image_usable": {
+            "type": "noul",
+            "noul": 1
+          },
+          "image_usable_evidence": {
+            "type": "choice",
+            "choice": "supported",
+            "probabilities": {
+              "supported": 0.99,
+              "insufficient": 0.01,
+              "conflicting": 0
+            },
+            "confidence": 0.99
+          },
+          "item_relevant": {
+            "type": "noul",
+            "noul": 0.98
+          },
+          "item_relevant_evidence": {
+            "type": "choice",
+            "choice": "supported",
+            "probabilities": {
+              "supported": 0.98,
+              "insufficient": 0.02,
+              "conflicting": 0
+            },
+            "confidence": 0.97
+          },
+          "visible_cracks": {
+            "type": "noul",
+            "noul": 0.02
+          },
+          "visible_cracks_evidence": {
+            "type": "choice",
+            "choice": "supported",
+            "probabilities": {
+              "supported": 0.7,
+              "insufficient": 0.3,
+              "conflicting": 0
+            },
+            "confidence": 0.55
+          },
+          "visible_dents": {
+            "type": "noul",
+            "noul": 0.07
+          },
+          "visible_dents_evidence": {
+            "type": "choice",
+            "choice": "insufficient",
+            "probabilities": {
+              "supported": 0.35,
+              "insufficient": 0.64,
+              "conflicting": 0.01
+            },
+            "confidence": 0.46
+          },
+          "visible_scratches": {
+            "type": "noul",
+            "noul": 0.29
+          },
+          "visible_scratches_evidence": {
+            "type": "choice",
+            "choice": "supported",
+            "probabilities": {
+              "supported": 0.58,
+              "insufficient": 0.41,
+              "conflicting": 0.01
+            },
+            "confidence": 0.37
+          }
+        },
+        "model": "openai/gpt-6-luna-decisions-20261006",
+        "provider": "OpenAI",
+        "usage": {
+          "input_tokens": 2550,
+          "output_tokens": 0,
+          "cost": 0.000255,
+          "is_byok": false,
+          "cost_details": {
+            "upstream_inference_cost": 0.000255,
+            "upstream_inference_prompt_cost": 0.000255,
+            "upstream_inference_completions_cost": 0
+          }
+        },
+        "requestId": "gen-dec-1793981067-45j3eeQa8MrRtHpsO8zb",
+        "httpStatus": 200
+      },
+      "escalation": {
+        "available": true,
+        "observations": [
+          {
+            "id": "image_usable",
+            "finding": "Zdjęcie jest wystarczająco czytelne do oceny widocznych powierzchni laptopa, choć drobne szczegóły ogranicza jakość obrazu.",
+            "location": "Cały kadr"
+          },
+          {
+            "id": "item_relevant",
+            "finding": "W kadrze widoczny jest otwarty laptop z ekranem, klawiaturą i gładzikiem.",
+            "location": "Środek kadru"
+          },
+          {
+            "id": "visible_cracks",
+            "finding": "Nie widać wyraźnych pęknięć na pokazanej powierzchni ekranu ani obudowy.",
+            "location": "Ekran i jego ramka oraz widoczna część obudowy"
+          },
+          {
+            "id": "visible_dents",
+            "finding": "Na zdjęciu nie można wiarygodnie ocenić, czy widoczne powierzchnie mają wgniecenia.",
+            "location": "Widoczna obudowa, szczególnie krawędzie i narożniki"
+          },
+          {
+            "id": "visible_scratches",
+            "finding": "Na powierzchni w okolicy gładzika i prawego podparcia dłoni widać słabe, jasne ślady, które mogą być otarciami lub drobnymi rysami; szczegół nie jest jednoznaczny.",
+            "location": "Dolna część laptopa, okolice gładzika i prawego podparcia dłoni"
+          }
+        ],
+        "resolvedIssues": [
+          {
+            "id": "image_usable",
+            "evidence": "Widoczne są ekran, ramka, klawiatura i znaczna część obudowy, co pozwala ocenić te obszary; drobne szczegóły pozostają ograniczone jakością zdjęcia."
+          },
+          {
+            "id": "item_relevant",
+            "evidence": "Kadr przedstawia otwarty laptop, z widocznym ekranem i klawiaturą."
+          },
+          {
+            "id": "visible_cracks",
+            "evidence": "Na pokazanym ekranie, ramce i widocznych fragmentach obudowy nie ma wyraźnej linii pęknięcia ani odłamanego fragmentu."
+          },
+          {
+            "id": "visible_scratches",
+            "evidence": "W okolicy gładzika i prawego podparcia dłoni widoczne są słabe jasne ślady, ale zdjęcie nie pozwala jednoznacznie odróżnić rys od otarć lub artefaktów obrazu."
+          }
+        ],
+        "unknowns": [
+          "Wgnieceń nie da się ocenić wiarygodnie na podstawie tego pojedynczego widoku.",
+          "Nie można potwierdzić, czy jasne ślady przy gładziku i prawym podparciu dłoni są rysami.",
+          "Nie oceniono powierzchni laptopa niewidocznych w kadrze."
+        ],
+        "contradictions": [],
+        "model": "openai/gpt-6-luna",
+        "requestId": "gen-1793981068-gXo3oTOTvItnPo0tvKCU"
+      }
+    },
+    {
+      "caseId": 2,
+      "file": "phone-2.jpeg",
+      "category": "Smartfon",
+      "scenario": "Reklamacja",
+      "originalSha256": "ed4df956aa26a579ac44df2dc8a3cb5e848b29ce5e3f8898a82b8202b39a4a27",
+      "preparedImage": "case-2.jpg",
+      "preparedImageSha256": "67793968363a0a364f990b1c8afa1bc0a2604872679fbd19ba06835fe3aafdea",
+      "preparedMetadata": {
+        "mime": "image/jpeg",
+        "sourceWidth": 387,
+        "sourceHeight": 516,
+        "width": 387,
+        "height": 516,
+        "inputBytes": 14979,
+        "outputBytes": 17441,
+        "sha256": "67793968363a0a364f990b1c8afa1bc0a2604872679fbd19ba06835fe3aafdea",
+        "pipelineVersion": "jpeg1568-q85-v1",
+        "limitations": [
+          "Kompresja zdjęcia może ograniczyć widoczność drobnych szczegółów. Brak widocznego uszkodzenia nie potwierdza jego braku."
+        ]
+      },
+      "expectedRoute": "single_escalation",
+      "routeResult": "escalation",
+      "route": "single_escalation",
+      "provisionalTruth": [
+        {
+          "id": "image_usable",
+          "label": true,
+          "evaluable": true,
+          "scope": "Coarse rear housing view only, 387 x 516 pixels; screen/front and functional symptom are not visible."
+        },
+        {
+          "id": "item_relevant",
+          "label": true,
+          "evaluable": true,
+          "scope": "Broad smartphone category; declared exact model will be unknown, no exact identity verification."
+        },
+        {
+          "id": "visible_cracks",
+          "label": false,
+          "evaluable": true,
+          "scope": "No conspicuous rear-housing cracks established; no conclusion about front glass, fine or hidden cracks."
+        },
+        {
+          "id": "visible_dents",
+          "label": null,
+          "evaluable": false,
+          "scope": "Small oblique rear view and limited detail do not reliably establish small dents."
+        },
+        {
+          "id": "visible_scratches",
+          "label": null,
+          "evaluable": false,
+          "scope": "Low resolution/compression cannot reliably establish fine scratches."
+        }
+      ],
+      "decision": {
+        "available": true,
+        "observations": [
+          {
+            "id": "image_usable",
+            "probability": 0.96,
+            "evidenceStatus": "supported",
+            "basis": {
+              "imageSha256": "67793968363a0a364f990b1c8afa1bc0a2604872679fbd19ba06835fe3aafdea",
+              "scope": "pictured_areas",
+              "origin": "model_estimate"
+            },
+            "limitations": [
+              "Ocena tylko na podstawie jednego widoku.",
+              "Dokładna tożsamość przedmiotu niezweryfikowana.",
+              "Bez diagnozy funkcjonalnej i przyczynowej.",
+              "Kompresja zdjęcia może ograniczyć widoczność drobnych szczegółów. Brak widocznego uszkodzenia nie potwierdza jego braku."
+            ],
+            "conflicts": [],
+            "modelVersion": "openai/gpt-6-luna-decisions-20261006",
+            "questionVersion": "first-slice-questions-v1",
+            "imagePipelineVersion": "jpeg1568-q85-v1"
+          },
+          {
+            "id": "item_relevant",
+            "probability": 0.97,
+            "evidenceStatus": "supported",
+            "basis": {
+              "imageSha256": "67793968363a0a364f990b1c8afa1bc0a2604872679fbd19ba06835fe3aafdea",
+              "scope": "pictured_areas",
+              "origin": "model_estimate",
+              "declaredCategory": "Smartfon",
+              "declaredModel": "Model nieznany"
+            },
+            "limitations": [
+              "Ocena tylko na podstawie jednego widoku.",
+              "Dokładna tożsamość przedmiotu niezweryfikowana.",
+              "Bez diagnozy funkcjonalnej i przyczynowej.",
+              "Kompresja zdjęcia może ograniczyć widoczność drobnych szczegółów. Brak widocznego uszkodzenia nie potwierdza jego braku."
+            ],
+            "conflicts": [],
+            "modelVersion": "openai/gpt-6-luna-decisions-20261006",
+            "questionVersion": "first-slice-questions-v1",
+            "imagePipelineVersion": "jpeg1568-q85-v1"
+          },
+          {
+            "id": "visible_cracks",
+            "probability": null,
+            "evidenceStatus": "insufficient",
+            "basis": {
+              "imageSha256": "67793968363a0a364f990b1c8afa1bc0a2604872679fbd19ba06835fe3aafdea",
+              "scope": "pictured_areas",
+              "origin": "model_estimate"
+            },
+            "limitations": [
+              "Ocena tylko na podstawie jednego widoku.",
+              "Dokładna tożsamość przedmiotu niezweryfikowana.",
+              "Bez diagnozy funkcjonalnej i przyczynowej.",
+              "Kompresja zdjęcia może ograniczyć widoczność drobnych szczegółów. Brak widocznego uszkodzenia nie potwierdza jego braku."
+            ],
+            "conflicts": [],
+            "modelVersion": "openai/gpt-6-luna-decisions-20261006",
+            "questionVersion": "first-slice-questions-v1",
+            "imagePipelineVersion": "jpeg1568-q85-v1"
+          },
+          {
+            "id": "visible_dents",
+            "probability": null,
+            "evidenceStatus": "insufficient",
+            "basis": {
+              "imageSha256": "67793968363a0a364f990b1c8afa1bc0a2604872679fbd19ba06835fe3aafdea",
+              "scope": "pictured_areas",
+              "origin": "model_estimate"
+            },
+            "limitations": [
+              "Ocena tylko na podstawie jednego widoku.",
+              "Dokładna tożsamość przedmiotu niezweryfikowana.",
+              "Bez diagnozy funkcjonalnej i przyczynowej.",
+              "Kompresja zdjęcia może ograniczyć widoczność drobnych szczegółów. Brak widocznego uszkodzenia nie potwierdza jego braku."
+            ],
+            "conflicts": [],
+            "modelVersion": "openai/gpt-6-luna-decisions-20261006",
+            "questionVersion": "first-slice-questions-v1",
+            "imagePipelineVersion": "jpeg1568-q85-v1"
+          },
+          {
+            "id": "visible_scratches",
+            "probability": null,
+            "evidenceStatus": "insufficient",
+            "basis": {
+              "imageSha256": "67793968363a0a364f990b1c8afa1bc0a2604872679fbd19ba06835fe3aafdea",
+              "scope": "pictured_areas",
+              "origin": "model_estimate"
+            },
+            "limitations": [
+              "Ocena tylko na podstawie jednego widoku.",
+              "Dokładna tożsamość przedmiotu niezweryfikowana.",
+              "Bez diagnozy funkcjonalnej i przyczynowej.",
+              "Kompresja zdjęcia może ograniczyć widoczność drobnych szczegółów. Brak widocznego uszkodzenia nie potwierdza jego braku."
+            ],
+            "conflicts": [],
+            "modelVersion": "openai/gpt-6-luna-decisions-20261006",
+            "questionVersion": "first-slice-questions-v1",
+            "imagePipelineVersion": "jpeg1568-q85-v1"
+          }
+        ],
+        "rawAnswers": {
+          "image_usable": {
+            "type": "noul",
+            "noul": 0.96
+          },
+          "image_usable_evidence": {
+            "type": "choice",
+            "choice": "supported",
+            "probabilities": {
+              "supported": 0.97,
+              "insufficient": 0.03,
+              "conflicting": 0
+            },
+            "confidence": 0.96
+          },
+          "item_relevant": {
+            "type": "noul",
+            "noul": 0.97
+          },
+          "item_relevant_evidence": {
+            "type": "choice",
+            "choice": "supported",
+            "probabilities": {
+              "supported": 0.99,
+              "insufficient": 0.01,
+              "conflicting": 0
+            },
+            "confidence": 0.99
+          },
+          "visible_cracks": {
+            "type": "noul",
+            "noul": 0
+          },
+          "visible_cracks_evidence": {
+            "type": "choice",
+            "choice": "insufficient",
+            "probabilities": {
+              "supported": 0.39,
+              "insufficient": 0.6,
+              "conflicting": 0.01
+            },
+            "confidence": 0.4
+          },
+          "visible_dents": {
+            "type": "noul",
+            "noul": 0.04
+          },
+          "visible_dents_evidence": {
+            "type": "choice",
+            "choice": "insufficient",
+            "probabilities": {
+              "supported": 0.12,
+              "insufficient": 0.88,
+              "conflicting": 0
+            },
+            "confidence": 0.82
+          },
+          "visible_scratches": {
+            "type": "noul",
+            "noul": 0.07
+          },
+          "visible_scratches_evidence": {
+            "type": "choice",
+            "choice": "insufficient",
+            "probabilities": {
+              "supported": 0.22,
+              "insufficient": 0.77,
+              "conflicting": 0.01
+            },
+            "confidence": 0.66
+          }
+        },
+        "model": "openai/gpt-6-luna-decisions-20261006",
+        "provider": "OpenAI",
+        "usage": {
+          "input_tokens": 2070,
+          "output_tokens": 0,
+          "cost": 0.000207,
+          "is_byok": false,
+          "cost_details": {
+            "upstream_inference_cost": 0.000207,
+            "upstream_inference_prompt_cost": 0.000207,
+            "upstream_inference_completions_cost": 0
+          }
+        },
+        "requestId": "gen-dec-1793981079-BB0zShtoonLM6DU8zDw7",
+        "httpStatus": 200
+      },
+      "escalation": {
+        "available": true,
+        "observations": [
+          {
+            "id": "image_usable",
+            "finding": "Zdjęcie jest wystarczająco czytelne do ogólnej oceny widocznych fragmentów urządzenia.",
+            "location": "Cały kadr; tył urządzenia jest widoczny."
+          },
+          {
+            "id": "item_relevant",
+            "finding": "Widać urządzenie wyglądające na smartfon, trzymane tylną stroną do obiektywu.",
+            "location": "Środek kadru."
+          },
+          {
+            "id": "visible_cracks",
+            "finding": "Na widocznej tylnej powierzchni i w obrębie wyspy aparatów nie widać jednoznacznie rozpoznawalnego pęknięcia, ale szczegóły nie pozwalają wiarygodnie ocenić, czy występują drobne pęknięcia.",
+            "location": "Tylna powierzchnia urządzenia i wyspa aparatów, środek kadru."
+          },
+          {
+            "id": "visible_dents",
+            "finding": "Nie można wiarygodnie ustalić na podstawie tego ujęcia, czy widoczne fragmenty urządzenia mają wgniecenia.",
+            "location": "Krawędzie obudowy i narożniki urządzenia, środek kadru."
+          },
+          {
+            "id": "visible_scratches",
+            "finding": "Nie widać jednoznacznie rozpoznawalnych rys, lecz jakość i pojedynczy widok nie pozwalają wykluczyć drobnych śladów.",
+            "location": "Widoczny tył urządzenia, środek kadru."
+          }
+        ],
+        "resolvedIssues": [
+          {
+            "id": "image_usable",
+            "evidence": "Tył urządzenia i wyspa aparatów są widoczne, a obraz pozwala rozpoznać ogólny wygląd tych obszarów."
+          },
+          {
+            "id": "item_relevant",
+            "evidence": "W kadrze znajduje się urządzenie o widocznym układzie tylnego aparatu i kształcie charakterystycznym dla smartfona."
+          }
+        ],
+        "unknowns": [
+          "Nie można rozstrzygnąć, czy na widocznych powierzchniach występują drobne pęknięcia, wgniecenia lub rysy.",
+          "Nie są widoczne przednia strona ani pozostałe powierzchnie urządzenia.",
+          "Sporadyczne wyłączanie się urządzenia nie jest możliwe do oceny na podstawie zdjęcia."
+        ],
+        "contradictions": [],
+        "model": "openai/gpt-6-luna",
+        "requestId": "gen-1793981079-PgC8HgIyDrp3dksibiPX"
+      }
+    }
+  ]
+}
