@@ -1,5 +1,7 @@
 # UPDATES !!!
 
+- Analiza użycia Codex z 4-6.11.2026: [raport Word](docs/codex-usage-2026-11-06/report.docx), [HTML offline](docs/codex-usage-2026-11-06/report.html), [Markdown](docs/codex-usage-2026-11-06/report.md) i [dane JSON](docs/codex-usage-2026-11-06/report.json). Koszty są szacunkiem według cen API, a nie rachunkiem ani kosztem subskrypcji.
+
 ## Windows Codex sandbox — ważne przed ćwiczeniami (5.11)
 
 - Najpierw ustaw globalny sandbox użytkownika i wyłącz preferencję MXC według instrukcji poniżej, potem zrestartuj daemon i rozpocznij nową sesję (nie wznawiaj poprzedniej). Repozytorium kursu wybiera profil course-tools.
