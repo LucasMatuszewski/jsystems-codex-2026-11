@@ -2,7 +2,7 @@
 
 **Date:** 2026-11-06
 
-**Status:** Accepted by the user on 2026-11-06. Documentation commit and push are authorized. Implementation and agent dispatch await an explicit execution instruction; final-slice review, PR publication and merge gates are unchanged.
+**Status:** Accepted by the user on 2026-11-06. Implementation and agent dispatch authorized by the user's execution request on 2026-11-06. Final-slice review, human acceptance, PR publication and merge gates are unchanged; no implementation push is authorized.
 
 **Recorded planning baseline, not an execution pin:** `angular-implementation`, commit `9bcafde6e44063e168104b596a7e295940d4cc6b`, with a clean working tree at plan preparation. Command/tool observations below are dated snapshots. The user accepted the three ADRs on 2026-11-06. T00 refreshes HEAD/status and readiness before execution; later commits do not justify overwriting new work.
 
@@ -141,8 +141,8 @@ This checklist is the single execution-status tracker selected by the user. Matr
 
 - [x] P00 - Inspect current checkout, approved sources, tool mechanisms and baseline commands.
 - [x] P01 - Human approves the plan (2026-11-06); documentation commit/push authorized.
-- [ ] P02 - Human authorizes implementation and agent dispatch.
-- [ ] T00 - Freeze implementation contracts.
+- [x] P02 - Human authorizes implementation and agent dispatch (2026-11-06 execution request).
+- [x] T00 - Freeze implementation contracts; accepted catalogue: [contracts](../qa/first-slice/contracts.md). Commit: this focused T00 commit (resolve using its `Docs: freeze first-slice implementation contracts` subject).
 - [ ] T01 - Prepare existing scaffold and runners.
 - [ ] T02 - Approve source and instruction inputs.
 - [ ] T03 - Deterministic rules.
@@ -163,7 +163,7 @@ This checklist is the single execution-status tracker selected by the user. Matr
 
 **Unresolved readiness checks, not invented architecture:** exact installable Angular/SDK/provider peers and actual scripts (T01), usable Playwright access (T01), refreshed procedure-source applicability and safe image review (T02), effective OpenCode restrictions/auth and worker-model access (before first dispatch), and real OpenRouter wire behavior/runtime credentials (T06). Any semantic contradiction becomes a proposed ADR change for review before its dependents continue. No additional product decision is assumed by this draft.
 
-**Next gate:** the plan is accepted; wait for an explicit instruction to execute T00 or dispatch workers. Readiness checks, independent review, final acceptance and implementation-PR publication gates remain required. No implementation or worker dispatch has started.
+**Next gate:** execute T01 readiness checks against the frozen contracts. Implementation is authorized. Independent review, final human acceptance and implementation-PR publication gates remain required.
 
 [flows]: ../PRD.md#4-main-flows
 [form]: ../PRD.md#form-and-image
