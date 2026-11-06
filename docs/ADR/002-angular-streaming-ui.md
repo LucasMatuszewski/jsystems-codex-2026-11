@@ -2,7 +2,7 @@
 
 **Date:** 2026-11-06
 
-**Status:** Proposed
+**Status:** Accepted
 
 **Relates to:** [Main architecture](000-main-architecture.md), [Decision assessment](001-decision-assessment.md), [PRD UI](../PRD.md#9-ui-description-wireframe-level)
 
@@ -37,7 +37,7 @@ The research located concrete reusable starters/components, then inspected manif
 | [Vercel AI Elements](https://github.com/vercel/ai-elements) | Ready chat presentation components | React/shadcn/Tailwind rather than Angular/Material | Design/interaction reference only |
 | [assistant-ui](https://www.assistant-ui.com/docs/architecture) | React runtime and chat components | React context and component stack; no verified Angular integration in consulted docs | No React runtime in this application |
 
-**Decision record:** **Status:** Proposed. **Date:** 2026-11-06. **Context:** The user requires Angular Material and working SDK streaming from an empty app. **Decision:** Use the first-party Angular/Express quickstart as the behavioral boilerplate and Angular CLI plus Material as the actual scaffold. Assemble the limited chat view from Material primitives; reuse SDK transport/state. **Rejected alternatives:** Migrating LocalNook replaces its provider architecture and removes persistence; adopting Tailwind/React kits adds another component system. **Consequences:** No chat stream parser to maintain; a small Material message/composer view still needs implementation and QA. **Review trigger:** A maintained, source-verified Material + SDK starter reduces the work without adding unsupported scope.
+**Decision record:** **Status:** Accepted. **Date:** 2026-11-06. **Context:** The user requires Angular Material and working SDK streaming from an empty app. **Decision:** Use the first-party Angular/Express quickstart as the behavioral boilerplate and Angular CLI plus Material as the actual scaffold. Assemble the limited chat view from Material primitives; reuse SDK transport/state. **Rejected alternatives:** Migrating LocalNook replaces its provider architecture and removes persistence; adopting Tailwind/React kits adds another component system. **Consequences:** No chat stream parser to maintain; a small Material message/composer view still needs implementation and QA. **Review trigger:** A maintained, source-verified Material + SDK starter reduces the work without adding unsupported scope.
 
 Material's component catalog provides the primitives, not an AI chat runtime or Markdown/stream parser. A component's `isStreaming` input alone does not establish working transport. The official example's [manifest](https://github.com/vercel/ai/blob/main/examples/angular/package.json) uses workspace references, so do not claim that copying its folder gives a standalone install. Initialization commands and compatibility gates are specified once in [ADR-000](000-main-architecture.md#7-configuration-and-initialization); do not run them before plan approval.
 

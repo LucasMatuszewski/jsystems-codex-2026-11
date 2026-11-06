@@ -2,7 +2,7 @@
 
 **Date:** 2026-11-06
 
-**Status:** Proposed; implementation starts only after the implementation plan is approved
+**Status:** Accepted; implementation starts only after the implementation plan is approved
 
 **PRD:** [Hardware Service Decision Copilot](../PRD.md)
 
@@ -121,7 +121,7 @@ The bootstrap source is the [official Angular quickstart](https://ai-sdk.dev/doc
 
 ### Separate SDK chat from direct Decisions HTTP
 
-**Status:** Proposed. **Date:** 2026-11-06. **Context:** The product requires streamed conversation and a different typed initial assessment. **Decision:** Use the provider's language model for `streamText`/multimodal generation and native server HTTP for Decisions, with separate clients, schemas and tests. **Rejected alternatives:** The released Decisions adapter lacks the newer SDK state/image fix; installing unreleased `main` is unnecessary risk for this PoC. The native OpenRouter TypeScript SDK adds another dependency for a single bounded endpoint. Responses introduces another conversation API without replacing Decisions. **Consequences:** One shared server key; a small explicit alpha-protocol parser to maintain, with pinning/captures/migration checks. **Review trigger:** A published, verified compatible Decisions adapter or a breaking API change. [Released adapter](https://github.com/OpenRouterTeam/ai-sdk-provider/blob/3.1.0/src/evaluation/index.ts), [fix PR](https://github.com/OpenRouterTeam/ai-sdk-provider/pull/577).
+**Status:** Accepted. **Date:** 2026-11-06. **Context:** The product requires streamed conversation and a different typed initial assessment. **Decision:** Use the provider's language model for `streamText`/multimodal generation and native server HTTP for Decisions, with separate clients, schemas and tests. **Rejected alternatives:** The released Decisions adapter lacks the newer SDK state/image fix; installing unreleased `main` is unnecessary risk for this PoC. The native OpenRouter TypeScript SDK adds another dependency for a single bounded endpoint. Responses introduces another conversation API without replacing Decisions. **Consequences:** One shared server key; a small explicit alpha-protocol parser to maintain, with pinning/captures/migration checks. **Review trigger:** A published, verified compatible Decisions adapter or a breaking API change. [Released adapter](https://github.com/OpenRouterTeam/ai-sdk-provider/blob/3.1.0/src/evaluation/index.ts), [fix PR](https://github.com/OpenRouterTeam/ai-sdk-provider/pull/577).
 
 ### Evaluate the supplied alternatives against the actual product
 
