@@ -4,9 +4,9 @@
 
 - Kod aplikacji: [Angular](https://github.com/LucasMatuszewski/jsystems-codex-2026-11/tree/angular-implementation); [PRD, ADR i plan - PR #6](https://github.com/LucasMatuszewski/jsystems-codex-2026-11/pull/6).
 - Gałąź `main` pozostaje bazą kursu z materiałami.
-- Dzień 3: [historia czatu](course-materials/zoom-summary-chat-history/day-3-chat-history.md).
-- Analiza użycia Codex z 4-6.11.2026: [raport Word](docs/codex-usage-2026-11-06/report.docx), [HTML offline](docs/codex-usage-2026-11-06/report.html), [Markdown](docs/codex-usage-2026-11-06/report.md) i [dane JSON](docs/codex-usage-2026-11-06/report.json). Koszty są szacunkiem według cen API, a nie rachunkiem ani kosztem subskrypcji.
-- [Pytania i odpowiedzi z kursu](https://devpowers.com/szkolenia/jsystems/codex-2026-11/pytania.html).
+- Dzień 3: [podsumowanie](course-materials/zoom-summary-chat-history/day-3-summary.md) i [historia czatu](course-materials/zoom-summary-chat-history/day-3-chat-history.md). Podsumowanie łączy oba eksporty Zoom, z korektami na podstawie czatu i przebiegu kursu.
+- Analiza użycia Codex z 4-6.11.2026: [raport online](https://devpowers.com/szkolenia/jsystems/codex-2026-11/report-codex-6-11-2026.html) (również w [materiałach kursu](https://devpowers.com/szkolenia/jsystems/codex-2026-11/index.html)), [raport Word](docs/codex-usage-2026-11-06/report.docx), [HTML offline](docs/codex-usage-2026-11-06/report.html), [Markdown](docs/codex-usage-2026-11-06/report.md) i [dane JSON](docs/codex-usage-2026-11-06/report.json). Szacunki kosztów według cen API nie obejmują 291 niewycenionych zapytań; nie są rachunkiem ani kosztem subskrypcji.
+- [Pytania i odpowiedzi z kursu](https://devpowers.com/szkolenia/jsystems/codex-2026-11/pytania.html): nowe odpowiedzi o sterowaniu agentem z telefonu, profilach uprawnień, limitach Codex/OpenRouter i Cursor.
 
 ## Windows Codex sandbox — ważne przed ćwiczeniami (5.11)
 

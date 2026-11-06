@@ -404,6 +404,8 @@ How AI changes developer careers - key insights from the 2026 future-of-work res
 
 ### TOKEN OPTIMIZATION - limits, resets, cheaper models (verified 01.10.2026)
 
+- **Course usage example, 4-6.11.2026:** [Interactive Codex analytics report](https://devpowers.com/szkolenia/jsystems/codex-2026-11/report-codex-6-11-2026.html). Historical tokens, cache and sessions are separate from current context and provider quotas; API-equivalent costs are estimates, not subscription charges.
+
 - **Claude Pro/Max**: rolling 5-hour window + weekly limit at the same time; the 5h window starts on your first prompt, so the **6am trick** (scheduled throwaway prompt) works; check `/usage`
 - **Banked resets are granted, not bought** (model releases, incidents; redeem within about a month): Codex, and Claude since the Opus 5.5 release (end of 09.2026); paid options = Claude usage credits, Codex paid instant reset
 - **Strategy**: burn the weekly allowance to zero first, then apply the reset (effectively 2x for that week)
