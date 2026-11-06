@@ -1,0 +1,10 @@
+header { height: 72px; border-bottom: 1px solid #ebebeb; background: #fff; }
+.brand { max-width: 1200px; margin: auto; height: 100%; display: flex; align-items: center; padding: 0 24px; gap: 24px; }
+.brand img { width: 218px; height: 40px; }
+.brand span { color: #444; border-left: 1px solid #ddd; padding-left: 24px; }
+main { max-width: 1100px; margin: 32px auto; padding: 0 24px; }
+h1 { font-size: 26px; line-height: 32px; font-weight: 600; margin: 0 0 16px; }
+.notice { border-left: 3px solid #0082fa; padding: 12px 16px; background: #fff; margin-bottom: 24px; }
+.notice p { margin: 4px 0; }
+mat-card { padding: 24px; border: 1px solid #ddd; border-radius: 12px; box-shadow: none; background: #fff; }
+h2 { font-size: 20px; font-weight: 600; margin-top: 0; }

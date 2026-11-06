@@ -1,7 +1,46 @@
 # App
 
-This directory is still an empty scaffold. The selected product is the hardware-service PoC in the [PRD](../docs/PRD.md), using Angular and Angular Material with a TypeScript backend.
+Local hardware-service PoC workspace. Product behavior is defined by the
+[PRD](../docs/PRD.md), [ADRs](../docs/ADR/000-main-architecture.md) and
+[execution tracker](../docs/plans/-implementation-plan.md). The T01 shell is
+infrastructure only; assessment and conversation are not connected yet.
 
-Read the [architecture overview](../docs/ADR/000-main-architecture.md) for the proposed stack, initialization command, environment contract and verification gates. The [Angular ADR](../docs/ADR/002-angular-streaming-ui.md) compares reusable starters and chat components.
+Use Node 24.15+ within Node 24 and npm 11. From this directory:
 
-Do not initialize the template or install application dependencies until the implementation plan is approved. No application package manifest or runtime exists yet.
+```powershell
+npm ci --cache ../.npm-research-cache --strict-peer-deps
+npm run build
+npm run typecheck
+npm test
+npm start
+```
+
+`npm start` serves the built SPA and API at `http://127.0.0.1:3000`. The backend
+uses Node's environment loader for repository-root `.env`, as selected by the
+user. Required live configuration is described in the root `.env.example`;
+all values stay server-only. Inherited environment values take precedence.
+Do not print or commit credentials.
+
+For development, use separate terminals in `app/`:
+
+```powershell
+npm run dev:backend
+npm run dev:frontend -- --host 127.0.0.1
+```
+
+Angular serves port 4200 and proxies `/api/**` to port 3000. `GET /api/health`
+is the startup smoke endpoint. Stop processes with Ctrl+C.
+
+Frontend tests use Angular's Vitest builder; backend tests use Node's test
+runner and tsx. No endpoint/provider mocks exist in T01. E2E runner config is
+under `e2e/`; real provider cases are added at T13, not represented by a
+zero-test success. Playwright CLI 0.1.23 is verified for manual browser QA.
+Windows sandbox restrictions may require host execution for npm workspace
+links and Chrome. The four native build-script approvals are pinned in the
+workspace manifest; no blanket script approval is needed.
+
+Brand copies under `frontend/public/brand` come from repository `assets/`;
+their source/reference and licensing limits remain in
+[design guidance](../docs/design-guidelines.md). Generated output is ignored:
+`node_modules`, `frontend/.angular/cache`, workspace `dist`, test results,
+Playwright state and the local npm cache.

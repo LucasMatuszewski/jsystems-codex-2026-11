@@ -143,7 +143,7 @@ This checklist is the single execution-status tracker selected by the user. Matr
 - [x] P01 - Human approves the plan (2026-11-06); documentation commit/push authorized.
 - [x] P02 - Human authorizes implementation and agent dispatch (2026-11-06 execution request).
 - [x] T00 - Freeze implementation contracts; accepted catalogue: [contracts](../qa/first-slice/contracts.md). Commit: this focused T00 commit (resolve using its `Docs: freeze first-slice implementation contracts` subject).
-- [ ] T01 - Prepare existing scaffold and runners.
+- [x] T01 - Prepare existing scaffold and runners; [evidence](../qa/first-slice/T01/verification.md), local commit subject `App: initialize Angular and Express workspace`.
 - [ ] T02 - Approve source and instruction inputs.
 - [ ] T03 - Deterministic rules.
 - [ ] T04 - Image preparation.
