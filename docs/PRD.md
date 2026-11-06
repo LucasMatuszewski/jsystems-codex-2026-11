@@ -34,7 +34,7 @@ Support and hardware service staff are downstream beneficiaries, not users of a 
 
 ### 4.2 Unclear image or conflicting evidence
 
-1. An intermediate probability, missing visual evidence, poor image usability, uncertain relevance, or a conflict triggers one deeper multimodal analysis.
+1. An unvalidated routing profile, intermediate probability, missing visual evidence, poor image usability, uncertain relevance, or a conflict triggers one deeper multimodal analysis after a successful initial assessment. Provider failure follows Flow 4.4 instead.
 2. That analysis receives the image, form, initial observations, and the specific uncertainty to resolve. It reports supported observations and remaining limitations, not a legal verdict.
 3. If the uncertainty is resolved, the system applies the same deterministic rules and recommendation restrictions.
 4. If it remains unresolved, the system displays `Wymagana weryfikacja przez pracownika` and explains what could not be established.
@@ -263,7 +263,7 @@ flowchart TD
     E -- Yes --> G[Bounded initial assessment]
     G --> H{Assessment provider available?}
     H -- No --> R[Human review required]
-    H -- Yes --> I{Clear supported observations?}
+    H -- Yes --> I{Validated clear shortcut?}
     I -- No --> J[One deeper multimodal analysis]
     J --> K{Resolved and provider available?}
     K -- No --> R
@@ -293,7 +293,7 @@ flowchart TD
 
 The decision model operates only during initial form assessment. It classifies visible observations; it is not the conversational agent and does not decide legal eligibility. A separate multimodal analysis handles at most one escalation. The conversational LLM explains the supplied results, asks questions, and guides the customer through the bounded procedures.
 
-The conversation context contains the complete submitted form, initial observations and probabilities, evidence limitations, any deeper analysis, deterministic findings, applicable procedure content, current review requirement, first assistant message, and full active conversation history. Do not silently discard context and continue as though it were complete; if it can no longer be used, report the limitation and advise a new case or staff review.
+The conversation context contains the complete submitted form fields, initial observations and probabilities, evidence limitations, any deeper analysis, deterministic findings, applicable procedure content and current review requirement. The initial generation has no earlier assistant message; subsequent generations include the first answer once through the full active history. Preserve partial/failed attempts as explicitly incomplete records, not completed assistant facts; retrying a turn must not duplicate its user message. Do not silently discard context and continue as though it were complete; if it can no longer be used, report the limitation and advise a new case or staff review.
 
 ### 11.2 Initial observation contract
 
@@ -305,7 +305,7 @@ The conversation context contains the complete submitted form, initial observati
 | Visible dents | Dents are visible in the pictured areas |
 | Visible scratches | Scratches are visible in the pictured areas |
 
-Each record includes its category, probability from 0 to 1 when supportable, evidence basis, uncertainty or missing evidence, and conflicts. Unavailable evidence is explicitly unknown, not probability zero. The categories are independent observations, so their probabilities need not sum to one. Item relevance is not authentication or proof of an exact model when identifiers are not visible.
+Each record includes its category, probability from 0 to 1 when supportable, evidence basis, uncertainty or missing evidence, and conflicts. Unavailable evidence is explicitly unknown, not probability zero. These are separate observations rather than exclusive outcomes; their probabilities need not sum to one, and statistical independence is not assumed. Item relevance is not authentication or proof of an exact model when identifiers are not visible.
 
 Values of 0.10 and 0.90 are initial evaluation hypotheses, not operational guarantees. Select routing thresholds separately for each observation and model using representative labeled cases, then validate them on separate cases before enabling the clear-observation shortcut. Evaluation must cover all five observations, supported positives and negatives, unavailable evidence, and conflicts. Until validation is complete, every successfully assessed case receives the one deeper multimodal analysis allowed by Flow 4.2; provider failures retain Flow 4.4's review-required behavior. Validated thresholds include their boundary values; probabilities between them are uncertain. Threshold validation does not establish certainty or legal eligibility.
 
@@ -322,6 +322,8 @@ The deeper analysis must explicitly state which uncertainty was resolved and why
 | `Wymagana weryfikacja przez pracownika` | State the unresolved issue, summarize available evidence, and advise customer-initiated contact; explicitly say nothing has been transferred |
 
 Review required takes precedence over a procedural recommendation. Once required, it remains for that case. Later text can clarify facts or refine suggested next steps but cannot lift it. A material correction to the form, new conflicting account, or unsupported new request creates review required if it was not already present. No conversational instruction can override this precedence.
+
+Pending uncertainty during initial assessment is not itself a final review-required status: the one escalation may resolve it before the terminal result. Unresolved evidence, provider failure or a mandatory business/scope rule sets the persistent status. Escalation cannot clear an independently required review reason.
 
 ### 11.4 Allowed and prohibited behavior
 
