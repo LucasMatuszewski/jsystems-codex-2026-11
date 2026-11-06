@@ -1,0 +1,8 @@
+{
+  "available": false,
+  "observations": [],
+  "rawAnswers": {},
+  "model": "openai/gpt-6-luna-decisions",
+  "unavailableReason": "Brak oceny.",
+  "httpStatus": 0
+}

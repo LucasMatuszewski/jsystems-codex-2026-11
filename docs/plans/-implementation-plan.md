@@ -151,7 +151,7 @@ This checklist is the single execution-status tracker selected by the user. Matr
 - [x] T04 - Image preparation; [verification](../qa/first-slice/T04/verification.md), local commit subject `Backend: prepare validated model images`.
 - [x] T05 - Material intake; [component evidence](../qa/first-slice/T05/verification.md), local commit subject `Frontend: add Material case intake`; connected browser acceptance remains T13.
 - [x] T06 - Establish live provider captures; [real capture verification](../qa/first-slice/T06/verification.md), local commit subject `Tests: capture real OpenRouter contracts`.
-- [ ] T07 - Decisions HTTP client.
+- [x] T07 - Decisions HTTP client; [parser/live verification](../qa/first-slice/T07/verification.md), local commit subject `Backend: integrate bounded Decisions assessment`.
 - [ ] T08 - Single multimodal escalation.
 - [x] T09 - Canonical case state; [state/runtime verification](../qa/first-slice/T09/verification.md), local commit subject `Backend: add ephemeral canonical case state`.
 - [ ] T10 - Assessment API integration.
@@ -165,7 +165,7 @@ This checklist is the single execution-status tracker selected by the user. Matr
 
 **Unresolved readiness checks, not invented architecture:** exact installable Angular/SDK/provider peers and actual scripts (T01), usable Playwright access (T01), refreshed procedure-source applicability and safe image review (T02), effective OpenCode restrictions/auth and worker-model access (before first dispatch), and real OpenRouter wire behavior/runtime credentials (T06). Any semantic contradiction becomes a proposed ADR change for review before its dependents continue. No additional product decision is assumed by this draft.
 
-**Next gate:** finish T05 component acceptance and T07-T09 backend modules, then integrate the real assessment/conversation flow. T00-T04/T06 readiness evidence is recorded above. Independent review, final human acceptance and implementation-PR publication gates remain required.
+**Next gate:** finish T08 escalation, then integrate the real assessment/conversation flow. T00-T07/T09 readiness evidence is recorded above. Independent review, final human acceptance and implementation-PR publication gates remain required.
 
 [flows]: ../PRD.md#4-main-flows
 [form]: ../PRD.md#form-and-image

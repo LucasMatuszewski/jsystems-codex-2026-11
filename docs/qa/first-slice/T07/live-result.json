@@ -1,0 +1,194 @@
+{
+  "available": true,
+  "observations": [
+    {
+      "id": "image_usable",
+      "probability": 1,
+      "evidenceStatus": "supported",
+      "basis": {
+        "imageSha256": "f8f958dae49282c1c6ef2a82555f4ee437c428c400c619aac28c3ee48a62431a",
+        "scope": "pictured_areas",
+        "origin": "model_estimate"
+      },
+      "limitations": [
+        "Ocena tylko na podstawie jednego widoku.",
+        "Dokładna tożsamość przedmiotu niezweryfikowana.",
+        "Bez diagnozy funkcjonalnej i przyczynowej.",
+        "Kompresja zdjęcia może ograniczyć widoczność drobnych szczegółów. Brak widocznego uszkodzenia nie potwierdza jego braku."
+      ],
+      "conflicts": [],
+      "modelVersion": "openai/gpt-6-luna-decisions-20261006",
+      "questionVersion": "first-slice-questions-v1",
+      "imagePipelineVersion": "jpeg1568-q85-v1"
+    },
+    {
+      "id": "item_relevant",
+      "probability": 0.99,
+      "evidenceStatus": "supported",
+      "basis": {
+        "imageSha256": "f8f958dae49282c1c6ef2a82555f4ee437c428c400c619aac28c3ee48a62431a",
+        "scope": "pictured_areas",
+        "origin": "model_estimate",
+        "declaredCategory": "Laptop",
+        "declaredModel": "Dokładny model nieznany"
+      },
+      "limitations": [
+        "Ocena tylko na podstawie jednego widoku.",
+        "Dokładna tożsamość przedmiotu niezweryfikowana.",
+        "Bez diagnozy funkcjonalnej i przyczynowej.",
+        "Kompresja zdjęcia może ograniczyć widoczność drobnych szczegółów. Brak widocznego uszkodzenia nie potwierdza jego braku."
+      ],
+      "conflicts": [],
+      "modelVersion": "openai/gpt-6-luna-decisions-20261006",
+      "questionVersion": "first-slice-questions-v1",
+      "imagePipelineVersion": "jpeg1568-q85-v1"
+    },
+    {
+      "id": "visible_cracks",
+      "probability": 0.02,
+      "evidenceStatus": "supported",
+      "basis": {
+        "imageSha256": "f8f958dae49282c1c6ef2a82555f4ee437c428c400c619aac28c3ee48a62431a",
+        "scope": "pictured_areas",
+        "origin": "model_estimate"
+      },
+      "limitations": [
+        "Ocena tylko na podstawie jednego widoku.",
+        "Dokładna tożsamość przedmiotu niezweryfikowana.",
+        "Bez diagnozy funkcjonalnej i przyczynowej.",
+        "Kompresja zdjęcia może ograniczyć widoczność drobnych szczegółów. Brak widocznego uszkodzenia nie potwierdza jego braku."
+      ],
+      "conflicts": [],
+      "modelVersion": "openai/gpt-6-luna-decisions-20261006",
+      "questionVersion": "first-slice-questions-v1",
+      "imagePipelineVersion": "jpeg1568-q85-v1"
+    },
+    {
+      "id": "visible_dents",
+      "probability": null,
+      "evidenceStatus": "insufficient",
+      "basis": {
+        "imageSha256": "f8f958dae49282c1c6ef2a82555f4ee437c428c400c619aac28c3ee48a62431a",
+        "scope": "pictured_areas",
+        "origin": "model_estimate"
+      },
+      "limitations": [
+        "Ocena tylko na podstawie jednego widoku.",
+        "Dokładna tożsamość przedmiotu niezweryfikowana.",
+        "Bez diagnozy funkcjonalnej i przyczynowej.",
+        "Kompresja zdjęcia może ograniczyć widoczność drobnych szczegółów. Brak widocznego uszkodzenia nie potwierdza jego braku."
+      ],
+      "conflicts": [],
+      "modelVersion": "openai/gpt-6-luna-decisions-20261006",
+      "questionVersion": "first-slice-questions-v1",
+      "imagePipelineVersion": "jpeg1568-q85-v1"
+    },
+    {
+      "id": "visible_scratches",
+      "probability": null,
+      "evidenceStatus": "insufficient",
+      "basis": {
+        "imageSha256": "f8f958dae49282c1c6ef2a82555f4ee437c428c400c619aac28c3ee48a62431a",
+        "scope": "pictured_areas",
+        "origin": "model_estimate"
+      },
+      "limitations": [
+        "Ocena tylko na podstawie jednego widoku.",
+        "Dokładna tożsamość przedmiotu niezweryfikowana.",
+        "Bez diagnozy funkcjonalnej i przyczynowej.",
+        "Kompresja zdjęcia może ograniczyć widoczność drobnych szczegółów. Brak widocznego uszkodzenia nie potwierdza jego braku."
+      ],
+      "conflicts": [],
+      "modelVersion": "openai/gpt-6-luna-decisions-20261006",
+      "questionVersion": "first-slice-questions-v1",
+      "imagePipelineVersion": "jpeg1568-q85-v1"
+    }
+  ],
+  "rawAnswers": {
+    "image_usable": {
+      "type": "noul",
+      "noul": 1
+    },
+    "image_usable_evidence": {
+      "type": "choice",
+      "choice": "supported",
+      "probabilities": {
+        "supported": 0.99,
+        "insufficient": 0.01,
+        "conflicting": 0
+      },
+      "confidence": 0.99
+    },
+    "item_relevant": {
+      "type": "noul",
+      "noul": 0.99
+    },
+    "item_relevant_evidence": {
+      "type": "choice",
+      "choice": "supported",
+      "probabilities": {
+        "supported": 0.99,
+        "insufficient": 0.01,
+        "conflicting": 0
+      },
+      "confidence": 0.99
+    },
+    "visible_cracks": {
+      "type": "noul",
+      "noul": 0.02
+    },
+    "visible_cracks_evidence": {
+      "type": "choice",
+      "choice": "supported",
+      "probabilities": {
+        "supported": 0.56,
+        "insufficient": 0.44,
+        "conflicting": 0
+      },
+      "confidence": 0.34
+    },
+    "visible_dents": {
+      "type": "noul",
+      "noul": 0.06
+    },
+    "visible_dents_evidence": {
+      "type": "choice",
+      "choice": "insufficient",
+      "probabilities": {
+        "supported": 0.25,
+        "insufficient": 0.75,
+        "conflicting": 0
+      },
+      "confidence": 0.63
+    },
+    "visible_scratches": {
+      "type": "noul",
+      "noul": 0.09
+    },
+    "visible_scratches_evidence": {
+      "type": "choice",
+      "choice": "insufficient",
+      "probabilities": {
+        "supported": 0.32,
+        "insufficient": 0.68,
+        "conflicting": 0
+      },
+      "confidence": 0.52
+    }
+  },
+  "model": "openai/gpt-6-luna-decisions-20261006",
+  "provider": "OpenAI",
+  "usage": {
+    "input_tokens": 2553,
+    "output_tokens": 0,
+    "cost": 0.0002553,
+    "is_byok": false,
+    "cost_details": {
+      "upstream_inference_cost": 0.0002553,
+      "upstream_inference_prompt_cost": 0.0002553,
+      "upstream_inference_completions_cost": 0
+    }
+  },
+  "requestId": "gen-dec-1793972483-d89fj0dlDLLFRLm8IdiH",
+  "httpStatus": 200
+}

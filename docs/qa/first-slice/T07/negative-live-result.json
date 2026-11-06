@@ -1,0 +1,8 @@
+{
+  "available": false,
+  "observations": [],
+  "rawAnswers": {},
+  "model": "openai/gpt-6-luna-decisions",
+  "unavailableReason": "Nie udało się uzyskać kompletnej oceny wzrokowej. Wymagana jest weryfikacja. Dostawca nie potwierdził wersji modelu; zapisano model wskazany w żądaniu.",
+  "httpStatus": 401
+}
