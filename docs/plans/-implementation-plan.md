@@ -153,7 +153,7 @@ This checklist is the single execution-status tracker selected by the user. Matr
 - [x] T06 - Establish live provider captures; [real capture verification](../qa/first-slice/T06/verification.md), local commit subject `Tests: capture real OpenRouter contracts`.
 - [ ] T07 - Decisions HTTP client.
 - [ ] T08 - Single multimodal escalation.
-- [ ] T09 - Canonical case state.
+- [x] T09 - Canonical case state; [state/runtime verification](../qa/first-slice/T09/verification.md), local commit subject `Backend: add ephemeral canonical case state`.
 - [ ] T10 - Assessment API integration.
 - [ ] T11 - Conversation backend.
 - [ ] T12 - Case/chat presentation.

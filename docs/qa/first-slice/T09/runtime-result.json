@@ -1,0 +1,9 @@
+{
+  "date": "2026-11-06",
+  "isolatedSnapshots": true,
+  "permanentReview": true,
+  "resetAbortedActiveOperation": true,
+  "oldTokenRevoked": true,
+  "startupHTTP": 200,
+  "tokenValuesOmitted": true
+}

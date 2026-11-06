@@ -52,6 +52,12 @@ T04 dimension clarification: prepared-image source width/height describe the
 EXIF-oriented display frame before resize; output width/height describe the
 produced JPEG. The image hash identifies produced bytes.
 
+T09 pending-state clarification: procedural `status` is omitted until an
+assessment is complete. A mandatory review requirement may already be known;
+operation stage/state continues to identify pending work. This is not a new
+terminal recommendation category. Executable application DTOs are in
+`app/backend/src/domain/contracts.ts`, independent of provider SDK types.
+
 ## Intake and assessment transport
 
 `POST /api/assessment`: multipart fields are `CaseInput`, `operationId` and

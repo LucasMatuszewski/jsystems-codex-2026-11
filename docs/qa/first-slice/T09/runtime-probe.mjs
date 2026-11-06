@@ -1,0 +1,22 @@
+import assert from 'node:assert/strict';
+import { writeFile } from 'node:fs/promises';
+import { CaseStore, CaseError } from '../../../../app/backend/dist/cases/store.js';
+import { warsawDate } from '../../../../app/backend/dist/domain/rules.js';
+
+const store = new CaseStore();
+const today = warsawDate(new Date());
+const form = { requestType: 'Zwrot', category: 'Laptop', model: 'Syntetyczny model nieznany', purchaseDate: today, receiptDate: today, buyerType: 'Zakup firmowy', purchaseChannel: 'Na odległość', description: '' };
+const reservation = store.beginAssessment('compiled-case-probe', form, today);
+assert.equal(store.read(reservation.caseToken).review.required, true);
+const copy = store.read(reservation.caseToken);
+copy.form.model = 'Changed snapshot';
+copy.review.required = false;
+assert.equal(store.read(reservation.caseToken).form.model, form.model);
+assert.equal(store.read(reservation.caseToken).review.required, true);
+store.delete(reservation.caseToken);
+assert.equal(reservation.signal.aborted, true);
+assert.throws(() => store.read(reservation.caseToken), error => error instanceof CaseError && error.status === 410);
+const response = await fetch('http://127.0.0.1:3000/api/health');
+assert.equal(response.status, 200);
+await writeFile(new URL('runtime-result.json', import.meta.url), JSON.stringify({ date: today, isolatedSnapshots: true, permanentReview: true, resetAbortedActiveOperation: true, oldTokenRevoked: true, startupHTTP: 200, tokenValuesOmitted: true }, null, 2) + '\n');
+console.log('Compiled case-state runtime probe passed; actual backend HTTP 200.');
