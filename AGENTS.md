@@ -8,6 +8,8 @@ This is only the **base starting repository** for the course; concrete decisions
 
 Chat in Polish unless the user asks for another language. Repository documentation uses English unless another project language is agreed. Use full Polish diacritics and ASCII punctuation in prose. Use only synthetic data; never read or publish secrets, participant data or customer records.
 
+**Course chat publication exception:** The trainer has explicitly authorized the reviewed public Zoom chat archives in `course-materials/zoom-summary-chat-history/`. Preserve their source messages through the `zoom-notes` privacy workflow: protected processing uses the approved direct Azure EU route, originals and identity mappings stay in approved private storage, private messages are excluded, and only cleared text and images may enter Git. Participant abbreviations are pseudonymisation, not anonymity; correlation remains possible. This exception does not establish participant consent or authorize other participant-data publication. Application code, tests and exercises remain synthetic-only.
+
 **Key docs** (created during the course - load only when in doubt):
 - `docs/PRD.md` - product requirements and acceptance criteria
 - `docs/ADR/` - Architecture Decision Records
