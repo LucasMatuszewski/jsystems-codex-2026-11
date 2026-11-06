@@ -10,9 +10,7 @@ build/
 !.env.example
 secrets
 .DS_Store
-.agents/skills/
 .claude/skills/
-skills-lock.json
 __pycache__/
 *.pyc
 .playwright-cli
