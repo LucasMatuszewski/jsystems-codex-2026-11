@@ -1,0 +1,88 @@
+{
+  "model": "openai/gpt-6-luna-decisions-20261006",
+  "answers": {
+    "image_usable": {
+      "type": "noul",
+      "noul": 1
+    },
+    "image_usable_evidence": {
+      "type": "choice",
+      "choice": "supported",
+      "probabilities": {
+        "supported": 0.98,
+        "insufficient": 0.02,
+        "conflicting": 0
+      },
+      "confidence": 0.97
+    },
+    "item_relevant": {
+      "type": "noul",
+      "noul": 0.98
+    },
+    "item_relevant_evidence": {
+      "type": "choice",
+      "choice": "supported",
+      "probabilities": {
+        "supported": 0.99,
+        "insufficient": 0.01,
+        "conflicting": 0
+      },
+      "confidence": 0.99
+    },
+    "visible_cracks": {
+      "type": "noul",
+      "noul": 0
+    },
+    "visible_cracks_evidence": {
+      "type": "choice",
+      "choice": "supported",
+      "probabilities": {
+        "supported": 0.67,
+        "insufficient": 0.33,
+        "conflicting": 0
+      },
+      "confidence": 0.51
+    },
+    "visible_dents": {
+      "type": "noul",
+      "noul": 0.07
+    },
+    "visible_dents_evidence": {
+      "type": "choice",
+      "choice": "insufficient",
+      "probabilities": {
+        "supported": 0.32,
+        "insufficient": 0.68,
+        "conflicting": 0
+      },
+      "confidence": 0.52
+    },
+    "visible_scratches": {
+      "type": "noul",
+      "noul": 0.16
+    },
+    "visible_scratches_evidence": {
+      "type": "choice",
+      "choice": "insufficient",
+      "probabilities": {
+        "supported": 0.38,
+        "insufficient": 0.61,
+        "conflicting": 0.01
+      },
+      "confidence": 0.42
+    }
+  },
+  "usage": {
+    "input_tokens": 2553,
+    "output_tokens": 0,
+    "cost": 0.0002553,
+    "is_byok": false,
+    "cost_details": {
+      "upstream_inference_cost": 0.0002553,
+      "upstream_inference_prompt_cost": 0.0002553,
+      "upstream_inference_completions_cost": 0
+    }
+  },
+  "id": "gen-dec-1793969145-v2U67asOxHY3OBHFwBxA",
+  "provider": "OpenAI"
+}

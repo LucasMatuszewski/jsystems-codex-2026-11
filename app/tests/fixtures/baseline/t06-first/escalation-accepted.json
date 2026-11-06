@@ -1,0 +1,39 @@
+{
+  "observations": [
+    {
+      "id": "image_usable",
+      "finding": "Zdjęcie jest dostatecznie czytelne, aby rozpoznać widoczny przedmiot i ocenić jego widoczne powierzchnie.",
+      "location": "Całe zdjęcie"
+    },
+    {
+      "id": "item_relevant",
+      "finding": "Na zdjęciu widać otwarty laptop Lenovo z ekranem, klawiaturą i obszarem podparcia dłoni.",
+      "location": "Środek kadru"
+    },
+    {
+      "id": "visible_cracks",
+      "finding": "Na widocznych częściach ekranu i obudowy nie widać wyraźnych pęknięć.",
+      "location": "Ekran i widoczna obudowa"
+    }
+  ],
+  "resolvedIssues": [
+    {
+      "id": "image_usable",
+      "evidence": "Laptop i jego główne widoczne części można rozpoznać na zdjęciu."
+    },
+    {
+      "id": "item_relevant",
+      "evidence": "Przedmiot na zdjęciu jest laptopem, zgodnie z podaną kategorią."
+    },
+    {
+      "id": "visible_cracks",
+      "evidence": "Na widocznym ekranie ani obudowie nie dostrzegam wyraźnych pęknięć."
+    }
+  ],
+  "unknowns": [
+    "Kompresja zdjęcia może ograniczać widoczność drobnych szczegółów.",
+    "Nie można pewnie ocenić, czy na widocznych powierzchniach są drobne rysy lub niewielkie wgniecenia.",
+    "Na zdjęciu nie widać wszystkich powierzchni laptopa, więc ich stanu nie można ocenić."
+  ],
+  "contradictions": []
+}

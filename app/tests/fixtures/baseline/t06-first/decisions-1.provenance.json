@@ -1,0 +1,28 @@
+{
+  "at": "2026-11-06T12:45:46.170Z",
+  "target": "https://openrouter.ai/api/alpha/decisions",
+  "status": 200,
+  "statusText": "OK",
+  "headers": {
+    "access-control-allow-origin": "*",
+    "access-control-expose-headers": "X-Generation-Id,x-openrouter-error-origin,x-openrouter-error-tool,X-Provider-Name,request-id,cf-ray",
+    "alt-svc": "h3=\":443\"; ma=86400",
+    "cf-ray": "a56432790bd63452-WAW",
+    "connection": "keep-alive",
+    "content-encoding": "gzip",
+    "content-type": "application/json",
+    "date": "Fri, 06 Nov 2026 12:45:46 GMT",
+    "permissions-policy": "payment=(self \"https://checkout.stripe.com\" \"https://connect-js.stripe.com\" \"https://js.stripe.com\" \"https://*.js.stripe.com\" \"https://hooks.stripe.com\")",
+    "referrer-policy": "no-referrer, strict-origin-when-cross-origin",
+    "server": "cloudflare",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-generation-id": "gen-dec-1793969145-v2U67asOxHY3OBHFwBxA",
+    "x-provider-name": "OpenAI"
+  },
+  "headerLatencyMs": 819.3204000000001,
+  "completeBody": true,
+  "bytes": 1340,
+  "sha256": "4b9243f01b5d75b18d56db5b911b8d35bc2be6b2e9e6eac5f6460f704950a36b",
+  "bodyRepresentation": "Complete fetch-decoded response bytes; credentials excluded."
+}

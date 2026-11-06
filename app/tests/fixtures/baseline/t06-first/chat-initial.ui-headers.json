@@ -1,0 +1,160 @@
+{
+  "status": 200,
+  "headers": {
+    "cache-control": "no-cache",
+    "connection": "keep-alive",
+    "content-type": "text/event-stream",
+    "x-accel-buffering": "no",
+    "x-vercel-ai-ui-message-stream": "v1"
+  },
+  "arrivals": [
+    {
+      "elapsedMs": 12.503600000000006,
+      "bytes": 24
+    },
+    {
+      "elapsedMs": 780.8371999999999,
+      "bytes": 29
+    },
+    {
+      "elapsedMs": 782.3284999999996,
+      "bytes": 72
+    },
+    {
+      "elapsedMs": 782.8613000000005,
+      "bytes": 86
+    },
+    {
+      "elapsedMs": 783.2656999999999,
+      "bytes": 84
+    },
+    {
+      "elapsedMs": 786.0141999999996,
+      "bytes": 85
+    },
+    {
+      "elapsedMs": 797.5583000000006,
+      "bytes": 89
+    },
+    {
+      "elapsedMs": 798.0142999999989,
+      "bytes": 84
+    },
+    {
+      "elapsedMs": 800.9557000000004,
+      "bytes": 84
+    },
+    {
+      "elapsedMs": 803.2070999999996,
+      "bytes": 86
+    },
+    {
+      "elapsedMs": 832.702299999999,
+      "bytes": 86
+    },
+    {
+      "elapsedMs": 834.1276999999991,
+      "bytes": 84
+    },
+    {
+      "elapsedMs": 834.8328999999994,
+      "bytes": 85
+    },
+    {
+      "elapsedMs": 837.7096000000001,
+      "bytes": 91
+    },
+    {
+      "elapsedMs": 860.2173000000003,
+      "bytes": 90
+    },
+    {
+      "elapsedMs": 861.034599999999,
+      "bytes": 85
+    },
+    {
+      "elapsedMs": 866.1679999999997,
+      "bytes": 84
+    },
+    {
+      "elapsedMs": 866.3943999999992,
+      "bytes": 90
+    },
+    {
+      "elapsedMs": 932.4501999999993,
+      "bytes": 84
+    },
+    {
+      "elapsedMs": 933.8320999999996,
+      "bytes": 89
+    },
+    {
+      "elapsedMs": 934.2152999999998,
+      "bytes": 92
+    },
+    {
+      "elapsedMs": 937.1149999999998,
+      "bytes": 96
+    },
+    {
+      "elapsedMs": 992.1985000000004,
+      "bytes": 88
+    },
+    {
+      "elapsedMs": 992.3994000000002,
+      "bytes": 91
+    },
+    {
+      "elapsedMs": 1009.2533000000003,
+      "bytes": 90
+    },
+    {
+      "elapsedMs": 1010.2440999999999,
+      "bytes": 87
+    },
+    {
+      "elapsedMs": 1108.1895000000004,
+      "bytes": 94
+    },
+    {
+      "elapsedMs": 1110.8225000000002,
+      "bytes": 93
+    },
+    {
+      "elapsedMs": 1111.3011999999999,
+      "bytes": 95
+    },
+    {
+      "elapsedMs": 1111.4670999999998,
+      "bytes": 95
+    },
+    {
+      "elapsedMs": 1328.179399999999,
+      "bytes": 91
+    },
+    {
+      "elapsedMs": 1332.7875999999997,
+      "bytes": 91
+    },
+    {
+      "elapsedMs": 1333.0028999999995,
+      "bytes": 95
+    },
+    {
+      "elapsedMs": 1366.873599999999,
+      "bytes": 70
+    },
+    {
+      "elapsedMs": 1368.9565000000002,
+      "bytes": 30
+    },
+    {
+      "elapsedMs": 1373.3302000000003,
+      "bytes": 47
+    },
+    {
+      "elapsedMs": 1373.989599999999,
+      "bytes": 14
+    }
+  ]
+}

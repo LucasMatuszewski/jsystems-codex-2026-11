@@ -1,0 +1,124 @@
+{
+  "status": 200,
+  "headers": {
+    "cache-control": "no-cache",
+    "connection": "keep-alive",
+    "content-type": "text/event-stream",
+    "x-accel-buffering": "no",
+    "x-vercel-ai-ui-message-stream": "v1"
+  },
+  "arrivals": [
+    {
+      "elapsedMs": 1.9454999999998108,
+      "bytes": 24
+    },
+    {
+      "elapsedMs": 762.497800000001,
+      "bytes": 29
+    },
+    {
+      "elapsedMs": 762.7444000000014,
+      "bytes": 72
+    },
+    {
+      "elapsedMs": 762.8375000000015,
+      "bytes": 84
+    },
+    {
+      "elapsedMs": 762.8973999999998,
+      "bytes": 86
+    },
+    {
+      "elapsedMs": 796.5591999999997,
+      "bytes": 86
+    },
+    {
+      "elapsedMs": 796.8631000000005,
+      "bytes": 85
+    },
+    {
+      "elapsedMs": 797.0649000000012,
+      "bytes": 86
+    },
+    {
+      "elapsedMs": 797.1303000000007,
+      "bytes": 86
+    },
+    {
+      "elapsedMs": 827.2433000000001,
+      "bytes": 85
+    },
+    {
+      "elapsedMs": 828.3824999999997,
+      "bytes": 92
+    },
+    {
+      "elapsedMs": 829.3324000000011,
+      "bytes": 85
+    },
+    {
+      "elapsedMs": 829.4268000000011,
+      "bytes": 87
+    },
+    {
+      "elapsedMs": 918.5613000000012,
+      "bytes": 89
+    },
+    {
+      "elapsedMs": 918.7795000000006,
+      "bytes": 87
+    },
+    {
+      "elapsedMs": 918.9472999999998,
+      "bytes": 87
+    },
+    {
+      "elapsedMs": 919.0380000000005,
+      "bytes": 84
+    },
+    {
+      "elapsedMs": 982.3876,
+      "bytes": 86
+    },
+    {
+      "elapsedMs": 983.1707999999999,
+      "bytes": 88
+    },
+    {
+      "elapsedMs": 984.5115999999998,
+      "bytes": 90
+    },
+    {
+      "elapsedMs": 984.6142,
+      "bytes": 91
+    },
+    {
+      "elapsedMs": 1141.6173,
+      "bytes": 88
+    },
+    {
+      "elapsedMs": 1142.6875,
+      "bytes": 89
+    },
+    {
+      "elapsedMs": 1143.7250000000004,
+      "bytes": 84
+    },
+    {
+      "elapsedMs": 1152.496500000001,
+      "bytes": 70
+    },
+    {
+      "elapsedMs": 1152.9647000000004,
+      "bytes": 30
+    },
+    {
+      "elapsedMs": 1153.6196,
+      "bytes": 47
+    },
+    {
+      "elapsedMs": 1154.0200000000004,
+      "bytes": 14
+    }
+  ]
+}

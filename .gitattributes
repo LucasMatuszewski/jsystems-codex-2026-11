@@ -4,3 +4,7 @@
 *.py text eol=lf
 *.toml text eol=lf
 *.yml text eol=lf
+
+# Preserve exact provider/UI stream bytes, including SSE blank lines and padding.
+app/tests/fixtures/**/*.body -text -diff -merge
+app/tests/fixtures/**/*.ui-sse -text -diff -merge

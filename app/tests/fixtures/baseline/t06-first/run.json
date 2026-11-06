@@ -1,0 +1,38 @@
+{
+  "date": "2026-11-06T12:45:58.467Z",
+  "accepted": true,
+  "records": [
+    {
+      "stage": "decisions",
+      "passed": true
+    },
+    {
+      "stage": "escalation",
+      "passed": true
+    },
+    {
+      "stage": "chat-initial",
+      "passed": true
+    },
+    {
+      "stage": "chat-followup",
+      "passed": true
+    }
+  ],
+  "captureFailures": [],
+  "models": {
+    "conversation": "openai/gpt-6-luna",
+    "decisions": "openai/gpt-6-luna-decisions"
+  },
+  "packages": {
+    "ai": "7.0.163",
+    "angularAdapter": "3.0.163",
+    "openrouterProvider": "3.1.0",
+    "sharp": "0.35.5"
+  },
+  "credentialHandling": "Node root .env loader; Authorization and credential headers omitted, key values scrubbed.",
+  "limitations": [
+    "Wire probe only, not application E2E or manual acceptance.",
+    "No routing thresholds validated."
+  ]
+}

@@ -150,7 +150,7 @@ This checklist is the single execution-status tracker selected by the user. Matr
 - [x] T03 - Deterministic rules; [verification](../qa/first-slice/T03/verification.md), local commit subject `Backend: add deterministic case rules`.
 - [x] T04 - Image preparation; [verification](../qa/first-slice/T04/verification.md), local commit subject `Backend: prepare validated model images`.
 - [ ] T05 - Material intake.
-- [ ] T06 - Establish live provider captures.
+- [x] T06 - Establish live provider captures; [real capture verification](../qa/first-slice/T06/verification.md), local commit subject `Tests: capture real OpenRouter contracts`.
 - [ ] T07 - Decisions HTTP client.
 - [ ] T08 - Single multimodal escalation.
 - [ ] T09 - Canonical case state.
@@ -165,7 +165,7 @@ This checklist is the single execution-status tracker selected by the user. Matr
 
 **Unresolved readiness checks, not invented architecture:** exact installable Angular/SDK/provider peers and actual scripts (T01), usable Playwright access (T01), refreshed procedure-source applicability and safe image review (T02), effective OpenCode restrictions/auth and worker-model access (before first dispatch), and real OpenRouter wire behavior/runtime credentials (T06). Any semantic contradiction becomes a proposed ADR change for review before its dependents continue. No additional product decision is assumed by this draft.
 
-**Next gate:** execute T01 readiness checks against the frozen contracts. Implementation is authorized. Independent review, final human acceptance and implementation-PR publication gates remain required.
+**Next gate:** finish T05 component acceptance and T07-T09 backend modules, then integrate the real assessment/conversation flow. T00-T04/T06 readiness evidence is recorded above. Independent review, final human acceptance and implementation-PR publication gates remain required.
 
 [flows]: ../PRD.md#4-main-flows
 [form]: ../PRD.md#form-and-image

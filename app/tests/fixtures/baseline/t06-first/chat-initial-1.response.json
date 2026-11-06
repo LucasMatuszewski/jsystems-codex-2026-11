@@ -1,0 +1,24 @@
+{
+  "at": "2026-11-06T12:45:56.631Z",
+  "target": "https://openrouter.ai/api/v1/chat/completions",
+  "status": 200,
+  "statusText": "OK",
+  "headers": {
+    "access-control-allow-origin": "*",
+    "access-control-expose-headers": "X-Generation-Id,x-openrouter-error-origin,x-openrouter-error-tool,X-Provider-Name,request-id,cf-ray",
+    "alt-svc": "h3=\":443\"; ma=86400",
+    "cache-control": "no-cache",
+    "cf-ray": "a56432ba4cc53452-WAW",
+    "connection": "keep-alive",
+    "content-type": "text/event-stream",
+    "date": "Fri, 06 Nov 2026 12:45:56 GMT",
+    "permissions-policy": "payment=(self \"https://checkout.stripe.com\" \"https://connect-js.stripe.com\" \"https://js.stripe.com\" \"https://*.js.stripe.com\" \"https://hooks.stripe.com\")",
+    "referrer-policy": "no-referrer, strict-origin-when-cross-origin",
+    "server": "cloudflare",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-generation-id": "gen-1793969156-A5yVFrFjNWTwVv4xzszg",
+    "x-openrouter-release": "api;a530118a-d967-4f46-9f91-3f8a63fe6773"
+  },
+  "headerLatencyMs": 692.395199999999
+}

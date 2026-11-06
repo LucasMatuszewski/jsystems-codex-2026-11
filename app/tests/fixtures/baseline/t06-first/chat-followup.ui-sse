@@ -1,0 +1,56 @@
+data: {"type":"start"}
+
+data: {"type":"start-step"}
+
+data: {"type":"text-start","id":"gen-1793969157-fi3zVTAVOb0PtCVew6wb"}
+
+data: {"type":"text-delta","id":"gen-1793969157-fi3zVTAVOb0PtCVew6wb","delta":"P"}
+
+data: {"type":"text-delta","id":"gen-1793969157-fi3zVTAVOb0PtCVew6wb","delta":"oda"}
+
+data: {"type":"text-delta","id":"gen-1793969157-fi3zVTAVOb0PtCVew6wb","delta":"łe"}
+
+data: {"type":"text-delta","id":"gen-1793969157-fi3zVTAVOb0PtCVew6wb","delta":"ś"}
+
+data: {"type":"text-delta","id":"gen-1793969157-fi3zVTAVOb0PtCVew6wb","delta":" zw"}
+
+data: {"type":"text-delta","id":"gen-1793969157-fi3zVTAVOb0PtCVew6wb","delta":"rot"}
+
+data: {"type":"text-delta","id":"gen-1793969157-fi3zVTAVOb0PtCVew6wb","delta":" i"}
+
+data: {"type":"text-delta","id":"gen-1793969157-fi3zVTAVOb0PtCVew6wb","delta":" kategori"}
+
+data: {"type":"text-delta","id":"gen-1793969157-fi3zVTAVOb0PtCVew6wb","delta":"ę"}
+
+data: {"type":"text-delta","id":"gen-1793969157-fi3zVTAVOb0PtCVew6wb","delta":" „"}
+
+data: {"type":"text-delta","id":"gen-1793969157-fi3zVTAVOb0PtCVew6wb","delta":"Laptop"}
+
+data: {"type":"text-delta","id":"gen-1793969157-fi3zVTAVOb0PtCVew6wb","delta":"”."}
+
+data: {"type":"text-delta","id":"gen-1793969157-fi3zVTAVOb0PtCVew6wb","delta":" Nie"}
+
+data: {"type":"text-delta","id":"gen-1793969157-fi3zVTAVOb0PtCVew6wb","delta":","}
+
+data: {"type":"text-delta","id":"gen-1793969157-fi3zVTAVOb0PtCVew6wb","delta":" ta"}
+
+data: {"type":"text-delta","id":"gen-1793969157-fi3zVTAVOb0PtCVew6wb","delta":" rozm"}
+
+data: {"type":"text-delta","id":"gen-1793969157-fi3zVTAVOb0PtCVew6wb","delta":"owa nic"}
+
+data: {"type":"text-delta","id":"gen-1793969157-fi3zVTAVOb0PtCVew6wb","delta":"zego nie"}
+
+data: {"type":"text-delta","id":"gen-1793969157-fi3zVTAVOb0PtCVew6wb","delta":" zgł"}
+
+data: {"type":"text-delta","id":"gen-1793969157-fi3zVTAVOb0PtCVew6wb","delta":"osiła"}
+
+data: {"type":"text-delta","id":"gen-1793969157-fi3zVTAVOb0PtCVew6wb","delta":"."}
+
+data: {"type":"text-end","id":"gen-1793969157-fi3zVTAVOb0PtCVew6wb"}
+
+data: {"type":"finish-step"}
+
+data: {"type":"finish","finishReason":"stop"}
+
+data: [DONE]
+
