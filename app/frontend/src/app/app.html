@@ -1,4 +1,4 @@
-<header><div class="brand"><img src="/brand/logo.svg" alt="x-kom"><span>Pomoc w sprawie sprzętu</span></div></header>
+<header><div class="brand"><img src="/brand/logo.svg" alt="x-kom"><span>Pomoc w sprawie sprzętu</span><button mat-stroked-button type="button" class="new-case" (click)="openReset()">Nowa sprawa</button></div></header>
 <main>
   <h1>Pomoc w zwrocie i reklamacji</h1>
   <aside class="notice" aria-label="Informacje o demonstracji">
@@ -6,8 +6,56 @@
     <p>Wstępna pomoc nie składa zwrotu ani reklamacji i nie przekazuje sprawy pracownikowi.</p>
     <p>Odświeżenie strony usuwa sesję. Nie podawaj danych klientów ani numerów zamówień.</p>
   </aside>
-  <mat-card>
-    <h2>Twoja sprawa</h2>
-    <p>Przygotuj opis sprawy i jedno zdjęcie urządzenia. Objawy niewidoczne na zdjęciu możesz opisać słowami.</p>
-  </mat-card>
+
+  @if (sessionError(); as message) {
+    <p class="session-error" data-testid="session-error" role="alert">{{ message }}</p>
+  }
+
+  @if (caseView(); as current) {
+    <div class="workspace">
+      <app-case-panel [value]="current" [preview]="previewUrl()" />
+      @if (chatInstance(); as chat) {
+        @defer (on immediate) {
+          <app-chat-view
+            [chat]="chat"
+            [value]="current"
+            [intakeId]="intakeId()"
+            (sent)="onFollowUp($event)"
+            (summary)="onSummary()"
+            (retry)="onRetry()"
+            (stopped)="onStopped()"
+          />
+        } @placeholder {
+          <section class="chat-unavailable" role="status"><h2>Rozmowa</h2><p>Przygotowywanie rozmowy...</p></section>
+        }
+      } @else if (chatLoading()) {
+        <section class="chat-unavailable" role="status"><h2>Rozmowa</h2><p>Przygotowywanie rozmowy...</p></section>
+      } @else {
+        <section class="chat-unavailable">
+          <h2>Rozmowa</h2>
+          <p>Rozmowa jest niedostępna. Możesz przejrzeć ocenę albo rozpocząć nową sprawę.</p>
+        </section>
+      }
+    </div>
+  } @else {
+    <mat-card>
+      <h2>Twoja sprawa</h2>
+      <p>Przygotuj opis sprawy i jedno zdjęcie urządzenia. Objawy niewidoczne na zdjęciu możesz opisać słowami.</p>
+    </mat-card>
+
+    @for (generation of [intakeGeneration()]; track generation) {
+      @defer (on immediate) {
+        <app-intake [busy]="processing()" [serverErrors]="serverFieldErrors()" (submitted)="onSubmit($event)" />
+      } @placeholder {
+        <p>Przygotowywanie formularza...</p>
+      }
+    }
+
+    @if (processing()) {
+      <div class="progress" data-testid="assessment-progress" role="status" aria-live="polite">
+        <mat-spinner diameter="36" />
+        <p>{{ stageLabel() }}</p>
+      </div>
+    }
+  }
 </main>

@@ -1,0 +1,30 @@
+<section aria-labelledby="chat-heading">
+  <h2 id="chat-heading">Rozmowa o sprawie</h2>
+  <p class="muted">Wstępne wskazówki. Wiadomości nie składają zwrotu ani reklamacji.</p>
+  <div class="messages" aria-label="Historia rozmowy" aria-live="polite" aria-relevant="additions text">
+    @for (message of visibleMessages; track message.id) {
+      @if (!(message.role === 'user' && message.id === intakeId())) {
+        <article [class.user]="message.role === 'user'">
+          <strong>{{ message.role === 'assistant' ? 'Asystent' : 'Ty' }}</strong>
+          @for (part of message.parts; track $index) { @if (part.type === 'text') { <p class="message-text">{{ part.text }}</p> } }
+        </article>
+      }
+    }
+    @for (attempt of incomplete; track attempt.id) {
+      <details class="incomplete" open>
+        <summary>Niepełna odpowiedź - {{ incompleteLabel(attempt.status) }}</summary>
+        <p class="message-text">{{ attempt.text || 'Nie otrzymano tekstu. Wynik oceny jest dostępny w panelu sprawy.' }}</p>
+      </details>
+    }
+  </div>
+  @if (chat().error) { <p role="alert">Nie udało się wygenerować odpowiedzi. Wynik oceny pozostaje dostępny.</p> }
+  @if (busy) { <p role="status">{{ chat().status === 'streaming' ? 'Asystent odpowiada...' : 'Oczekiwanie na odpowiedź...' }}</p><button mat-stroked-button type="button" (click)="stopped.emit()">Przerwij odpowiedź</button> }
+  @if (canRetry) { <button mat-stroked-button type="button" (click)="retry.emit()">Ponów odpowiedź</button> }
+  <form (ngSubmit)="send()">
+    <mat-form-field appearance="outline">
+      <mat-label>Wiadomość o tej sprawie</mat-label>
+      <textarea matInput name="message" [(ngModel)]="draft" rows="3" [disabled]="busy" placeholder="Nie podawaj danych osobowych ani numerów zamówień."></textarea>
+    </mat-form-field>
+    <div class="actions"><button mat-flat-button type="submit" [disabled]="busy || !draft.trim()">Wyślij</button><button mat-stroked-button type="button" [disabled]="busy" (click)="summary.emit()">Podsumuj sprawę</button></div>
+  </form>
+</section>

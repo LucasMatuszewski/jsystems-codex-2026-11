@@ -1,0 +1,70 @@
+{
+  "capturedAt": "2026-11-06T15:49:20.273Z",
+  "setup": "Real valid multipart using approved laptop photo; isolated invalid-credential server, no mocks",
+  "calls": [
+    {
+      "request": {
+        "method": "GET",
+        "url": "http://127.0.0.1:3001/api/case",
+        "headers": {
+          "x-case-token": "[redacted-case-token]"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "cache-control": "no-store",
+          "connection": "keep-alive",
+          "content-length": "2638",
+          "content-type": "application/json; charset=utf-8",
+          "date": "Fri, 06 Nov 2026 15:49:20 GMT",
+          "etag": "W/\"a4e-+TYMaYISMBKEVXyBvgP4/UELW5Y\"",
+          "keep-alive": "timeout=5"
+        },
+        "body": "{\"caseToken\":\"[redacted-case-token]\",\"form\":{\"requestType\":\"Zwrot\",\"category\":\"Laptop\",\"model\":\"Model syntetyczny\",\"purchaseDate\":\"2026-11-06\",\"receiptDate\":\"2026-11-06\",\"buyerType\":\"Konsument\",\"purchaseChannel\":\"Na odległość\",\"description\":\"\"},\"assessmentDate\":\"2026-11-06\",\"findings\":{\"assessmentDate\":\"2026-11-06\",\"daysSinceReceipt\":0,\"withinStatutoryBaseline\":true,\"withinCompanyBaseline\":true,\"withinComplaintBaseline\":true,\"sourceVersion\":\"2026-11-06\",\"sourceIds\":[\"S1\",\"S2\",\"S4\"],\"limitations\":[\"To bazowe wyliczenia kalendarzowe i wstępna wskazówka, nie rozstrzygnięcie uprawnień ani wygaśnięcia praw.\",\"Nietypowe dostawy, wyjątki i niepewne przedłużenia terminów wymagają weryfikacji.\",\"Data oceny nie jest datą zgłoszenia zwrotu ani reklamacji. Rozmowa niczego nie zgłasza.\"]},\"review\":{\"required\":true,\"reasons\":[{\"code\":\"initial_unavailable\",\"message\":\"Wstępna ocena zdjęcia jest niedostępna. Potrzebna weryfikacja pracownika.\",\"origin\":\"assessment\"}]},\"turns\":[],\"operation\":{\"id\":\"b7f3e75e-f384-4f66-9c88-4634ea543876\",\"kind\":\"assessment\",\"stage\":\"ready_for_chat\",\"state\":\"completed\"},\"assessment\":{\"decision\":{\"available\":false,\"observations\":[],\"model\":\"openai/gpt-6-luna-decisions\",\"unavailableReason\":\"Nie udało się uzyskać kompletnej oceny wzrokowej. Wymagana jest weryfikacja. Dostawca nie potwierdził wersji modelu; zapisano model wskazany w żądaniu.\",\"httpStatus\":401},\"escalation\":null,\"image\":{\"mime\":\"image/jpeg\",\"sourceWidth\":863,\"sourceHeight\":843,\"width\":863,\"height\":843,\"inputBytes\":165974,\"outputBytes\":212297,\"sha256\":\"f8f958dae49282c1c6ef2a82555f4ee437c428c400c619aac28c3ee48a62431a\",\"pipelineVersion\":\"jpeg1568-q85-v1\",\"limitations\":[\"Kompresja zdjęcia może ograniczyć widoczność drobnych szczegółów. Brak widocznego uszkodzenia nie potwierdza jego braku.\"]},\"findings\":{\"assessmentDate\":\"2026-11-06\",\"daysSinceReceipt\":0,\"withinStatutoryBaseline\":true,\"withinCompanyBaseline\":true,\"withinComplaintBaseline\":true,\"sourceVersion\":\"2026-11-06\",\"sourceIds\":[\"S1\",\"S2\",\"S4\"],\"limitations\":[\"To bazowe wyliczenia kalendarzowe i wstępna wskazówka, nie rozstrzygnięcie uprawnień ani wygaśnięcia praw.\",\"Nietypowe dostawy, wyjątki i niepewne przedłużenia terminów wymagają weryfikacji.\",\"Data oceny nie jest datą zgłoszenia zwrotu ani reklamacji. Rozmowa niczego nie zgłasza.\"]},\"sourceVersions\":{\"version\":\"2026-11-06\",\"procedureSha256\":\"217f34d3e2c55becfdaa1a4db4de262bd02e9f4d1fe5677f1305643650ec5f6b\",\"instructionSha256\":\"c468cfa5ddf616098162ae16b440d5e476eba7652dca0855c19acab30f312438\"}},\"status\":\"review_required\"}"
+      }
+    },
+    {
+      "request": {
+        "method": "DELETE",
+        "url": "http://127.0.0.1:3001/api/case",
+        "headers": {
+          "x-case-token": "[redacted-case-token]"
+        }
+      },
+      "response": {
+        "status": 204,
+        "headers": {
+          "cache-control": "no-store",
+          "connection": "keep-alive",
+          "date": "Fri, 06 Nov 2026 15:49:20 GMT",
+          "etag": "W/\"a-bAsFyilMr4Ra1hIU5PyoyFRunpI\"",
+          "keep-alive": "timeout=5"
+        },
+        "body": ""
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "url": "http://127.0.0.1:3001/api/case",
+        "headers": {
+          "x-case-token": "synthetic-unknown-case"
+        }
+      },
+      "response": {
+        "status": 410,
+        "headers": {
+          "cache-control": "no-store",
+          "connection": "keep-alive",
+          "content-length": "72",
+          "content-type": "application/json; charset=utf-8",
+          "date": "Fri, 06 Nov 2026 15:49:20 GMT",
+          "etag": "W/\"48-Ah4CnWzOwVEzraIT/wR4sggFY44\"",
+          "keep-alive": "timeout=5"
+        },
+        "body": "{\"error\":\"Ta sprawa nie jest już dostępna. Rozpocznij nową sprawę.\"}"
+      }
+    }
+  ]
+}

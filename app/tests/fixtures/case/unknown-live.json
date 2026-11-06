@@ -1,0 +1,23 @@
+{
+  "capturedAt": "2026-11-06T15:14:03.311Z",
+  "target": "http://127.0.0.1:3000/api/case",
+  "request": {
+    "method": "GET",
+    "headers": {
+      "x-case-token": "synthetic-unknown-case"
+    }
+  },
+  "response": {
+    "status": 410,
+    "headers": {
+      "cache-control": "no-store",
+      "connection": "keep-alive",
+      "content-length": "72",
+      "content-type": "application/json; charset=utf-8",
+      "date": "Fri, 06 Nov 2026 15:14:03 GMT",
+      "etag": "W/\"48-Ah4CnWzOwVEzraIT/wR4sggFY44\"",
+      "keep-alive": "timeout=5"
+    },
+    "body": "{\"error\":\"Ta sprawa nie jest już dostępna. Rozpocznij nową sprawę.\"}"
+  }
+}

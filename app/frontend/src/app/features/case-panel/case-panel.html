@@ -1,0 +1,60 @@
+<mat-card aria-labelledby="case-heading">
+  <h2 id="case-heading">Wynik wstępnej oceny</h2>
+  <div class="status" [class.review]="value().review.required" role="status" aria-live="polite">
+    <strong>{{ statusLabel }}</strong>
+    @for (reason of value().review.reasons; track reason.code) { <p>{{ reason.message }}</p> }
+    <p>To zalecenie, nie przekazanie sprawy. Rozmowa nie składa zgłoszenia i nie uruchamia zwrotu pieniędzy ani odrzucenia roszczenia.</p>
+  </div>
+  <details>
+    <summary>Dane przekazane w formularzu</summary>
+    <dl>
+      <dt>Rodzaj sprawy</dt><dd>{{ value().form['requestType'] }}</dd>
+      <dt>Sprzęt</dt><dd>{{ value().form['category'] }}: {{ value().form['model'] }}</dd>
+      <dt>Data zakupu / otrzymania</dt><dd>{{ value().form['purchaseDate'] }} / {{ value().form['receiptDate'] }}</dd>
+      <dt>Kupujący / kanał zakupu</dt><dd>{{ value().form['buyerType'] }} / {{ value().form['purchaseChannel'] }}</dd>
+      <dt>Opis klienta</dt><dd>{{ value().form['description'] || 'Nie podano (dla zwrotu opis jest opcjonalny).' }}</dd>
+    </dl>
+  </details>
+  @if (preview()) { <img class="preview" [src]="preview()" alt="Oryginalne zdjęcie przekazane do oceny"> }
+  @if (value().assessment; as assessment) {
+    <h3>Obserwacje zdjęcia</h3>
+    <p>Wartości to szacunki modelu p(tak) dla poszczególnych pytań, nie pewność prawna ani wspólna ocena sprzętu. Dotyczą wyłącznie widocznych obszarów. Dokładny model, przyczyna i działanie nie są zweryfikowane.</p>
+    @if (!assessment.decision.available) { <p role="alert">{{ assessment.decision.unavailableReason || 'Wstępna ocena zdjęcia jest niedostępna.' }}</p> }
+    @for (observation of assessment.decision.observations; track observation.id) {
+      <div class="observation">
+        <strong>{{ labels[observation.id] }}</strong>
+        <p>Szacunek p(tak): {{ probability(observation.probability) }}. {{ evidence(observation.evidenceStatus) }}.</p>
+        @for (limit of observation.limitations; track $index) { <p class="muted">{{ limit }}</p> }
+        @for (conflict of observation.conflicts; track $index) { <p>{{ conflict }}</p> }
+      </div>
+    }
+    <h3>Jedna pogłębiona ocena</h3>
+    @if (assessment.escalation; as escalation) {
+      @if (!escalation.available) { <p>{{ escalation.unavailableReason || 'Pogłębiona ocena jest niedostępna.' }}</p> }
+      @for (item of escalation.observations; track $index) { <p><strong>{{ labels[item.id] }}:</strong> {{ item.finding }} <span class="muted">Miejsce w kadrze: {{ item.location }}</span></p> }
+      @for (unknown of escalation.unknowns; track $index) { <p><strong>Niepewność:</strong> {{ unknown }}</p> }
+      @for (conflict of escalation.contradictions; track $index) { <p><strong>Sprzeczność:</strong> {{ conflict }}</p> }
+    } @else { <p>Nie wykonano pogłębionej oceny, ponieważ wstępna ocena była niedostępna.</p> }
+    <details>
+      <summary>Przygotowanie zdjęcia i wersje oceny</summary>
+      <p>Oryginał: {{ assessment.image.sourceWidth }} x {{ assessment.image.sourceHeight }} px, {{ assessment.image.inputBytes }} bajtów. JPEG do oceny: {{ assessment.image.width }} x {{ assessment.image.height }} px, {{ assessment.image.outputBytes }} bajtów.</p>
+      @for (limit of assessment.image.limitations; track $index) { <p>{{ limit }}</p> }
+      <p>Model wstępny: {{ assessment.decision.model }}. Model pogłębiony: {{ assessment.escalation?.model || 'nie wywołano' }}. Przetwarzanie: {{ assessment.image.pipelineVersion }}. Źródła: {{ assessment.sourceVersions.version }}.</p>
+      <p>Skrót bez pogłębionej oceny jest wyłączony - brak zatwierdzonego profilu walidacyjnego.</p>
+    </details>
+  }
+  <h3>Wyliczenia i źródła procedury</h3>
+  <p>Data oceny (Warszawa): {{ value().assessmentDate }}. Od otrzymania: {{ value().findings.daysSinceReceipt }} dni kalendarzowych, z pominięciem dnia otrzymania.</p>
+  @if (value().form['requestType'] === 'Zwrot') {
+    <p>Bazowe 14 dni ustawowe: {{ value().findings.withinStatutoryBaseline ? 'w zakresie bazowym' : 'poza zakresem bazowym' }}. Bazowe 15 dni x-kom: {{ value().findings.withinCompanyBaseline ? 'w zakresie bazowym' : 'poza zakresem bazowym' }}. Dotyczy odpowiednich zakupów konsumenckich na odległość, z zastrzeżeniem wyjątków i wersji warunków.</p>
+  } @else { <p>Bazowe 2 lata od dostarczenia: {{ value().findings.withinComplaintBaseline ? 'w zakresie bazowym' : 'poza zakresem bazowym' }}. Sama data nie rozstrzyga odpowiedzialności ani właściwego środka ochrony.</p> }
+  @for (limit of value().findings.limitations; track $index) { <p class="muted">{{ limit }}</p> }
+  <p>Źródła sprawdzone 2026-11-06:</p>
+  <ul>
+    <li><a href="https://www.x-kom.pl/regulamin" target="_blank" rel="noopener noreferrer">S1: Regulamin x-kom</a>, I.1, {{ value().form['requestType'] === 'Zwrot' ? 'VIII.49-55' : 'IX.58-60' }}; wersja od 2026-03-05.</li>
+    @if (value().form['requestType'] === 'Zwrot') {
+      <li><a href="https://prawakonsumenta.uokik.gov.pl/prawo-odstapienia-od-umowy/terminy-odstapienie/" target="_blank" rel="noopener noreferrer">S2: UOKiK, Terminy</a></li>
+      <li><a href="https://prawakonsumenta.uokik.gov.pl/prawo-odstapienia-od-umowy/koszty/" target="_blank" rel="noopener noreferrer">S4: UOKiK, Koszty</a></li>
+    } @else { <li><a href="https://prawakonsumenta.uokik.gov.pl/reklamacja/niezgodnosc/" target="_blank" rel="noopener noreferrer">S3: UOKiK, Niezgodność towaru z umową</a></li> }
+  </ul>
+</mat-card>

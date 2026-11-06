@@ -1,0 +1,11 @@
+mat-card { padding: 24px; background: white; border: 1px solid #ddd; border-radius: 12px; box-shadow: none; }
+h2 { margin: 0 0 16px; font-size: 20px; } h3 { margin-top: 24px; font-size: 18px; }
+p, dd, li { overflow-wrap: anywhere; line-height: 1.55; }
+.status { padding: 16px; border-left: 3px solid #0082fa; background: #f2f7fc; }
+.review { border-color: #a15c00; background: #fff8e8; }
+.status p:last-child { margin-bottom: 0; }
+details { margin: 20px 0; } summary { cursor: pointer; font-weight: 600; padding: 8px 0; }
+dt { margin-top: 12px; color: #666; } dd { margin: 4px 0; white-space: pre-wrap; }
+.preview { display: block; max-width: 100%; max-height: 240px; object-fit: contain; margin: 16px auto; border-radius: 8px; }
+.observation { border-bottom: 1px solid #ebebeb; padding: 12px 0; }.observation p { margin: 8px 0; }
+.muted { color: #555; font-size: 14px; } a { color: #0066b8; }
