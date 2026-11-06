@@ -1,214 +1,245 @@
-# ADR-000: Hardware Service Decision Copilot - Main Architecture
+# ADR-000: Hardware Service Copilot - Angular Architecture
 
-**Date:** 2026-11-05
-**Status:** Proposed; initialization and implementation await plan approval.
-**PRD:** [Product requirements](../PRD.md)
-**Related:** [Decision assessment](001-decision-assessment.md), [Streaming chat and UI](002-streaming-chat-ui.md)
+**Date:** 2026-11-06
 
-## 1. Overview
+**Status:** Proposed; implementation starts only after the implementation plan is approved
 
-Use one local Next.js application for the form, bounded image assessment, optional image-analysis escalation, and customer chat. The user selected `openai/gpt-6-luna-decisions` for initial assessment and `openai/gpt-6-luna` for conversation and escalation, both through OpenRouter. No database, authentication, staff handoff, or claims integration participates in this PoC.
+**PRD:** [Hardware Service Decision Copilot](../PRD.md)
 
-The user confirmed five observations, local Windows operation, npm, and real provider endpoints for application use, manual QA and E2E. Only unit and integration tests may mock external models. The PRD's 10%/90% values are now **candidate thresholds pending representative-case evaluation**, as agreed during ADR clarification. AC-16 through AC-18 describe candidate boundaries, not measured accuracy. Record an evaluated profile and reconcile those numerical PRD criteria before enabling a different shortcut profile.
+**Related:** [Decision assessment](001-decision-assessment.md), [Angular UI and streaming](002-angular-streaming-ui.md)
+
+## 1. Scope and agreed constraints
+
+Build the PRD's local Windows PoC: one image and form, bounded assessment, optional multimodal escalation, procedural recommendation or persistent employee-review advice, then Polish text chat. Angular and Angular Material, all five observations, local deployment with one Node.js backend, and the testing policy below are user decisions. No database, authentication, staff integration, RAG, or public deployment is required.
+
+The application remains an empty scaffold during this task. These ADRs define the recommended architecture; they neither implement provider integrations nor initialize a template. Research was delegated to Luna agents; the coordinating agent selected the approach. Documentation checks are not live integration evidence.
 
 ## 2. Technology Documentation References
 
-Context7 was accessed through its MCP server, `https://mcp.context7.com/mcp`: `resolve-library-id` preceded `query-docs`. The configured tool alias was unavailable; the same MCP tools worked over JSON-RPC. The CLI attempt failed because its default npm cache was not writable. No application packages were installed. Context7 was the first documentation source for Tailwind and the other researched UI libraries.
+Context7 IDs below were resolved before queries. Version-specific SDK queries used `/vercel/ai/ai_7.0.0`; official migration pages were consulted to resolve stale indexed examples.
 
-| Technology | Verified Context7 ID | Primary reference / purpose |
+| Technology | Verified Context7 ID / official primary source | Purpose |
 |---|---|---|
-| AI SDK | `/vercel/ai`; baseline `/vercel/ai/ai_7.0.0` | [Docs](https://ai-sdk.dev/docs), [repository](https://github.com/vercel/ai), [v7 migration](https://ai-sdk.dev/docs/migration-guides/migration-guide-7-0); current base ID covers later additions |
-| Next.js | `/vercel/next.js`; also queried `/vercel/next.js/v16.2.9` | [Initialization CLI](https://nextjs.org/docs/app/api-reference/cli/create-next-app), [environment loading](https://nextjs.org/docs/app/guides/environment-variables) |
-| Tailwind CSS | `/tailwindlabs/tailwindcss.com` | [Framework setup](https://tailwindcss.com/docs/installation/framework-guides/nextjs); v4 CSS theme and PostCSS |
-| shadcn/ui | `/shadcn-ui/ui` | [AI Elements migration](https://ui.shadcn.com/docs/ai-elements), [Chat pattern](https://ui.shadcn.com/docs/ai-elements/base/chat) |
-| AI Elements | `/vercel/ai-elements` | [Project notice](https://elements.ai-sdk.dev/); successor components selected |
-| assistant-ui | `/assistant-ui/assistant-ui` | [SDK v7 integration](https://www.assistant-ui.com/docs/runtimes/ai-sdk/v7); alternative evaluated |
-| OpenRouter | `/websites/openrouter_ai`, `/openrouterteam/docs` | [Overview](https://openrouter.ai/docs), [AI SDK provider](https://openrouter.ai/docs/guides/community/vercel-ai-sdk) |
-| Sharp | `/lovell/sharp/v0.35.5` | [Operations](https://sharp.pixelplumbing.com/api-operation/); server image preparation |
-| Vitest | `/vitest-dev/vitest` | [Testing](https://vitest.dev/guide/); unit/integration runner |
-| Playwright | Official documentation | [Test runner](https://playwright.dev/docs/intro); actual-stack E2E/manual evidence |
+| Vercel AI SDK | `/vercel/ai`, `/vercel/ai/ai_7.0.0`; [docs](https://ai-sdk.dev/docs), [repository](https://github.com/vercel/ai) | Streaming, Angular transport, multimodal generation, evaluation |
+| Angular | `/websites/angular_dev`; [compatibility](https://angular.dev/reference/versions), [CLI](https://angular.dev/cli/new) | Standalone browser application and bootstrap |
+| Angular Material | `/angular/components`; [theming](https://material.angular.dev/guide/theming) | Native Angular components and brand theme |
+| OpenRouter AI SDK provider | `/openrouterteam/ai-sdk-provider`; [repository](https://github.com/OpenRouterTeam/ai-sdk-provider), [integration guide](https://openrouter.ai/docs/guides/community/vercel-ai-sdk) | Selected chat adapter; evaluated Decisions adapter |
+| OpenRouter TypeScript SDK | `/openrouterteam/typescript-sdk`; [repository](https://github.com/OpenRouterTeam/typescript-sdk) | Evaluated alternative Decisions client |
+| OpenRouter APIs | [docs](https://openrouter.ai/docs), [Responses overview](https://openrouter.ai/docs/api_reference/responses/overview) | Provider contracts and alternative API |
+| Express | [AI SDK Express example](https://ai-sdk.dev/cookbook/api-servers/express), [Express 5 reference](https://expressjs.com/en/api/) | One TypeScript backend with Node response streaming |
+| UI alternatives | `/hassantayyab/angular-ai-kit`; source comparisons in [ADR-002](002-angular-streaming-ui.md#3-starter-and-component-comparison) | Evidence for starter selection |
 
-Registry metadata checked on 2026-11-05: Next.js/create-next-app 16.4.5, `ai` 7.0.163, `@ai-sdk/react` 4.0.167, `@openrouter/ai-sdk-provider` 3.1.0, Tailwind 4.3.4, Sharp 0.35.5, Zod 4.6.7, Vitest 5.1.0, and Playwright 1.64.1. These are research snapshots, not an installed/tested set. Sources include [AI SDK](https://registry.npmjs.org/ai/latest), [React SDK](https://registry.npmjs.org/@ai-sdk/react/latest), [provider](https://registry.npmjs.org/@openrouter/ai-sdk-provider/latest), and [Next.js](https://registry.npmjs.org/next/latest). Freeze compatible versions in the implementation lockfile; package version numbers need not match.
+Sources were checked on 2026-11-06. They establish documented interfaces, not observed responses from this application. Before scaffolding, verify the exact published dependency metadata and freeze a compatible lockfile.
 
-## 3. System Architecture
+## 3. Architecture and repository shape
 
-### Stack and runtime
+Use an Angular SPA and one Express backend. During development Angular's `/api` proxy targets the backend; the browser never calls OpenRouter directly. The compiled SPA can be served by the same backend for local built-application QA. No SSR or separate model worker is needed.
 
-One Node.js process, one origin, Next.js App Router route handlers, TypeScript strict mode. Bind the server to loopback. The machine has Node 24.22.1 and npm 11.19.1; the researched AI SDK/provider require Node >=22 and Vitest supports Node 24. Use Node runtime for Sharp and process-local state. Edge, serverless and multi-process deployment are outside this decision.
-
-| Layer | Selection | Reason |
+| Layer | Selected technology | Reason |
 |---|---|---|
-| Application | Next.js 16, React, strict TypeScript | Requested stack; same-origin UI/backend |
-| Chat | AI SDK 7, React SDK 4, OpenRouter provider 3 | Supported UI message streaming |
-| Initial assessment | Native server HTTP Decisions client with Zod validation | Explicit alpha protocol; ADR-001 explains adapter research |
-| Escalation | AI SDK `generateText` structured output with Luna | One bounded image review |
-| UI | Current shadcn/ui chat components, Tailwind 4 | Streaming-aware presentation and existing design tokens |
-| Images | Sharp | Decode, orient, strip metadata, resize/compress |
-| State | Process memory and tab-local React state | No persistence infrastructure |
-| Verification | Vitest, React Testing Library, Playwright | Deterministic tests and real-stack checks |
+| Runtime | Node.js 24, at least 24.15; ESM and TypeScript | Meets Angular 22's documented runtime range and provider's Node 22 minimum |
+| Frontend | Angular 22, Angular Material/CDK 22, SCSS | User constraint; standalone components and signals |
+| Chat state/transport | `@ai-sdk/angular` 3 with `ai` 7 | First-party Angular binding to the SDK UI message stream |
+| Backend | Express 5 and AI SDK 7 | Official Angular/Express streaming example; one process |
+| Chat provider | `@openrouter/ai-sdk-provider` 3.1.0 | Documented SDK 7 language-model adapter; verify the installed chat path |
+| Decisions transport | Node's server-side `fetch` plus Zod validation | Uses the documented raw endpoint without an unreleased SDK adapter fix |
+| Conversation/escalation | `openai/gpt-6-luna` | Documented text/image model; one selected LLM for both responsibilities |
+| Initial assessment | `openai/gpt-6-luna-decisions` | Separate typed multimodal assessment; see ADR-001 |
+| Validation | Zod 4 compatible with the provider's published peer range | Validate form, normalized observations and escalation output at boundaries |
+| State | Backend process memory and browser memory | Matches no recovery/history requirement |
 
-### Repository and initialization
+Research found published `ai` 7.0.163, `@ai-sdk/angular` 3.0.163 and OpenRouter provider 3.1.0. The provider manifest declares `ai:^7.0.0`, but its released Decisions adapter is incompatible with newer state/image contracts; see ADR-001. The current SDK feature is `experimental_decide`, renamed from `experimental_evaluate` in 7.0.128. Exact published Angular adapter peer metadata could not be retrieved, so the apparent release pairing is a candidate tuple, not a verified installation. Angular's current table supports Angular 22 with TypeScript 6.0.x. The Vercel example's Angular 21/TypeScript 6 combination conflicts with that table and must not be copied blindly. [Provider release source](https://github.com/OpenRouterTeam/ai-sdk-provider/tree/3.1.0), [SDK rename](https://github.com/vercel/ai/releases/tag/ai%407.0.128), [Angular adapter package](https://www.npmjs.com/package/%40ai-sdk/angular), [Angular compatibility](https://angular.dev/reference/versions).
 
-The actual `app/` contains only a course README, no package manifest. After plan approval, temporarily preserve `app/README.md` outside the target folder and confirm no other conflicting files appeared. From the repository root run the following initialization command, **recorded here but not executed**:
+Use npm workspaces under `app/`, with one lockfile:
 
-`npx create-next-app@16.4.5 app --ts --eslint --tailwind --app --src-dir --use-npm --import-alias "@/*" --disable-git --no-agents-md --yes`
+- `app/frontend/`: Angular intake, assessment progress, case panel and chat.
+- `app/backend/`: Express routes, domain rules, image preparation, model clients, in-memory cases, scenario instructions and attributed procedure documents.
+- `app/e2e/`: real-stack Playwright tests.
+- `app/tests/fixtures/`: sanitized real provider captures and separate provenance; deliberate mutations are labeled as such.
+- `docs/qa/`: manual QA screenshots, live smoke evidence and evaluation findings without credentials.
 
-Recheck that version's flags before running it. Restore the course README, merging actual generated start/build commands. Inspect generated scripts, strict mode, dependencies and options instead of trusting saved CLI preferences. Do not create a nested Git repository or overwrite outer agent guidance. Add only selected dependencies/components and required test infrastructure after scaffolding.
+Keep the existing repository-level design assets and [design guidance](../design-guidelines.md). Do not add a monorepo framework, database, Redis, resumable-stream infrastructure or React runtime.
 
-Future layout: `app/src/app/` for pages/routes; `app/src/components/` for form/chat/case panel and UI primitives; `app/src/server/` for providers, image preparation, case store, procedures and scenario instructions; `app/src/domain/` for shared validation and pure rules. Tests stay near affected modules, with actual-stack tests in `app/e2e/`. Existing repository assets/design guidance remain the visual source. No generic workflow engine or plugin architecture is required.
+## 4. Modules and dependency direction
 
-## 4. Module Structure & Dependencies
+The Angular application depends on application HTTP contracts, Material primitives and the Angular SDK adapter. It has no provider dependency or secret configuration.
 
-| Module | Responsibility and dependencies |
-|---|---|
-| Form/chat shell | Inputs, stage display, case projection; depends on shared contracts/UI/local routes |
-| Assessment coordinator | Validation -> image preparation -> Decisions -> optional escalation -> policy rules; owns orchestration |
-| Decisions client | Exact HTTP request/response only; native HTTP, validation and server key |
-| Escalation client | One structured image analysis; AI SDK/OpenRouter Luna |
-| Policy/routing domain | Dates, supported scope, probability interpretation, sticky review; no network |
-| Chat route | Trusted context/history and streaming; case store, scenario sources, Luna |
-| Case store | Ephemeral data, operation lock, deduplication and cleanup; Node memory |
+Express routes depend on the assessment coordinator, chat coordinator and case store. The assessment coordinator calls image preparation, the Decisions client, pure policy/routing functions and, if required, the escalation client. The chat coordinator reads immutable assessment data, current review state, versioned scenario/procedure content and canonical history before calling the conversational model.
 
-Routes depend on coordinators/clients/domain; domain imports neither routes nor UI. Client components never import server configuration or provider modules. Apply a `server-only` boundary to those modules.
+Provider adapters return validated application records. Pure domain functions depend on neither Express nor SDK message types. The case store is authoritative for assessment, history, operation ownership and review state. No circular dependency or provider call from a domain rule is allowed.
 
-## 5. Data Models and Lifetime
+## 5. Data models and lifetime
 
-| Entity | Fields and relationships | Lifetime |
+| Record | Required contents | Lifetime |
 |---|---|---|
-| Intake | PRD enums, model text, purchase/receipt calendar dates, buyer/channel, description | Browser form, then immutable server case |
-| Prepared image | JPEG bytes, dimensions, orientation/compression profile, hash | Until assessment/escalation completes; then discard server bytes |
-| Observation | Five fixed IDs, typed probabilities, result/unknown, source stage, reason codes | Inside assessment |
-| Assessment | Observations, escalation, deterministic findings, policy version, status/reasons, assessment date | Server case and read-only browser projection |
-| Case | Random 256-bit capability, intake, assessment, full accepted history, lock, last activity | One process, no disk/database |
-| Turn | Server ID, role, text parts, completion state, request ID | Canonical history plus UI projection |
+| Submitted case | Opaque case token, immutable form, assessment date in Europe/Warsaw, image preparation metadata | Backend memory for active case |
+| Prepared image | Decoded/normalized bytes, actual MIME, dimensions, processing limitations | Until assessment/escalation finishes; then discard server bytes |
+| Observation | One of five IDs, supported probability or null, evidence status/basis, limitations, conflicts, model/question/profile versions | Immutable initial result |
+| Assessment | Five observations or explicit unavailable stage, optional single escalation result, code-derived procedure findings and source versions | Immutable result, separate from later chat clarifications |
+| Review state | Required boolean plus additive reasons | Monotone: false may become true; true never becomes false |
+| Chat turn | Server-recognized IDs, user content, assistant parts, complete/partial/failed status, attempt identity | Backend canonical history; mirrored for UI rendering |
+| Operation | Case, operation ID, stage, pending/completed/failed state, active cancellation handle | Prevents overlapping submissions and chat sends |
 
-Case capabilities remain in tab memory, never URLs, cookies, browser storage or logs. Refresh opens an empty UI; orphaned server cases expire after 30 minutes of inactivity. Restart clears all cases. Limit this local PoC to 20 active cases; return capacity error instead of silently evicting one. These are resource choices, not performance promises. Reset deletes the case, cancels work, and revokes the browser image preview URL.
+Keep form fields and image preview in browser memory. No localStorage, IndexedDB, recovery cookie or database history. A refresh starts empty and loses the browser's case token; confirmed reset deletes the server case and clears browser state. Browser-close deletion is best effort, so unreachable text records may remain in backend memory until cleanup or process restart; do not claim guaranteed immediate server deletion on tab close. No old case is automatically reattached.
 
-## 6. API / Interface Contracts
+Use high-entropy per-case tokens held only in tab memory and same-origin requests. This provides local case isolation, not a production authentication system. Do not accept a browser-supplied assessment, review flag, provider model, instructions or assistant transcript as authoritative.
 
-| Local boundary | Input | Output/errors |
+## 6. Application API contracts
+
+These are local application endpoints. OpenRouter's chat and Decisions endpoints remain separate outgoing integrations.
+
+| Endpoint | Input | Output and failure contract |
 |---|---|---|
-| `POST /api/assessment` | Multipart PRD intake, one image, client request ID | NDJSON stage events and one terminal case/assessment result; validation errors 400/413/415/422 before streaming |
-| `POST /api/chat` | Case capability, operation `initial`/`message`/`retry`, request ID, current user text when applicable | AI SDK UI message SSE; 400 malformed, 404 unknown, 410 expired, 409 concurrency, 413 oversized, 502/504 pre-stream provider failure |
-| `DELETE /api/case` | Case capability | Idempotent 204 after cancellation/deletion |
+| `POST /api/assessment` | Multipart PRD form, exactly one image, client operation ID | Validate fields and decode image before any model call. Invalid input: HTTP 422 with field errors, no cleared browser fields. Valid input: application NDJSON stream of stage events and exactly one terminal result containing case token and structured assessment. Provider failures are terminal review-required results, not fabricated observations. |
+| `POST /api/chat` | JSON containing case token, operation/turn/attempt IDs and intake, follow-up, summary or retry intent | Standard AI SDK UI message SSE response. Backend loads canonical form/result/history; validates the newly submitted user message. Initial generation needs no invented greeting. Follow-ups cannot invoke Decisions or image escalation. |
+| `GET /api/case` | Case token in a header | Current structured assessment, review reasons and operation state; no raw image, keys or prompts. Used to reconcile review state after a chat tool changes it or a stream fails. |
+| `DELETE /api/case` | Case token after reset confirmation | Cancel active work, delete case, return 204. Browser clears form, preview, tokens and history. |
 
-After assessment headers are sent, provider failures produce a terminal result event with review required and an unavailable stage, not fabricated success or another HTTP status. Disconnect cancels unfinished work; partial results cannot authorize chat. Assessment NDJSON is never the chat protocol.
+NDJSON assessment records have a type (`stage`, `result`, `error`), case/operation identity where available, and a typed payload. Stages are validation, image preparation, initial assessment, optional escalation, and ready for chat. The terminal result is required even when a provider fails. An interrupted connection with no terminal record is an incomplete operation, never success. Browser `fetch` consumes this multipart response; it is not the AI SDK chat transport or the OpenRouter Decisions protocol.
 
-Validate Origin when present, restrict requests to same origin, avoid permissive CORS and bind to localhost. A capability is a local PoC boundary, not production authentication. Accept only user text/delta on chat requests. Reject client system prompts, policies, assistant history, tools, provider URLs and replacements for observations/status. Reconstruct full context on the server. No customer-service notification or external business mutation endpoint exists.
+Unknown/removed case: 410; overlapping operation: 409; unsupported input/media: 422; oversized upload: 413. Validate before streaming headers when possible. After streaming begins, use the documented stream's error event and retain already completed state. Never put provider exception bodies, credentials or instructions into customer errors. The UI renders concise Polish errors and the affected stage.
 
-## 7. Environment Variables
+The server enforces one active operation per case, not just disabled buttons. Repeated operation IDs return/reconcile existing state rather than repeating assessment. Cancelled or interrupted assessment is not retried automatically; the customer explicitly starts a new case. Chat retry retries only the failed generation attempt against its saved input.
 
-Start from [.env.example](../../.env.example), retaining blank values. The implementation copies its contract to the application-level example; the human supplies real configuration through the local Next.js environment loader. Do not inspect denied secret files.
+## 7. Configuration and initialization
 
-| Variable | Required for live use | Public example / purpose |
+The existing root [.env.example](../../.env.example) is the configuration contract. Keep actual values local and server-only; use Node's environment-file loader or process environment for the backend. Angular receives no provider key or provider configuration file. Do not require Vercel AI Gateway credentials.
+
+| Variable | Required for | Example non-secret value |
 |---|---|---|
-| `OPENROUTER_API_KEY` | Yes | Blank in committed files; server-only key shared by both protocols |
-| `LLM_MODEL` | Yes | `openai/gpt-6-luna`; chat and escalation |
-| `DECISION_MODEL` | Yes | `openai/gpt-6-luna-decisions`; separate initial assessment |
+| `OPENROUTER_API_KEY` | Live capture, smoke, E2E/manual QA and provider calls | Empty placeholder only |
+| `LLM_MODEL` | Conversation and the one optional multimodal escalation | `openai/gpt-6-luna` |
+| `DECISION_MODEL` | Initial Decisions request | `openai/gpt-6-luna-decisions` |
 
-Server constants identify chat `https://openrouter.ai/api/v1/chat/completions` and Decisions `https://openrouter.ai/api/alpha/decisions`. No second key, public key variable, mock mode, database URL or configurable proxy is required. Missing values produce explicit configuration errors, never silent model substitution. Do not use `NEXT_PUBLIC_` or expose key-bearing configuration through a client bundle. Log only stage, duration, model/request IDs and sanitized errors, not keys, request bodies or image data.
+Use the provider's documented default chat base URL `https://openrouter.ai/api/v1` and the dedicated HTTP client's Decisions endpoint `https://openrouter.ai/api/alpha/decisions`. No additional environment variable is necessary for this PoC.
 
-## 8. Technical Decisions
+Initialization is deferred until plan approval. From repository root, the proposed Angular initialization command is `npx @angular/cli@22.2.6 new frontend --directory app/frontend --standalone --routing --style=scss --package-manager=npm --ssr=false --skip-git --skip-install --defaults`. After workspace metadata/dependencies are prepared and verified, from `app/frontend` use `npm exec -- ng add @angular/material@22.2.5` and select the custom brand theme. Keep `app/` scaffold-only; create no package manifest or app code during this ADR task. [CLI options](https://angular.dev/cli/new), [Material installation](https://github.com/angular/components/blob/main/guides/getting-started.md).
 
-### Minimal starter rather than a complete chatbot product
+The bootstrap source is the [official Angular quickstart](https://ai-sdk.dev/docs/getting-started/angular) and [Angular/Express example](https://github.com/vercel/ai/tree/main/examples/angular). Reconcile its workspace-only package references with the verified published tuple rather than cloning a monorepo subdirectory and assuming it installs independently. Detailed starter comparison is in ADR-002.
 
-**Status:** Proposed. **Date:** 2026-11-05.
-**Context:** The application is empty and excludes accounts/history.
-**Decision:** Use create-next-app plus selected UI components.
-**Rejected alternatives:** [chat-sdk.dev](https://chat-sdk.dev/) currently describes a cross-platform bot SDK, not the web template described in the brief. The actual [Vercel chatbot](https://github.com/vercel/chatbot) is a complete application whose extra features/dependencies would require scope reduction. Neither supplies this bounded assessment pipeline.
-**Consequences:** (+) Small scope and explicit boundaries. (-) The form/case panel require custom work.
-**Review trigger:** Authentication, saved conversations or multi-platform bots become approved requirements.
+## 8. Decisions and alternatives
 
-### Separate conversation and Decisions protocols
+### Separate SDK chat from direct Decisions HTTP
 
-**Status:** Proposed. **Date:** 2026-11-05.
-**Context:** Typed assessment and live conversation require different payloads.
-**Decision:** AI SDK/OpenRouter for chat; an isolated Decisions client for initial assessment.
-**Rejected alternatives:** Routing a decision model through chat; using [Responses](https://openrouter.ai/docs/api_reference/responses/overview) as a universal API. Responses is a genuine ordinary-LLM alternative, but does not replace Decisions or supply the browser UI protocol. Its documented interface is stateless and rejects `store: true` and non-null `previous_response_id`.
-**Consequences:** (+) Explicit, verifiable protocols. (-) Both need separate live checks.
-**Review trigger:** A pinned current adapter proves the exact multimodal contract with less integration code.
+**Status:** Proposed. **Date:** 2026-11-06. **Context:** The product requires streamed conversation and a different typed initial assessment. **Decision:** Use the provider's language model for `streamText`/multimodal generation and native server HTTP for Decisions, with separate clients, schemas and tests. **Rejected alternatives:** The released Decisions adapter lacks the newer SDK state/image fix; installing unreleased `main` is unnecessary risk for this PoC. The native OpenRouter TypeScript SDK adds another dependency for a single bounded endpoint. Responses introduces another conversation API without replacing Decisions. **Consequences:** One shared server key; a small explicit alpha-protocol parser to maintain, with pinning/captures/migration checks. **Review trigger:** A published, verified compatible Decisions adapter or a breaking API change. [Released adapter](https://github.com/OpenRouterTeam/ai-sdk-provider/blob/3.1.0/src/evaluation/index.ts), [fix PR](https://github.com/OpenRouterTeam/ai-sdk-provider/pull/577).
 
-### Ephemeral authoritative state
+### Evaluate the supplied alternatives against the actual product
 
-**Status:** Proposed. **Date:** 2026-11-05.
-**Context:** The browser must not clear a required review flag by editing JSON.
-**Decision:** Keep assessments/full accepted history in server memory, referenced by a tab-local capability.
-**Rejected alternatives:** Unsigned client-owned assessments; database or signed-state machinery for a local-only slice.
-**Consequences:** (+) No persistence infrastructure. (-) Restart loses state; multiple processes unsupported.
-**Review trigger:** Deployment, multiple processes or session recovery is requested.
+| Option | Research finding | Fit / selected use |
+|---|---|---|
+| Vercel AI SDK Core + Angular UI adapter | Framework-independent server APIs and first-party signal-based Angular chat | Selected; provides the required stream and model boundaries |
+| `chat-sdk.dev` | Current site describes multi-platform bots with channel adapters/state, rather than the web app named in the prompt | No platform bot or external messaging in this PRD |
+| Vercel Chatbot web template | React/Next.js, shadcn/Tailwind, Auth.js, Postgres and Blob; default AI Gateway | Useful reference, excessive migration/removal for this Angular, ephemeral PoC |
+| OpenRouter Responses | Separate `/api/v1/responses`; stateless, rejects `store:true` and non-null `previous_response_id` | No benefit requiring a second conversation API; does not replace `/api/alpha/decisions` |
+| OpenRouter AI SDK provider | SDK 7 chat; released Decisions adapter lags current SDK image/state contract | Selected for conversation/escalation; direct HTTP for Decisions |
+
+The original Chat SDK web template has been renamed [Chatbot](https://github.com/vercel/chatbot); the [new Chat SDK](https://chat-sdk.dev/) has a different purpose, as explained in [Vercel's announcement](https://vercel.com/blog/introducing-chatbot). The Responses [overview](https://openrouter.ai/docs/api_reference/responses/overview) and [reference](https://openrouter.ai/docs/api/api-reference/responses/create-responses) have an ambiguous stability signal: the generated operation name contains beta while the overview does not promise stability. No Responses method was verified in the selected provider's public documentation. Revisit if Responses-only capabilities become a product requirement.
 
 ## 9. Diagrams
 
-### Architecture
+### Components and trust boundaries
 
 ```mermaid
 flowchart LR
-    Browser[Form, case panel, chat] --> Routes[Local Next.js Node routes]
-    Routes --> Store[Ephemeral cases and history]
-    Routes --> Images[Sharp]
-    Images --> Decisions[Separate Decisions client]
-    Decisions --> D[OpenRouter alpha / Luna Decisions]
-    Routes --> Rules[Pure policy and routing]
-    Routes --> SDK[AI SDK / OpenRouter provider]
-    SDK --> L[OpenRouter chat / Luna]
-    Sources[Versioned procedures] --> Rules
-    Sources --> Routes
+    subgraph Browser[Angular browser - no provider keys]
+        Form[Material intake and preview]
+        Panel[Case panel and review status]
+        Chat[Angular SDK Chat and Material UI]
+    end
+    subgraph Backend[Single Express process]
+        Assess[Assessment coordinator]
+        Rules[Pure rules and routing]
+        Cases[Ephemeral canonical case store]
+        Conversation[Conversation coordinator]
+        Sources[Versioned procedure and scenario documents]
+    end
+    Form -->|Multipart and progress NDJSON| Assess
+    Assess --> Rules
+    Assess --> Cases
+    Assess -->|Structured result| Panel
+    Chat <-->|AI SDK UI message SSE| Conversation
+    Conversation --> Cases
+    Conversation --> Sources
+    Assess -->|Direct server HTTP| Decisions[OpenRouter alpha Decisions]
+    Assess -->|At most one escalation| LLM[OpenRouter conversational Luna]
+    Conversation --> LLM
 ```
 
-### Data flow
+### Evidence and status flow
 
 ```mermaid
 flowchart TD
-    Intake[Validated synthetic case] --> Image[Compressed image]
-    Image --> Observations[Five typed observations]
-    Observations --> Gate{Clear under evaluated profile?}
-    Gate -- No --> Escalation[One Luna image analysis]
-    Gate -- Yes --> Rules[Code-owned policy checks]
-    Escalation --> Rules
-    Rules --> Result[Recommendation or sticky review status]
-    Result --> Context[Case, sources and full history]
-    Context --> Stream[Live explanation stream]
-    Stream --> Customer[Customer; no external business action]
+    Input[Form and one image] --> Validate[Validate and decode]
+    Validate --> Prepare[Orient and compress image]
+    Prepare --> Decision[Five observations and evidence checks]
+    Decision --> Gate{Validated clear shortcut?}
+    Gate -->|Yes| Rules[Code policy and date checks]
+    Gate -->|No| Escalate[One multimodal escalation]
+    Escalate -->|Resolved with supported evidence| Rules
+    Escalate -->|Unresolved or failed| Review[Review required]
+    Decision -->|Provider unavailable| Review
+    Rules -->|Supported consumer procedure| Advice[Preliminary guidance]
+    Rules -->|Business or unsupported facts| Review
+    Review --> Context[Trusted case and full history]
+    Advice --> Context
+    Context --> Chat[Stream explanation and follow-ups]
+    Chat -->|Correction or conflict| Review
 ```
 
-### Reset and stale state
+### Initial assessment and failure
 
 ```mermaid
 sequenceDiagram
-    participant B as Browser
-    participant S as Next.js
-    participant M as Memory
-    B->>S: DELETE case after confirmation
-    S->>M: Cancel work and delete context
-    S-->>B: 204
-    B->>B: Clear form, preview and chat
-    Note over B,M: Refresh opens empty UI; restart clears memory
-    B->>S: Stale case capability
-    S-->>B: Context unavailable; start new case
+    actor Customer
+    participant UI as Angular
+    participant BE as Express
+    participant D as Decisions
+    participant L as Luna
+    Customer->>UI: Submit synthetic form and image
+    UI->>BE: Multipart assessment
+    BE-->>UI: Stage events
+    BE->>BE: Validate, prepare image, retain immutable input
+    BE->>D: Separate typed Decisions request
+    alt Valid result
+        D-->>BE: Typed probabilities and evidence categories
+        opt Uncertain or shortcut not validated
+            BE->>L: One bounded multimodal analysis
+            L-->>BE: Supported observations or unresolved issues
+        end
+        BE->>BE: Code rules and final status
+    else Provider failure
+        D-->>BE: Error or invalid response
+        BE->>BE: Review required; no invented observations
+    end
+    BE-->>UI: Terminal structured result and case token
+    UI->>BE: Start first assistant generation
+    alt Chat available
+        BE->>L: Trusted case context and scenario instructions
+        L-->>BE: Text stream
+        BE-->>UI: UI message SSE
+    else Chat unavailable
+        BE-->>UI: Explicit error; retain structured fallback
+    end
 ```
 
-## 10. Testing Strategy
+## 10. Testing and acceptance
 
-Use specification-based Red -> Green -> Refactor. This documentation task does not initialize the application or execute future tests.
+Write tests before production changes and show Red -> Green -> Refactor. Pure domain tests may construct synthetic form/evidence inputs from the PRD. Before creating or refreshing any provider/endpoint mock, make a fresh accepted call to the real endpoint with safe synthetic data. Save the accepted request, complete status/headers/body or raw stream, model/service version, date and target, with credentials removed. Then derive mocks from those captures. A missing safe capture blocks mock creation; documentation or an older fixture alone is insufficient. AI SDK test models/helpers may replay captured behavior after this prerequisite.
 
-| Layer | Scope | Provider behavior |
-|---|---|---|
-| Unit | Validation, dates, probability routing, review precedence | Vitest; dependencies mocked as needed |
-| Integration | Real local route/image/policy/store/stream pipeline | Only external model boundaries mocked |
-| Provider smoke | Exact image Decisions contract, Luna escalation and live stream | Real OpenRouter endpoints |
-| E2E | Form -> assessment -> first response -> follow-up -> reset | Playwright, real stack/providers, no interception |
-| Manual QA | Actual browser flow, Polish text, streaming, errors and brand | Real providers and screenshots |
+| Layer | Required verification |
+|---|---|
+| Unit | Pure rules, schemas and state machine; capture-derived model doubles only after real requests |
+| Integration | Real app modules/routes/store/image handling; only external model APIs may use fresh capture-derived mocks |
+| Live smoke | Separate real Decisions request, real multimodal escalation and real streamed chat/follow-up |
+| E2E | Playwright against the real app and real OpenRouter endpoints; no mocks, response interception or provider stubs |
+| Manual QA | Actual Chrome/Edge flow, real endpoints/models, screenshots and console/network review |
 
-Capture a fresh authorized synthetic Decisions response before deriving its response mocks. Record sanitized status, headers, body, date, endpoint and model version in test-only evidence. No replay or fixture fallback enters application code. SDK conversational unit/integration tests use its documented synthetic model helpers. Pure local tests can precede provider capture.
+Do not impose spend, test-call-count or evaluation-sample caps. The PRD's one initial assessment and at most one escalation per case remain functional requirements. Cancellation, duplicate prevention and actual provider timeouts still need correct handling. Unavailable credentials/services block live verification; they never justify replacing it with a fixture and calling it a pass. Deterministic outage simulations belong to capture-derived unit/integration tests; live tests report actual observed failures.
 
-Record typecheck, explicit lint, tests, build, startup, provider smoke and manual QA separately, with discovered/pass/skip counts. Use actual generated project scripts. Build is not proof of startup or lint. Exercise known service failures in unit/integration tests; real E2E outages remain failures, not mocked passes.
-
-- TAC-000-01: No scaffolding, integration implementation or real-key file is created by this ADR task.
-- TAC-000-02: Client bundles and browser requests contain no provider key.
-- TAC-000-03: Client assessment/history/status edits cannot replace canonical server data.
-- TAC-000-04: Refresh starts empty; process restart invalidates old cases.
-- TAC-000-05: Live evidence identifies both actual provider protocols separately from synthetic test passes.
-
-## 11. Remaining Gates
-
-Approve the implementation plan before initialization. At implementation, freeze compatible packages, run real provider smoke checks, evaluate thresholds, and verify image preparation preserves fine defects. Alpha Decisions stability, component-registry changes and natural-language grounding are material risks. None implies that the user's OpenRouter access is unavailable.
+- TAC-000-01: All PRD ACs map to tests; runtime changes record build, discovered/executed/skipped tests, startup and manual QA separately.
+- TAC-000-02: Captures establish the chat and Decisions wire contracts separately before mocks exist. A fixture alone never establishes a complete provider integration.
+- TAC-000-03: Initial assessment failure retains form facts, marks the unavailable stage and produces review required. Conversation failure retains the structured result and any existing review requirement.
+- TAC-000-04: Concurrent requests and retries cannot repeat the original assessment or lift a review requirement. Later text corrections can only add review reasons.
+- TAC-000-05: E2E/manual QA covers return, complaint with invisible fault, all review paths, summary, partial stream/error, chat-only retry and confirmed reset using the real stack.
+- TAC-000-06: No server key, raw provider exception or hidden instruction appears in Angular assets, HTTP customer errors, screenshots or committed captures.
+- TAC-000-07: This ADR task passes content, consistency and link checks only. No application build, startup, provider smoke or runtime QA is claimed before implementation.

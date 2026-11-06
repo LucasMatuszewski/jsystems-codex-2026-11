@@ -6,6 +6,8 @@ This is a **course project** for the "Codex - od zera do zespołu agentów AI" t
 
 This is only the **base starting repository** for the course; concrete decisions are made live with the group.
 
+This branch targets the PRD's hardware-service PoC with Angular and Angular Material. Initialize the application only after its implementation plan is approved.
+
 Chat in Polish unless the user asks for another language. Repository documentation uses English unless another project language is agreed. Use full Polish diacritics and ASCII punctuation in prose. Use only synthetic data; never read or publish secrets, participant data or customer records.
 
 **Key docs** (created during the course - load only when in doubt):
@@ -34,6 +36,10 @@ course-materials/    Notes, scripts, examples, research
 
 ## Agent Workflow
 
+### Research delegation
+
+Delegate all research, documentation lookups and web searches to Luna subagents. Sol defines the questions and makes decisions. Luna reports findings, sources, limitations and open questions; no recommendations or decisions.
+
 ### Documentation and command discovery
 
 Always use Context7 first for library, framework and API documentation. Use Web search only when the needed information could not be found in Context7; an unavailable Context7 connection is not evidence that the documentation is absent.
@@ -60,7 +66,7 @@ For every feature and bug fix:
 
 If the area has no suitable test infrastructure yet, add it as part of the task - do not silently skip tests.
 
-For unit/integration LLM tests, use the installed AI SDK's synthetic mock model and streaming helpers without an API key; verify their types in current docs. Do not replace the real application endpoint or streaming protocol. For other endpoint/database mocks, first capture a fresh authorized local/test response using synthetic data. Save status, headers and body, or rows and schema, with date, target and service version, excluding secrets. Derive mocks from that capture; report a missing safe capture instead of inventing a response shape.
+Before creating or refreshing any unit/integration provider, endpoint or database mock, make a fresh real call with authorized synthetic data. Save the accepted request and complete response (status, headers, body or stream), or rows/schema, with date, target and model/service version, excluding credentials. Derive mocks from that capture; missing safe capture blocks mock creation. AI SDK mock models and stream helpers may replay capture-derived cases afterward; never invent an unverified wire shape.
 
 For behavior-preserving legacy refactoring, write characterization tests against the original code and get them green before changing it. Assert observable inputs, outputs, state changes and errors rather than private methods or the current class layout. Demonstrate that critical assertions detect a controlled behavioral mutation, then revert that mutation. Existing tests may protect a pure refactor; a new behavior or bug fix still requires Red -> Green -> Refactor.
 
@@ -87,12 +93,14 @@ Verify only the scope relevant to your change. If the change affects runtime beh
 | Type | Mocks | Who |
 |---|---|---|
 | Unit | All deps | be/fe-dev |
-| Integration | Only external LLM API | be-dev |
-| E2E | NOTHING (real stack) | qa-engineer |
+| Integration | Only external model APIs, using fresh captures | be-dev |
+| E2E and Manual QA | NOTHING: real stack and real OpenRouter endpoints | qa-engineer |
+
+E2E and Manual QA must use real Decisions, escalation and chat calls; no stubs, response interception or mocked success. Do not impose spend or call-count caps on PoC verification.
 
 **Verification:** For runtime changes, start the real application and finish with Manual QA. Record compilation/build, test execution and startup as separate checks, including discovery counts and skips. A successful build or E2E run alone does not establish that the app works. Documentation-only changes use diff, link and consistency checks and do not require application startup. Fix errors and warnings introduced by the change; report pre-existing failures without hiding them.
 
-**Env Vars:** See `.env.example`. `OPENROUTER_API_KEY` is server-only and needed for live OpenRouter calls, not synthetic unit/integration tests. Set `LLM_MODEL` to the provider's actual model ID during the configuration exercise. Store real values locally using the framework's agreed loader. Never expose a key in a client bundle, prompt or commit. Full E2E uses the real model; report missing credentials as blocked E2E, not a pass with mocks.
+**Env Vars:** See `.env.example`. `OPENROUTER_API_KEY` is server-only and required for real captures and live tests; later capture-derived unit/integration replay needs no key. Set `LLM_MODEL` and `DECISION_MODEL` to the provider's actual IDs. Store real values locally using the agreed loader. Never expose a key in a client bundle, prompt or commit. Missing real credentials block live verification; never report a mocked E2E pass.
 
 ### Sub-agents
 - Add `be-developer`, `fe-developer` and `qa-engineer` under `.codex/agents/` during the taught exercise; the starting repository has no active custom roles.

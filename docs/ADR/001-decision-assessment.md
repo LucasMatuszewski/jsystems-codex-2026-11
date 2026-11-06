@@ -1,208 +1,189 @@
 # ADR-001: Bounded Multimodal Decision Assessment
 
-**Date:** 2026-11-05
+**Date:** 2026-11-06
+
 **Status:** Proposed
-**Relates to:** [Main architecture](000-main-architecture.md), [PRD](../PRD.md)
+
+**Relates to:** [Main architecture](000-main-architecture.md), [PRD Sections 4 and 11](../PRD.md#11-agent--system-behavior-specification)
 
 ## 1. Scope
 
-Initial image/form assessment: five observations, code-owned routing, deterministic policy checks and at most one multimodal escalation. Ordinary conversation belongs to [ADR-002](002-streaming-chat-ui.md). This ADR neither implements nor calls the provider.
+One initial Decisions request evaluates the five agreed observations. Code owns exact policy/date checks and routing. At most one ordinary multimodal LLM call may resolve uncertainty before chat. No model approves a return, determines damage cause, rejects a complaint, assigns staff, or decides legal entitlement.
 
 ## 2. Technology Documentation References
 
-| Source | Verified Context7 ID or primary reference | Finding |
+| Source | Verified Context7 ID / official link | Evidence used |
 |---|---|---|
-| OpenRouter Jev | `/websites/openrouter_ai`; [guide](https://openrouter.ai/docs/guides/community/jev) | Separate Decisions and System One surfaces |
-| Multimodal Decisions | Same ID; [guide](https://openrouter.ai/docs/guides/community/multimodal-decisions) | Provider-specific image formats and positions |
-| Decisions API | Same ID; [reference](https://openrouter.ai/docs/api/api-reference/alphadecisions/submit-a-decisions-request) | Typed envelope, answers, refusal and errors |
-| TypeSafe Noul | [Noul](https://docs.typesafe.ai/primitives/noul) | Probability of yes, no separate confidence |
-| Confidence | [TypeSafe confidence](https://docs.typesafe.ai/confidence) | Distribution concentration is not correctness assurance |
-| Luna Decisions | [Model page](https://openrouter.ai/openai/gpt-6-luna-decisions) | Image input and Noul/Choice/Score, not chat generation |
-| AI SDK Decisions | `/vercel/ai`; [Decisions](https://ai-sdk.dev/docs/ai-sdk-core/decisions), [reference](https://ai-sdk.dev/docs/reference/ai-sdk-core/decide) | Current `experimental_decide`; deprecated `experimental_evaluate` |
-| OpenRouter provider | [Repository](https://github.com/OpenRouterTeam/ai-sdk-provider), [3.1.0 package](https://registry.npmjs.org/@openrouter/ai-sdk-provider/3.1.0) | Existing adapter requires capability/version verification |
-| Native SDK | [Alpha.Decisions](https://openrouter.ai/docs/client-sdks/typescript/sdks/decisions/README.md) | Documented `alpha.decisions.create` operation |
-| Sharp | `/lovell/sharp/v0.35.5`; [operations](https://sharp.pixelplumbing.com/api-operation/) | Server image normalization |
+| OpenRouter AI SDK provider | `/openrouterteam/ai-sdk-provider`; [README](https://github.com/OpenRouterTeam/ai-sdk-provider), [manifest](https://github.com/OpenRouterTeam/ai-sdk-provider/blob/main/package.json) | Decision adapter, version floor and normalization |
+| OpenRouter TypeScript SDK | `/openrouterteam/typescript-sdk`; [repository](https://github.com/OpenRouterTeam/typescript-sdk) | Separate `alpha.decisions` client alternative |
+| AI SDK 7 | `/vercel/ai/ai_7.0.0`; [current Decisions docs](https://ai-sdk.dev/docs/ai-sdk-core/decisions), [structured output](https://ai-sdk.dev/docs/ai-sdk-core/generating-structured-data) | Evaluated decision abstraction; selected ordinary multimodal generation |
+| Sharp | `/lovell/sharp/v0.35.5`; [input](https://sharp.pixelplumbing.com/api-input/), [orientation](https://sharp.pixelplumbing.com/api-operation/), [resize](https://sharp.pixelplumbing.com/api-resize/), [output](https://sharp.pixelplumbing.com/api-output/) | Actual decoding, orientation and compression |
+| Multer | `/expressjs/multer`; [README](https://github.com/expressjs/multer/blob/main/README.md), [2.5.0 manifest](https://github.com/expressjs/multer/blob/v2.5.0/package.json) | Single-file in-memory multipart parsing |
+| Jev | [Official guide](https://openrouter.ai/docs/guides/community/jev) | Model IDs, capabilities and model-specific limits |
+| Multimodal Decisions | [Official guide](https://openrouter.ai/docs/guides/community/multimodal-decisions) | Image placement, encodings and provider differences |
+| Decisions API | `/openrouterteam/docs`; [official reference](https://openrouter.ai/docs/api/api-reference/alphadecisions/submit-a-decisions-request), [OpenAPI schema](https://raw.githubusercontent.com/OpenRouterTeam/docs/main/openapi/openapi.yaml) | Endpoint, required/optional fields, usage and errors |
+| Answer semantics | [Noul](https://docs.typesafe.ai/primitives/noul), [confidence](https://docs.typesafe.ai/confidence) | Probability versus uncertainty/concentration |
+| Selected decision model | [Luna Decisions](https://openrouter.ai/openai/gpt-6-luna-decisions) | Current ID and multimodal typed-answer support |
+| Escalation model | [Luna](https://openrouter.ai/openai/gpt-6-luna) | Separate image-capable conversational model |
 
-The Jev guide, multimodal guide and Decisions reference were read before selecting the integration. Noul, confidence, Luna Decisions and published adapter code were then checked for semantics and suitability.
+Research date: 2026-11-06. Exact provider behavior, including adapter-to-wire conversion, still requires live capture. No model call was made for this ADR.
 
-## 3. Component Design
+## 3. Model and integration decisions
 
-### Model selection
+### Select Luna Decisions for the first slice
 
-| Candidate | Current ID, capability and API | Fit |
+**Status:** Proposed. **Date:** 2026-11-06. **Context:** The PoC needs independent typed visual judgments and a way to represent evidence insufficiency. **Decision:** Start with `openai/gpt-6-luna-decisions`, pin the explicit model ID and validate all five observations. Its documented image and question capabilities cover the required inputs without Jev's additional image restrictions. This is a capability/implementation fit decision, not measured superiority. **Rejected alternative:** Jev remains viable but adds early-feature image behavior and more preprocessing constraints. A provider benchmark is optional. **Consequences:** One implementation and evaluation profile; switching the model requires re-evaluation. **Review trigger:** Unsupported inputs/answers in live smoke, unacceptable false-clear results, or provider changes.
+
+| Capability | TypeSafe Jev | OpenAI Luna Decisions |
 |---|---|---|
-| Luna Decisions | `openai/gpt-6-luna-decisions`; text/images; `noul`, `choice`, `score`; `POST /api/alpha/decisions` | User-selected first model; matches bounded typed observations |
-| Jev | `typesafe/jev-1.14`; guide also lists `~typesafe/jev-latest` and older 1.13; image input; Box added in 1.14 | Viable alternative; localization/Box unnecessary here |
-| TypeSafe SDK/System One | `POST /api/v1/systemone` for TypeSafe-compatible requests | Jev-specific alternative; do not assume Luna uses it |
-| Ordinary Luna | `openai/gpt-6-luna` | Generative chat/image analysis, not a substitute for the decision model |
+| Current documented model ID | `typesafe/jev-1.14`; guide also lists floating alias `~typesafe/jev-latest` | `openai/gpt-6-luna-decisions` |
+| Image support | PNG/JPEG data URLs; image support marked early feature | PNG/JPEG/WebP data URLs |
+| Typed questions | Noul, choice, score; Jev 1.14 also documents box | Noul, choice and score documented |
+| Documented constraints relevant here | Each side 256-1568 px, additional total-pixel/decoded-size restrictions; guide says images invoke long-context mode | Model page documents up to 128 images and 200 questions; this app uses one image |
+| First-slice implication | Need JPEG normalization and explicit small-image/geometry handling; early image changes add risk | Meets the required one-image contract; still subject to alpha API and live verification |
 
-The multimodal guide specifies Luna images as inline data URLs in top-level `state` items; text items are plain strings. Nested image objects and Responses `input_image` parts are different contracts. Jev accepts JPEG/PNG with additional dimension/size limits; the guide also permits WebP for Luna. Normalize PoC inputs to JPEG. Do not transfer Jev-specific limits or Box behavior to Luna.
+Jev's guide and examples span 1.13/1.14; never substitute a floating alias into a validated profile. Neither model supplies evidence-grounded prose or a correctness guarantee merely by returning a typed probability. Source for model-specific limits: [Jev guide](https://openrouter.ai/docs/guides/community/jev), [multimodal guide](https://openrouter.ai/docs/guides/community/multimodal-decisions), [Luna model page](https://openrouter.ai/openai/gpt-6-luna-decisions).
 
-### Transport decision
+### Use direct server HTTP for Decisions
 
-**Status:** Proposed. **Date:** 2026-11-05.
-**Context:** An adapter exists, but its presence alone does not prove current multimodal compatibility.
-**Decision:** Use one server-only native HTTP Decisions client, with runtime Zod validation. Keep wire names inside that module.
-**Evidence:** Provider 3.1.0 documents `decisionModel()`/`evaluationModel()` and boolean-to-Noul mapping. The published implementation uses `doEvaluate` and forwards `state` unchanged. Current AI SDK documents `experimental_decide` and typed text/JSON/file state parts. Conversion of those image parts to Luna's required top-level `image_url` format was not established in the inspected package. This is a suitability limitation, not an observed live failure or a claim that all versions lack an adapter.
-**Rejected alternatives:** An unverified adapter plus a format shim; the documented native OpenRouter SDK, which adds a dependency for one request; sending Decisions through `streamText`, chat completions or Responses.
-**Consequences:** (+) One small explicit protocol boundary without a second experimental SDK layer. (-) Application owns parsing, validation and error normalization.
-**Review trigger:** A pinned provider release documents and passes this exact image contract in a live smoke check.
+**Status:** Proposed. **Date:** 2026-11-06. **Context:** Ordinary `streamText` does not establish a Decisions integration. Research found a suitable adapter design, but its published version lags the current SDK. **Decision:** Use Node's server-side `fetch` and explicit Zod request/response validation for the single Decisions endpoint. **Rejected alternatives:** Published provider 3.1.0 exposes `evaluationModel` and forwards the older state shape; the compatible `decisionModel`/image conversion exists on unreleased `main`. Native `@openrouter/sdk` exposes `alpha.decisions.create` but adds a dependency for this one endpoint. **Consequences:** Preserve raw Noul/distribution semantics and avoid unreleased code; own a small alpha-protocol boundary and failure handling. **Review trigger:** A released adapter passes image/state/type compatibility and separate live smoke. [3.1.0 provider](https://github.com/OpenRouterTeam/ai-sdk-provider/blob/3.1.0/src/provider.ts), [3.1.0 evaluation source](https://github.com/OpenRouterTeam/ai-sdk-provider/blob/3.1.0/src/evaluation/index.ts), [reported mismatch](https://github.com/OpenRouterTeam/ai-sdk-provider/issues/576), [fix PR](https://github.com/OpenRouterTeam/ai-sdk-provider/pull/577).
 
-### Image preparation
+AI SDK introduced `experimental_evaluate` in 7.0.103, renamed it to `experimental_decide` in 7.0.128, then added the newer typed state/file contract in 7.0.133. Current provider `main` exposes `decisionModel` and a legacy alias, unwraps state parts and converts images to OpenRouter data URLs; no published release containing that fix was located. The broad `ai:^7.0.0` peer range is not proof of compatibility. Recheck release artifacts before reconsidering the adapter; do not pin an obsolete SDK solely to make an early adapter fit. [7.0.103](https://github.com/vercel/ai/releases/tag/ai%407.0.103), [7.0.128](https://github.com/vercel/ai/releases/tag/ai%407.0.128), [7.0.133](https://github.com/vercel/ai/releases/tag/ai%407.0.133), [current adapter source](https://github.com/OpenRouterTeam/ai-sdk-provider/blob/main/src/evaluation/index.ts).
 
-Accept one JPEG/PNG/WebP up to the PRD's 10,000,000 bytes. Verify decoded type, reject corruption and animated/multi-page images, and enforce a 40-million decoded-pixel ceiling for local memory safety. Report that ceiling as an application limit, not an OpenRouter restriction.
+## 4. Exact external boundaries
 
-Apply EXIF orientation, flatten transparency against white, omit metadata, and encode JPEG server-side. Candidate compression profile: longer side at most 2048 pixels, preserved aspect ratio, no enlargement, quality 90, output at most 2,000,000 bytes. If oversized, retry compression locally at quality 85; if still oversized, show image-preparation error. Evaluate small cracks, scratches and reflections before accepting this profile. Compression cannot certify preservation of every defect.
+### Decisions wire protocol and normalization
 
-Initial assessment and escalation receive the same prepared bytes/hash/profile. Do not host the upload publicly or fetch customer-provided remote URLs. Release server image bytes after these stages; chat receives observations/analysis, not repeated image uploads.
+The client issues a server-side `POST https://openrouter.ai/api/alpha/decisions`, authenticated with the server's OpenRouter key. The request has `model`, `state` and a `questions` object keyed by stable question IDs. Use a state array with a plain string containing the serialized synthetic form and a top-level image item of type `image_url`, with `image_url.url` containing a data URL with actual MIME and base64 bytes. Do not introduce SDK `text`/`json` wrappers into this direct wire contract. Naked base64 and remote HTTP image URLs are unsupported by the researched Decisions guide. [API reference](https://openrouter.ai/docs/api/api-reference/alphadecisions/submit-a-decisions-request), [image guide](https://openrouter.ai/docs/guides/community/multimodal-decisions).
 
-## 4. Data Structures and Semantics
+The wire answer object is keyed by question ID. A Noul answer requires `type:noul` and numeric `answers.<id>.noul`. A choice answer requires `type:choice` and string `choice`; its per-option `probabilities` map and numeric `confidence` are optional in the OpenAPI schema even though examples include them. The application normalizer preserves supplied distributions/usage/provider identity and creates the five records below. Missing auxiliary distributions make evidence insufficient and trigger escalation; they are not an invented zero or an API-schema failure. No confidence field is required for Noul. Do not assume SDK probability/providerMetadata fields exist on raw HTTP. Capture the actual wire response and application normalization before mocks. [OpenAPI schema](https://raw.githubusercontent.com/OpenRouterTeam/docs/main/openapi/openapi.yaml).
 
-### Five observations with explicit missing evidence
+The reference does not define a per-answer unknown/refusal primitive. Missing keys, invalid types, out-of-range/nonfinite numbers, an invalid distribution, parse failure or non-2xx response are unavailable assessment evidence. Preserve any validated partial records, mark the stage unavailable and require review; do not fill missing probabilities with zero. Provider request-level annotations are not per-observation explanations.
 
-Keep five product observations. Use **Choice with three outcomes**, allowing insufficient evidence without abusing a zero probability.
+### Five application observations
 
-| Observation ID | Positive option | Negative option | Unknown option |
-|---|---|---|---|
-| `image_usable` | `usable` | `unusable` | `not_assessable` |
-| `item_relevant` | `consistent` | `inconsistent` | `not_assessable` |
-| `visible_cracks` | `present` | `absent_in_visible_area` | `not_assessable` |
-| `visible_dents` | `present` | `absent_in_visible_area` | `not_assessable` |
-| `visible_scratches` | `present` | `absent_in_visible_area` | `not_assessable` |
+| ID | Positive proposition | Meaning of a supported low probability |
+|---|---|---|
+| `image_usable` | The pictured areas can be assessed for visible condition | Image is unusable: escalate |
+| `item_relevant` | Visible equipment is consistent with declared category and available model evidence | Equipment/evidence is inconsistent: escalate |
+| `visible_cracks` | Cracks are visible in the pictured areas | Supports no visible cracks only in evaluable pictured areas |
+| `visible_dents` | Dents are visible in the pictured areas | Supports no visible dents only in evaluable pictured areas |
+| `visible_scratches` | Scratches are visible in the pictured areas | Supports no visible scratches only in evaluable pictured areas |
 
-Give every option an explicit criterion. Unreadable regions, unresolved contradictory visual claims and insufficient category/model evidence belong to unknown. Negative damage findings apply only to adequately visible regions. An invisible functional complaint does not contradict a photo without visible damage. Category consistency proves neither exact model nor authenticity.
+Use five independent questions of wire type `noul`, plus one question of wire type `choice` for the evidence status of each observation in the same initial request. Every question has required `type` and `instructions`. Noul's optional `criteria`, when supplied, describes both `true` and `false`; never define missing evidence as false. Each evidence question has a required `criteria` map with fixed IDs: `supported` means sufficient pictured evidence for this specific proposition; `insufficient` means needed detail/view/model cues cannot be established; `conflicting` means the available evidence contradicts itself or relevant submitted facts. This is ten questions in one request, yielding five public observation records. It is a model-elicited evidence estimate, not an API-level abstention primitive. [Question schemas](https://raw.githubusercontent.com/OpenRouterTeam/docs/main/openapi/openapi.yaml).
 
-Retain selected option, full option probability map when supplied, optional provider confidence, source stage and code-derived limitation labels. Each Choice distribution sums approximately to one; probabilities across the five questions do not. Display the positive option probability with its meaning, alongside unknown/negative information; do not display unknown as a definitive negative.
+Each normalized record has its ID, supported probability or null, evidence status, basis, limitations, conflicts, and model/question/image-pipeline versions. The basis explicitly records prepared-image identity, pictured-area scope, model-estimate origin, and, for relevance, the declared category/model as customer-supplied comparison data. No free-text rationale or pixel location is assumed from Decisions. Use fixed explanations for insufficient/conflicting categories without inventing their cause. Insufficient/conflicting evidence produces null in the supported-probability field even if a raw numeric answer exists; keep raw answers separately for evaluation.
 
-The initial API does not promise explanatory prose, damage location or bounding boxes. Label the evidence basis honestly as a classifier judgment about the supplied photo. Do not invent detailed visible evidence from a number. The optional escalation can supply a more detailed model-derived description.
+Code attaches the fixed limits of one pictured view, unverified exact identity and no functional/causal diagnosis. These scope limits never become claims about hidden surfaces or exact-model authentication. Known material processing loss or a required fact/view outside the supported scope overrides a model's supported label: mark the affected observation insufficient with a reason and null probability. Provider-signaled conflicts retain their model-estimate provenance; code-derived contradictions retain their actual form/rule references. Code cannot independently verify visual truth; evaluation must measure this residual model risk.
 
-### Question-type differences
+The choice winner alone cannot establish evaluability. A validated evidence gate needs the complete finite 0-1 distribution for the three named options, checked against the captured precision/rounding contract. Missing/incomplete distributions disable that gate and trigger escalation. Preserve optional confidence as metadata; never substitute concentration for correctness. Until the evidence gate and observation thresholds are evaluated, no shortcut is possible. Question wording binds damage to visible areas and relevance to actual available cues.
 
-- **Noul:** Its value is probability of yes. Near zero can be a confident no, near one a confident yes; the middle is uncertainty about the proposition, not moderate damage. It has no separate confidence field. Missing evidence would need an additional sufficiency gate.
-- **Choice:** Read outcome and option probabilities. A concentrated unknown outcome still requires escalation. Confidence can be preserved for diagnostics but is not an independent source of evidence or the sole routing threshold.
-- **Score:** Expected rubric position can be moderate even when probability is split between extremes. A future severity rubric would need full-distribution checks, not a threshold on the mean. No severity rubric is needed now.
+### Probability and uncertainty
 
-These definitions explain semantics, not Luna's empirical calibration on hardware photos. No probability/confidence is a correctness guarantee.
+Noul is `p(yes)` for a proposition, with no separate confidence field. For an exhaustive binary question over evaluable evidence, `p(no)=1-p(yes)`; a low value can therefore support a negative. Values near 0.5 are uncertain. Choice/score confidence describes distribution concentration, not the probability that a real-world judgment is correct. The five observation probabilities need not sum to one; do not average or multiply them into a fabricated overall confidence score. [Noul semantics](https://docs.typesafe.ai/primitives/noul), [confidence semantics](https://docs.typesafe.ai/confidence).
 
-## 5. Interface Contracts
+Unknown evidence is a different state from a supported negative. For example, a hidden rear surface cannot establish no scratches there. A photo of a powered-off laptop cannot establish that a reported intermittent fault is absent. A clear positive for visible damage is never a legal rejection signal.
 
-### Exact Decisions boundary
-
-Call `POST https://openrouter.ai/api/alpha/decisions` with server bearer authentication. Required body: `model`, `state`, `questions`. State is a top-level array containing plain textual context and one `image_url` part with an inline `data:image/jpeg;base64,...` URL. Questions are the five Choice definitions. Supply synthetic relevant form context; never ask the decision model to calculate deadlines or determine refund eligibility.
-
-Do not send `messages`, `input_image`, a chat streaming flag, top-level `images`, or image parts nested in a state object. This call returns a complete typed response, independently of the later chat stream.
-
-The `answers` map contains typed entries. A Choice has `type`, `choice`, and optional `probabilities`/`confidence`; a `refusal` has no answer value. Preserve optional request/resolved model/provider IDs and usage. Validate all five expected IDs, known types/options, finite probabilities in [0,1], expected distribution keys and sum tolerance 0.02 for rounding. Missing distributions, refusals and invalid entries become unknown and trigger deeper analysis, never numeric defaults or false certainty.
-
-One attempt, 30-second deadline, cancellation propagated from the local request. No automatic paid retry or model substitution. Transport/auth/quota/provider failures produce sticky review required with an unavailable stage; do not silently replace the failed decision provider with a successful-looking LLM assessment.
+## 5. Routing, image preparation and escalation
 
 ### Code-owned routing
 
-1. Validate fields and prepare the image; local errors stay on the form.
-2. Call Decisions once and retain original probabilities with their meanings.
-3. Apply hard overrides: unknown/refusal/missing data, unusable/inconsistent input and unresolved conflicts cannot use the shortcut.
-4. Under an **evaluated** profile, accept a positive/negative observation only if that option clears its acceptance bound and competing/unknown outcomes satisfy the profile. Low positive probability alone does not prove a negative when unknown is possible.
-5. Uncertain evidence triggers one Luna analysis. Before a routing profile is validated, use this same escalation path and label the profile unvalidated; do not claim the shortcut is ready.
-6. Apply exact date and policy checks in code, following the PRD's source version and Europe/Warsaw calendar rules. Business/unsupported cases retain review advice.
-7. Unresolved evidence/provider failure yields review required. Otherwise provide preliminary procedure guidance, never a legal entitlement or external action.
+1. Validate required fields, dates and the decoded file. Prepare the image before either visual model.
+2. Make the one initial Decisions request. On failure, retain available facts and return review required with the failed stage; do not invent success or silently switch models.
+3. With no validated profile, send every successfully assessed case to the one deeper multimodal analysis. With a validated profile, shortcut only if every observation and evidence gate is supported and outside its uncertain interval, usability/relevance are positive, and no conflict or processing limitation remains.
+4. Supported damage negatives and positives use separate validated per-observation lower/upper boundaries, inclusive at equality. Intermediate values, unknown evidence and usability/relevance negatives trigger escalation. Compare returned precision; do not invent extra digits behind rounded adapter/provider values.
+5. Apply exact date, buyer/channel, source-version and scope checks in code. Business purchases, unsupported circumstances and remaining uncertainty require employee review. Review takes precedence over procedural guidance and is permanent for the case.
 
-### Escalation boundary
+Receipt/purchase order, future dates and calendar-day arithmetic follow the PRD, using the assessment date in Europe/Warsaw. The versioned procedure inputs must separate company and statutory periods and identify exceptional/unknown conditions. No model arithmetic or damage probability can override those checks. Current policy content must be rechecked against the PRD's official sources when creating the actual procedure documents; this ADR does not certify changed legal rules.
 
-Use AI SDK `generateText` with `Output.object` and a server schema through Luna. Send the same prepared image, form, initial observations and unresolved IDs. Output per unresolved ID: positive/negative/unresolved conclusion, visible supporting description, scope/limitations, and conflict/missing-evidence flags. Do not invent classifier probabilities or request legal eligibility.
+### Image preparation boundary
 
-One call, 45-second deadline, no automatic retry. Code requires each unresolved ID to be covered, supported by visible evidence and free of remaining relevant conflict/limitation. Schema validity alone does not prove evidence quality. Doubt, refusal, error or inadequate content remains unresolved. Once required, review is sticky for the case.
+Decode the actual bytes, check declared format against decoded JPEG/PNG/WebP, honor decoder safety limits, apply orientation and strip metadata. Normalize to JPEG, maximum long edge 1568 px without enlargement, initially quality 85. These are preprocessing choices to evaluate, not a claim that every defect survives compression. Preserve source/output dimensions and a processing-limit indicator. Compare representative originals and prepared images during evaluation; detected or suspected lost detail makes the relevant observation unknown and triggers escalation/review. Upload remains limited to the PRD's 10,000,000 bytes. No model receives bytes if preparation fails.
 
-### Stability and unresolved limits
+Use Sharp 0.35.5 and Multer 2.5.0 single-file memory storage with the PRD byte/file limits. MIME supplied by the browser is only a hint; actual format and full decode are authoritative. Sharp's orientation/resize/JPEG APIs support this pipeline and metadata stripping; its documented decoder limit is a safety ceiling, not proof that untrusted dimensions are accurate. The documented Node engine ranges permit Node 24, but verify Express 5 middleware behavior in integration tests rather than inferring it from engine compatibility. Keep prepared bytes only through assessment/escalation. Browser preview can retain the original in tab memory; no identifying labels, faces or customer documents are valid demonstration input. [Sharp output](https://sharp.pixelplumbing.com/api-output/), [Multer behavior](https://github.com/expressjs/multer/blob/main/README.md).
 
-Decisions is explicitly **alpha** and its schema may change. AI SDK Decisions is independently experimental and may change in patch releases. Isolate the contract, retain sanitized live evidence, and recheck after changes to model/provider, questions, compression or client packages. No automatic Jev/Luna fallback: different numeric distributions require renewed evaluation.
+### One ordinary multimodal escalation
 
-The official sources support the selected question types and image positioning. Actual account rate limits, practical Luna payload ceiling, observed latency and calibration have not been measured here. The one-image limit and compressed-byte cap are product bounds, not provider guarantees. Confirm acceptance in a later real smoke check; this task performs no paid inference.
+The escalation client uses the normal OpenRouter language model `openai/gpt-6-luna` with the prepared image, submitted form, five results, processing limitations and an explicit list of unresolved questions. Use SDK 7 `generateText` with `Output.object` and schema validation, separate from the later chat stream; `generateObject` examples are deprecated. The SDK input uses a file part with actual MIME such as `image/jpeg`, not the Decisions wire shape. [Structured output](https://ai-sdk.dev/docs/ai-sdk-core/generating-structured-data).
 
-## 6. Threshold Decision and Evaluation
+Return supported visible observations, evidence locations in the pictured areas, resolved issue IDs with evidence, remaining unknowns and contradictions. Retain initial probabilities unchanged; do not invent calibrated probabilities for the LLM's prose. A declaration that something is resolved without corresponding supported evidence is insufficient. Remaining conflicts or failed/schema-invalid output produce review required. The LLM cannot change exact policy checks, prove damage cause or decide entitlement. No recursive analysis, second image request or automatic escalation retry occurs within the case.
 
-**Status:** Proposed. **Date:** 2026-11-05.
-**Context:** Candidate 0.10/0.90 thresholds need evidence for this model and questions.
-**Decision:** Evaluate after the live contract works; freeze per-observation profiles in code.
-**Rejected alternatives:** Copying another provider's thresholds, treating confidence as correctness, or fitting thresholds against final evaluation cases.
-**Consequences:** (+) Explicit evidence for routing. (-) Shortcut remains disabled until justified.
-**Review trigger:** Model/provider, criteria, image preparation or observed routing failures change.
+The chat receives the complete structured result and source context; it cannot rerun Decisions/escalation. Later material corrections add review required and suggest a new case. Employee review is displayed advice, never an external action.
 
-Use 32 labeled synthetic cases, eight per equipment category. Split in advance into 20 development and 12 held-out cases. Cover clean visible areas, obvious/fine damage, glare, blur, cropping, wrong category, ambiguous model identity, invisible functional faults, contradictory visual claims and image-embedded instructions. Labels identify visible facts and unknowns, never legal outcomes. Repeat six borderline cases three times to expose instability; repetition is not proof of truth.
+## 6. Evaluation, stability and failure behavior
 
-Compare a predeclared small candidate set: low/high pairs 0.05/0.95, 0.10/0.90 and 0.20/0.80. A clear positive or negative requires its option probability at least high and each competing option, including unknown, at most low. Unknown winners always escalate. If several profiles qualify equally, retain 0.10/0.90 when available; otherwise choose the narrower acceptance region. On development cases choose the widest qualifying acceptance region with no unsupported clear result, no false clear-negative damage case, and no bypass of known missing evidence. Freeze before held-out evaluation. Any such held-out failure keeps the affected observation's shortcut disabled. Report clear-call correctness, false positives/negatives, unknowns, escalation rate, repeated-case disagreement, latency and supplied cost. This supports a demonstration, not a production calibration claim.
+The [PRD](../PRD.md#112-initial-observation-contract) now treats 0.10/0.90 as evaluation hypotheses. Do not deploy them as established thresholds. Create a labeled development set and distinct held-out cases covering all five observations and all four equipment categories. Include clear positives/negatives, category mismatch, missing model cues, blur/glare/occlusion, unpictured surfaces, fine scratches lost by compression, invisible faults, conflicting descriptions and text in images attempting to issue instructions. All descriptions and images must be synthetic/non-identifying.
 
-### First-slice evaluation amendment (proposed)
+For each observation, record truth/evaluability labels, raw distributions, routing outcome, false-clear errors, false escalation and coverage. Choose per-model/per-question thresholds from development cases; evaluate them on held-out cases without retuning against that set. No finite small set proves calibration or universal accuracy. Do not impose a spend, call-count or sample cap; add representative cases where coverage is missing.
 
-For the first implementation slice, the user limited live/manual testing to laptops and mobile phones. Both return and complaint conversation paths remain in scope. The broader four-category evaluation above is deferred; do not present it as completed.
+Enable a routing profile only after reviewed evidence covers supported positives/negatives and every named uncertainty stratum, with zero unsupported clear routes in the held-out cases and every insufficient/conflicting case routed conservatively. Record dataset hashes, model/provider identity, question wording, image pipeline, returned precision, thresholds and review evidence. This is a PoC release gate, not an accuracy guarantee. Otherwise leave the shortcut disabled and retain the one-escalation behavior. Changed model IDs, preprocessing, questions or answer semantics invalidate the profile.
 
-Use eight predeclared synthetic case descriptions paired with reviewed non-identifying laptop/phone photos: six development cases and two held-out cases, with at most two additional borderline repeats. Keep expected visible facts and unknowns in evaluation-only labels, never in model input. Preserve original repository photos; backend image normalization operates on copies. At least the live demonstration covers a laptop return, a phone complaint and one unclear case. Other branches receive unit/integration coverage where relevant rather than an exhaustive live scenario sweep.
+The selected endpoint is explicitly `/alpha/decisions`; the evaluated SDK decision abstraction is also experimental and can change in patch releases. Direct HTTP avoids that adapter mismatch but cannot remove alpha API migration risk. Pin dependencies/model/question versions, validate raw/normalized contracts, retain capture provenance and rerun live smoke on upgrades. A fixture-only client is unfinished. No automatic Jev/Luna substitution is allowed because probabilities and image constraints differ.
 
-Evaluate the existing candidate profiles under the same failure conditions stated above. The resulting evidence is limited to the tested observation/category combinations. Combinations without representative evidence, including monitors and accessories, retain escalation rather than an unvalidated shortcut. If the small sample cannot justify a profile, keep the shortcut disabled and report that limit; successful real Decisions plus Luna escalation is still a demonstrable but explicitly narrower slice. This amendment awaits review with the implementation plan and does not authorize execution.
+Treat authentication, credits, rate limit, payload rejection, provider failure, timeout and malformed answers as unavailable initial assessment. The official reference lists errors including 400, 401, 402, 413, 429, 502/503 and 524; it does not document a body timeout/retry parameter. Surface actual provider timeouts and honor cancellation. Disable transparent automatic model retries for bounded initial/escalation attempts; user-initiated new cases remain possible. This controls the PRD call lifecycle, not the cost of tests. [Error reference](https://openrouter.ai/docs/api/api-reference/alphadecisions/submit-a-decisions-request).
 
 ## 7. Diagrams
 
-### Components and data flow
-
 ```mermaid
 flowchart LR
-    Form[Validated form and prepared JPEG] --> Client[Decisions HTTP client]
-    Client --> D[Luna Decisions / alpha]
-    D --> Validate[Typed answer validation]
-    Validate --> Gate[Code-owned evidence gate]
-    Gate -->|uncertain| L[One Luna image review]
-    L --> Gate
-    Gate --> Rules[Deterministic policy checks]
-    Rules --> Result[Immutable result and review reasons]
+    Image[Prepared image and limitations] --> Coordinator[Assessment coordinator]
+    Form[Immutable form] --> Coordinator
+    Coordinator --> Client[HTTP client and schema validation]
+    Client --> API[OpenRouter alpha Decisions]
+    API --> Normalize[Validate and normalize]
+    Normalize --> Gate[Pure routing and evidence gates]
+    Gate -->|Uncertain or unvalidated| Escalation[Ordinary multimodal Luna]
+    Escalation --> Rules[Code rules and review precedence]
+    Gate -->|Validated clear result| Rules
+    Rules --> Result[Five observations and terminal status]
 ```
-
-### Initial assessment and alternatives
 
 ```mermaid
 sequenceDiagram
-    participant B as Browser
-    participant A as Assessment route
-    participant D as Luna Decisions
-    participant L as Luna
-    B->>A: Synthetic intake and one image
-    A->>A: Validate and compress
-    A-->>B: Processing stages
-    A->>D: state image and five typed questions
-    alt Clear under evaluated profile
-        D-->>A: Valid observations
-    else Uncertain or incomplete evidence
-        D-->>A: Unknown / incomplete observations
-        A->>L: Image and unresolved questions
-        L-->>A: Structured evidence or unresolved result
-    else Decision provider error
-        D-->>A: Error / timeout
-        A->>A: Mandatory review; no substitute assessment
+    participant C as Coordinator
+    participant D as Decisions HTTP client
+    participant R as Code routing
+    participant L as Multimodal Luna
+    C->>D: Form, prepared image, binary and evidence questions
+    alt Valid typed response
+        D-->>C: Probabilities, choice distributions, metadata
+        C->>R: Validated observations and profile version
+        alt Shortcut disabled or evidence uncertain
+            R-->>C: Specific unresolved issue IDs
+            C->>L: One structured visual escalation
+            alt Supported resolution
+                L-->>C: Observations and resolved/remaining issues
+                C->>R: Apply policy and scope rules
+            else Error or unresolved evidence
+                C->>R: Require review
+            end
+        else Validated clear shortcut
+            C->>R: Apply policy and scope rules
+        end
+    else Error or invalid answer
+        C->>R: Require review with unavailable stage
     end
-    A->>A: Policy rules and review precedence
-    A-->>B: Terminal result and case capability
+    R-->>C: Procedural guidance or sticky review
 ```
 
-## 8. Testing Strategy
+## 8. Testing strategy and technical acceptance
 
-Use Red -> Green -> Refactor. Application, manual tests and E2E always use real models. Capture a fresh authorized synthetic provider response before deriving non-chat endpoint response mocks; retain sanitized status/headers/body, date, model/provider and question/compression versions in test-only evidence. No fixture mode enters the app. Distinguish observed provider behavior from simulated unit/integration faults.
+Before provider mocks exist, capture real accepted initial Decisions and image-bearing escalation requests/responses. Record raw HTTP contracts and application normalization separately, omitting credentials. Use fresh captures for each mock creation/refresh; synthetic SDK model helpers may replay them afterward. Label deliberately corrupted capture copies as parser-test mutations. They are not claims about actual provider error responses.
 
-| Scenario | Layer | Expected result |
+| Scenario | Layer | Expected behavior |
 |---|---|---|
-| Positive .01, negative .98, unknown .01 | Unit | Qualifying clear negative, not uncertainty merely because positive is low |
-| Positive .01, unknown .98 | Unit | Unknown and escalation regardless of confidence |
-| Split distribution or negative usability/relevance | Unit | Escalation |
-| Missing/refused answer, invalid/out-of-range value, absent distribution | Unit/integration | Unknown, one escalation, no invented zero |
-| Future/inconsistent dates, purchase vs receipt, year/month boundary | Unit/integration | Deterministic validation or review |
-| Orientation/type/animation/pixel cap and fine detail | Integration/live evaluation | Correct preparation/error; no original uncompressed model input |
-| Timeout, auth/quota/rate/provider errors | Integration; external model boundary only mocked | Visible review with reason; local data retained |
-| Escalation lacks support, fails or remains conflicting | Integration | Persistent review |
-| Business purchase, clear image | Integration/real E2E | Business questions and review advice, no handoff |
-| Real Decisions image/Choice smoke | Live provider | Actual request accepted and five typed responses validated |
-| Real Luna escalation smoke | Live provider | Prepared image accepted and structured evidence produced |
+| Clear negative damage, clear positive damage | Unit + capture-derived integration | Correct per-observation semantics; neither rejects a claim |
+| Probability at/between validated boundaries; profile absent | Unit | Inclusive limits; uncertain interval escalates; no profile disables shortcut |
+| Low usability/relevance; missing evidence; conflict | Unit + integration | Escalation even when a binary answer looks clear |
+| Missing answer, NaN, invalid distribution, malformed wire fields | Capture-mutation unit/integration | No fabricated zero; unavailable stage/review |
+| Real JPEG/PNG/WebP, wrong declaration, corrupt image, compression loss | Integration + real UI | Validate actual decoding; no model before successful preparation |
+| Business, date boundary, unsupported source version, invisible fault | Unit + real E2E | Code rules and conservative scope; no photo-based denial |
+| One escalation resolves / remains unknown / fails | Integration + live smoke | Evidence-specific resolution or review; never a second attempt |
+| Prompt injection in form or image | Unit/integration + real evaluation | No change to schemas, policy, prompts or review precedence |
 
-- TAC-001-01: Network evidence distinguishes `/api/alpha/decisions` from chat requests.
-- TAC-001-02: Decisions image parts use the documented top-level format.
-- TAC-001-03: Missing evidence cannot become a clear negative by defaulting a number.
-- TAC-001-04: Successful assessment reports all five categories and source stages.
-- TAC-001-05: A case makes at most one decision call and one optional image escalation.
-- TAC-001-06: Real contract smoke and representative-case evaluation are separate from mocked test passes.
-- TAC-001-07: An unvalidated profile is never presented as a validated shortcut or correctness guarantee.
+- TAC-001-01: The live smoke uses `openai/gpt-6-luna-decisions` at the real Decisions endpoint and proves one image, every requested answer ID and raw-to-normalized probability mapping. Captured-response mutation tests verify unavailable/malformed-answer handling; report a real provider failure only when actually observed.
+- TAC-001-02: A separate real Luna image smoke proves escalation output/schema and evidence handling; a normal text-chat smoke does not substitute for it.
+- TAC-001-03: A successful public assessment contains exactly five observation records. Unknown evidence is null with a reason, never zero; initial provider failures remain explicitly unavailable.
+- TAC-001-04: A disabled/unvalidated profile cannot produce a clear shortcut. Model/prompt/preprocessing changes invalidate the profile and its prior evaluation evidence.
+- TAC-001-05: Tests detect attempts to lift review, repeat assessment during chat, exceed one escalation, or let a model replace deterministic policy arithmetic.
+- TAC-001-06: E2E and manual QA always use the real OpenRouter endpoints, real models and actual image processing. No mocked success, intercepted response or fake outage passes this gate. Missing real access is reported as blocked verification.

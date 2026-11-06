@@ -27,7 +27,7 @@ Support and hardware service staff are downstream beneficiaries, not users of a 
 3. The system checks required fields, date consistency, accepted image format, decodability, and size. Invalid entries remain on the form with field-level explanations.
 4. Before sending an image to either model, the system compresses it on the server while preserving the visible details needed for assessment.
 5. The bounded decision step returns the five observations in Section 11, their probabilities, evidence limitations, and any conflicts.
-6. Deterministic rules evaluate dates and the applicable procedure independently of visual probabilities. Unclear visual results follow Flow 4.2.
+6. Deterministic rules evaluate dates and the applicable procedure independently of visual probabilities. Unclear visual results, or results without validated routing thresholds, follow Flow 4.2.
 7. The system opens the chat with a read-only case panel. The first assistant bubble contains a greeting, preliminary recommendation or review status, justification, limitations, and next steps.
 8. The customer asks questions or adds information. The conversational agent uses the complete current-session context, asks focused follow-up questions, and can explain or refine guidance within the restrictions in Section 11.
 9. The customer can request a summary and next steps. Nothing is submitted or sent to another person.
@@ -97,9 +97,9 @@ Support and hardware service staff are downstream beneficiaries, not users of a 
 
 - AC-14: A successful initial assessment returns all five observation records defined in Section 11.
 - AC-15: Each observation distinguishes a numeric probability from unavailable evidence.
-- AC-16: A supported probability of exactly 10% is classified as a clear negative.
-- AC-17: A supported probability of exactly 90% is classified as a clear positive.
-- AC-18: A probability strictly between 10% and 90% triggers the deeper analysis route.
+- AC-16: A supported probability at or below the validated negative threshold for that observation and model is classified as a clear negative, including the boundary value.
+- AC-17: A supported probability at or above the validated positive threshold for that observation and model is classified as a clear positive, including the boundary value.
+- AC-18: A probability strictly between the validated thresholds triggers deeper analysis. Until thresholds are validated, the clear-observation shortcut is disabled and every successfully assessed case follows the deeper analysis route. Provider failures retain Flow 4.4's review-required behavior.
 - AC-19: Missing evidence or conflicting evidence triggers deeper analysis even when a supplied probability is outside the intermediate range.
 - AC-20: A clear negative for image usability or item relevance triggers deeper analysis.
 - AC-21: At most one deeper multimodal assessment is attempted per submitted case.
@@ -180,6 +180,7 @@ Future modules may retrieve customer and purchase data, save sessions and action
 | Conversation | Text messages only after initial submission; one active case per tab |
 | Language | Polish customer interface and agent responses; English project requirements |
 | Primary environment | Desktop browser on Windows 11; Chrome and Edge as the initial PoC targets |
+| Deployment | Local Windows 11 development and demonstration; one backend process; no public hosting requirement |
 
 The initial image must show the relevant equipment and its condition. Customers reporting an invisible fault can submit an overall equipment photo and describe the symptoms; visible damage is not required. Images must exclude faces, identifying labels, readable account screens, and personal documents. These are demonstration input requirements, not a promise of automated personal-data detection.
 
@@ -225,7 +226,7 @@ Operational application of those rules:
 
 The later implementation must supply two distinct, source-attributed procedure documents: a return guidance document covering R1-R4, L1, L3 and escalation boundaries; and a complaint guidance document covering R1, R5, L2 and escalation boundaries. Each must carry its source date and scope. They are authoritative supplied context, not a RAG integration.
 
-This task creates only this PRD. Separate procedure files and separate return/complaint instruction artifacts are future implementation deliverables; their required content is defined here and in Section 11.6. No fictional procedure documents are required after the agreed switch to real sources.
+Separate procedure files and separate return/complaint instruction artifacts are implementation deliverables; their required content is defined here and in Section 11.6. No fictional procedure documents are required after the agreed switch to real sources.
 
 ## 9. UI Description (wireframe level)
 
@@ -306,9 +307,9 @@ The conversation context contains the complete submitted form, initial observati
 
 Each record includes its category, probability from 0 to 1 when supportable, evidence basis, uncertainty or missing evidence, and conflicts. Unavailable evidence is explicitly unknown, not probability zero. The categories are independent observations, so their probabilities need not sum to one. Item relevance is not authentication or proof of an exact model when identifiers are not visible.
 
-For a supported observation, probabilities at or below 0.10 are clear negatives, at or above 0.90 are clear positives, and the interval between them is uncertain. These are selected PoC routing thresholds, not measured accuracy or calibrated guarantees.
+Values of 0.10 and 0.90 are initial evaluation hypotheses, not operational guarantees. Select routing thresholds separately for each observation and model using representative labeled cases, then validate them on separate cases before enabling the clear-observation shortcut. Evaluation must cover all five observations, supported positives and negatives, unavailable evidence, and conflicts. Until validation is complete, every successfully assessed case receives the one deeper multimodal analysis allowed by Flow 4.2; provider failures retain Flow 4.4's review-required behavior. Validated thresholds include their boundary values; probabilities between them are uncertain. Threshold validation does not establish certainty or legal eligibility.
 
-A low probability of cracks can be a confident negative. A low probability of usability or relevance means the image is inadequate or inconsistent and must be escalated. Missing evidence, processing loss, or contradictions override numeric confidence for routing. An unpictured surface is unknown; lack of damage in the visible area cannot establish the whole device's condition or function.
+A low probability of cracks can support a clear negative for the pictured, evaluable areas under a validated routing profile. A low probability of usability or relevance means the image is inadequate or inconsistent and must be escalated. Missing evidence, processing loss, or contradictions override numeric confidence for routing. An unpictured surface is unknown; lack of damage in the visible area cannot establish the whole device's condition or function.
 
 The deeper analysis must explicitly state which uncertainty was resolved and why. A fluent explanation without new supported evidence does not resolve uncertainty.
 
@@ -351,9 +352,9 @@ Both scenarios follow the same evidence restrictions, full-history requirements,
 
 ## 12. Further Notes
 
-- Architecture, technologies, provider selection, provider response contracts, compression parameters, prompts as deployable artifacts, and verification strategy belong in a later ADR and implementation task.
+- Architecture, technologies, provider selection, provider contracts, compression parameters and verification strategy are defined in the [ADRs](ADR/000-main-architecture.md). Deployable artifacts and application initialization wait for the approved implementation plan.
 - Provider support for the selected formats and the full conversation context must be confirmed before implementation; the limits in this PRD are product choices, not verified provider capabilities.
 - Source review establishes a bounded guidance baseline. It does not authorize a production legal decision engine or automatic application of unsupported exceptions.
 - Historical policy versions, uncertain statutory deadline extensions, warranty-specific questions, and other unsupported legal circumstances use the review-required route in this PoC.
-- No empirical accuracy target is claimed for visual classification. The agreed probability thresholds control escalation only.
+- No empirical accuracy target is claimed for visual classification. Routing thresholds require representative evaluation and separate validation before the clear-observation shortcut is enabled; they control escalation only.
 - A later customer-service module may pass the case summary and recommendation to a person. Until then, every such next step remains customer-facing advice only.
