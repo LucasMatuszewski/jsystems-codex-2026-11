@@ -5,4 +5,28 @@
     <p>Use fictional equipment cases and non-identifying images. Avoid faces, serial numbers, addresses and receipts.</p>
     <p>Assessment supports staff review. Staff make every final decision under fictional demo rules.</p>
   </mat-card-content></mat-card>
+
+  <section class="intake" [hidden]="client.phase() === 'result'">
+    <app-intake-form [busy]="client.busy" (submitAssessment)="submit($event)" />
+  </section>
+
+  @if (client.phase() === 'running') {
+    <p class="stage" role="status">Assessment stage: {{ stageLabel() }}</p>
+  }
+  @if (client.error(); as failure) {
+    <p class="error" role="alert">{{ failure.message }}</p>
+  }
+  @if (client.phase() === 'result') {
+    @if (client.result(); as result) {
+      <app-assessment-view [result]="result" />
+      @if (result.stage === 'completed') {
+        <app-chat-panel [result]="result" />
+      } @else {
+        <p class="chat-note">Chat is available after a completed assessment.</p>
+      }
+      <p class="actions">
+        <button type="button" mat-stroked-button (click)="editIntake()">Edit intake and reassess</button>
+      </p>
+    }
+  }
 </main>
