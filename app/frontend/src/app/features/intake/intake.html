@@ -1,0 +1,82 @@
+<form (ngSubmit)="submit()" novalidate>
+  @if (errorEntries.length) {
+    <div #errorSummary role="alert" tabindex="-1" class="error-summary">
+      <strong>Sprawdź dane formularza</strong>
+      <ul>@for (error of errorEntries; track error[0]) { <li>{{ error[1] }}</li> }</ul>
+    </div>
+  }
+  <fieldset [disabled]="busy()">
+    <legend>Dane sprawy</legend>
+    <div class="fields">
+      <div>
+        <mat-form-field appearance="outline"><mat-label>Rodzaj sprawy</mat-label>
+          <select matNativeControl name="requestType" [(ngModel)]="form.requestType" (change)="requestChanged()" required aria-describedby="error-requestType">
+            <option value="" disabled>Wybierz</option><option>Zwrot</option><option>Reklamacja</option>
+          </select>
+        </mat-form-field>
+        @if (errors['requestType']) { <p id="error-requestType" class="field-error">{{ errors['requestType'] }}</p> }
+      </div>
+      <div>
+        <mat-form-field appearance="outline"><mat-label>Kategoria sprzętu</mat-label>
+          <select matNativeControl name="category" [(ngModel)]="form.category" (change)="clearError('category')" required aria-describedby="error-category">
+            <option value="" disabled>Wybierz</option><option>Laptop</option><option>Smartfon</option><option>Monitor</option><option>Akcesorium komputerowe</option>
+          </select>
+        </mat-form-field>
+        @if (errors['category']) { <p id="error-category" class="field-error">{{ errors['category'] }}</p> }
+      </div>
+      <div class="wide">
+        <mat-form-field appearance="outline"><mat-label>Nazwa/model sprzętu</mat-label>
+          <input matInput name="model" [(ngModel)]="form.model" (ngModelChange)="clearError('model')" required aria-describedby="error-model">
+        </mat-form-field>
+        @if (errors['model']) { <p id="error-model" class="field-error">{{ errors['model'] }}</p> }
+      </div>
+      <div>
+        <mat-form-field appearance="outline"><mat-label>Data zakupu</mat-label>
+          <input matInput type="date" name="purchaseDate" [(ngModel)]="form.purchaseDate" (ngModelChange)="clearError('purchaseDate')" [max]="today" required aria-describedby="error-purchaseDate">
+        </mat-form-field>
+        @if (errors['purchaseDate']) { <p id="error-purchaseDate" class="field-error">{{ errors['purchaseDate'] }}</p> }
+      </div>
+      <div>
+        <mat-form-field appearance="outline"><mat-label>Data otrzymania</mat-label>
+          <input matInput type="date" name="receiptDate" [(ngModel)]="form.receiptDate" (ngModelChange)="clearError('receiptDate')" [max]="today" required aria-describedby="error-receiptDate">
+        </mat-form-field>
+        @if (errors['receiptDate']) { <p id="error-receiptDate" class="field-error">{{ errors['receiptDate'] }}</p> }
+      </div>
+      <div>
+        <mat-form-field appearance="outline"><mat-label>Rodzaj kupującego</mat-label>
+          <select matNativeControl name="buyerType" [(ngModel)]="form.buyerType" (change)="clearError('buyerType')" required aria-describedby="error-buyerType">
+            <option value="" disabled>Wybierz</option><option>Konsument</option><option>Zakup firmowy</option>
+          </select>
+        </mat-form-field>
+        @if (errors['buyerType']) { <p id="error-buyerType" class="field-error">{{ errors['buyerType'] }}</p> }
+      </div>
+      <div>
+        <mat-form-field appearance="outline"><mat-label>Kanał zakupu</mat-label>
+          <select matNativeControl name="purchaseChannel" [(ngModel)]="form.purchaseChannel" (change)="clearError('purchaseChannel')" required aria-describedby="channel-hint error-purchaseChannel">
+            <option value="" disabled>Wybierz</option><option>Na odległość</option><option>W salonie</option><option>Nie wiem</option>
+          </select>
+          <mat-hint id="channel-hint">Liczy się sposób zawarcia umowy, nie miejsce odbioru.</mat-hint>
+        </mat-form-field>
+        @if (errors['purchaseChannel']) { <p id="error-purchaseChannel" class="field-error">{{ errors['purchaseChannel'] }}</p> }
+      </div>
+      <div class="wide">
+        <mat-form-field appearance="outline"><mat-label>{{ form.requestType === 'Reklamacja' ? 'Opis objawów (wymagany)' : 'Powód zwrotu (opcjonalny)' }}</mat-label>
+          <textarea matInput name="description" rows="4" [(ngModel)]="form.description" (ngModelChange)="clearError('description')" [required]="form.requestType === 'Reklamacja'" aria-describedby="description-hint error-description"></textarea>
+          <mat-hint id="description-hint">Opisz także objawy niewidoczne na zdjęciu. Nie podawaj danych osobowych.</mat-hint>
+        </mat-form-field>
+        @if (errors['description']) { <p id="error-description" class="field-error">{{ errors['description'] }}</p> }
+      </div>
+    </div>
+    <div class="photo">
+      <p id="photo-label"><strong>Zdjęcie urządzenia (wymagane)</strong></p>
+      <p id="photo-hint">Jedno zdjęcie JPEG, PNG lub WebP, do 10 000 000 bajtów. Bez twarzy, etykiet identyfikacyjnych i dokumentów. Zdjęcie jest wymogiem demonstracji, nie warunkiem prawnym reklamacji.</p>
+      <input #photoInput hidden type="file" accept="image/jpeg,image/png,image/webp" aria-labelledby="photo-label" aria-describedby="photo-hint error-image" (change)="chooseImage($event)">
+      <button mat-stroked-button type="button" (click)="photoInput.click()" [disabled]="busy()">{{ file ? 'Zastąp zdjęcie' : 'Wybierz zdjęcie' }}</button>
+      @if (preview) {
+        <div class="preview"><img [src]="preview" alt="Podgląd zdjęcia urządzenia"><button mat-button type="button" (click)="removeImage()" [disabled]="busy()">Usuń zdjęcie</button></div>
+      }
+      @if (errors['image']) { <p id="error-image" class="field-error">{{ errors['image'] }}</p> }
+    </div>
+    <button mat-flat-button type="submit" [disabled]="busy()">Przejdź do analizy</button>
+  </fieldset>
+</form>

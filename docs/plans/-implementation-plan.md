@@ -149,7 +149,7 @@ This checklist is the single execution-status tracker selected by the user. Matr
 - [x] T02 - Approve source and instruction inputs; [source/privacy acceptance](../qa/first-slice/T02/acceptance.md), local commit subject `Docs: add bounded procedure and scenario inputs`.
 - [x] T03 - Deterministic rules; [verification](../qa/first-slice/T03/verification.md), local commit subject `Backend: add deterministic case rules`.
 - [x] T04 - Image preparation; [verification](../qa/first-slice/T04/verification.md), local commit subject `Backend: prepare validated model images`.
-- [ ] T05 - Material intake.
+- [x] T05 - Material intake; [component evidence](../qa/first-slice/T05/verification.md), local commit subject `Frontend: add Material case intake`; connected browser acceptance remains T13.
 - [x] T06 - Establish live provider captures; [real capture verification](../qa/first-slice/T06/verification.md), local commit subject `Tests: capture real OpenRouter contracts`.
 - [ ] T07 - Decisions HTTP client.
 - [ ] T08 - Single multimodal escalation.
