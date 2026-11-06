@@ -111,7 +111,7 @@ The worker reports changed files, failing-test evidence before code, command exi
 
 ### Safe demonstration inputs and negative cases
 
-Use existing [photos and their integrity rules][photos]. Start with `laptop-2.webp` for a return and `phone-1.jpg` for a complaint, after T02 privacy review; include the smaller phone photos as evidence-limit cases. The asset register identifies `laptop-1.png` as JPEG bytes despite its extension: verify actual browser MIME/decode behavior and exercise the mismatch error, without renaming or altering the source. Process copies on the server only. Do not generate replacement upload photos or leak filenames, evaluation labels or an expected damage description into model input.
+Use existing [photos and their integrity rules][photos]. T02 approves `laptop-2.webp` for a return and `phone-2.jpeg` for a complaint. Exclude `phone-1.jpg` (readable identifiers), `phone-3.jpeg` (unverified label/QR) and `laptop-1.png` (reflected person) from model uploads; see [privacy acceptance](../qa/first-slice/T02/acceptance.md). The asset register identifies `laptop-1.png` as JPEG bytes despite its extension: verify actual browser MIME/decode behavior and exercise the mismatch error, without renaming or altering the source. Process copies on the server only. Do not generate replacement upload photos or leak filenames, evaluation labels or an expected damage description into model input.
 
 Form data is synthetic: non-identifying device names with unknown exact model, consumer/distance purchase for the primary cases, dates derived from the real Warsaw assessment date within the supported source version, optional empty return reason and a fictional invisible complaint symptom. Supply the customer's actual selected category as the PRD requires; do not add test-only visual hints. Add business/unknown-channel, invalid dates, second/oversize/corrupt image, duplicate operation, material correction, new case, refresh and cross-case isolation cases. Keep private human visual labels separate from the model prompt; do not predetermine what the model must say about a photo.
 
@@ -144,7 +144,7 @@ This checklist is the single execution-status tracker selected by the user. Matr
 - [x] P02 - Human authorizes implementation and agent dispatch (2026-11-06 execution request).
 - [x] T00 - Freeze implementation contracts; accepted catalogue: [contracts](../qa/first-slice/contracts.md). Commit: this focused T00 commit (resolve using its `Docs: freeze first-slice implementation contracts` subject).
 - [x] T01 - Prepare existing scaffold and runners; [evidence](../qa/first-slice/T01/verification.md), local commit subject `App: initialize Angular and Express workspace`.
-- [ ] T02 - Approve source and instruction inputs.
+- [x] T02 - Approve source and instruction inputs; [source/privacy acceptance](../qa/first-slice/T02/acceptance.md), local commit subject `Docs: add bounded procedure and scenario inputs`.
 - [ ] T03 - Deterministic rules.
 - [ ] T04 - Image preparation.
 - [ ] T05 - Material intake.
