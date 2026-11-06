@@ -295,3 +295,51 @@ describe('AssessmentClient', () => {
     expect(client.phase()).toBe('result');
   });
 });
+
+it('clears the server case and in-memory draft/results when starting a new case', async () => {
+  const fetcher = vi.fn(async (_url: RequestInfo | URL, init?: RequestInit) => init?.method === 'DELETE' ? new Response(null, { status: 204 }) : sseResponse([{ kind: 'result', sequence: 1, caseId: CASE_ID, revision: 1, result: result() }]));
+  vi.stubGlobal('fetch', fetcher);
+  const client = createClient();
+  await client.submit({ intake: INTAKE, image: makeFile() });
+  await client.startNewCase();
+  expect(fetcher.mock.calls.at(-1)?.[0]).toBe(`/api/cases/${CASE_ID}`);
+  expect(client.result()).toBeNull();
+  expect(client.previousResults()).toEqual([]);
+  expect(client.draftEpoch()).toBe(1);
+  expect(client.phase()).toBe('intake');
+});
+it('retains the current draft/result when clearing the server case fails', async () => {
+  vi.stubGlobal('fetch', vi.fn(async (_url: RequestInfo | URL, init?: RequestInit) => init?.method === 'DELETE' ? new Response('{}', { status: 503 }) : sseResponse([{ kind: 'result', sequence: 1, caseId: CASE_ID, revision: 1, result: result() }])));
+  const client = createClient();
+  await client.submit({ intake: INTAKE, image: makeFile() });
+  await client.startNewCase();
+  expect(client.result()?.caseId).toBe(CASE_ID);
+  expect(client.draftEpoch()).toBe(0);
+  expect(client.error()?.code).toBe('unavailable');
+});
+it('rejects a terminal event that does not match the current stream revision', async () => {
+  vi.stubGlobal('fetch', vi.fn(async () => sseResponse([
+    { kind: 'progress', sequence: 1, caseId: CASE_ID, revision: 1, stage: 'observations' },
+    { kind: 'result', sequence: 2, caseId: CASE_ID, revision: 2, result: result() },
+  ])));
+  const client = createClient();
+  await client.submit({ intake: INTAKE, image: makeFile() });
+  expect(client.result()).toBeNull();
+  expect(client.error()).not.toBeNull();
+});
+it('reconciles an interrupted request using the session-bound server snapshot', async () => {
+  const encoder = new TextEncoder();
+  let first = true;
+  const interrupted = result({ stage: 'interrupted' });
+  vi.stubGlobal('fetch', vi.fn(async (url: RequestInfo | URL) => {
+    if (String(url) !== '/api/assessments') return Response.json({ caseId: CASE_ID, revision: 1, stage: 'interrupted', result: interrupted });
+    return new Response(new ReadableStream<Uint8Array>({ pull(controller) {
+      if (first) { first = false; controller.enqueue(encoder.encode(`data: ${JSON.stringify({ kind: 'progress', sequence: 1, caseId: CASE_ID, revision: 1, stage: 'observations' })}\n\n`)); }
+      else controller.error(new Error('Synthetic disconnect'));
+    } }));
+  }));
+  const client = createClient();
+  await client.submit({ intake: INTAKE, image: makeFile() });
+  expect(client.result()?.stage).toBe('interrupted');
+  expect(client.phase()).toBe('result');
+});

@@ -27,12 +27,44 @@ export class AssessmentClient {
   readonly stage = signal<Stage | null>(null);
   readonly result = signal<AssessmentRevision | null>(null);
   readonly error = signal<PublicError | null>(null);
+  readonly previousResults = signal<AssessmentRevision[]>([]);
+  readonly draftEpoch = signal(0);
+  readonly clearing = signal(false);
 
   private attempt = 0;
   private controller: AbortController | null = null;
+  private pendingIdentity: { caseId: string; revision: number } | null = null;
 
   get busy(): boolean {
-    return this.phase() === 'running';
+    return this.phase() === 'running' || this.clearing();
+  }
+
+  async startNewCase(): Promise<void> {
+    if (this.clearing()) return;
+    ++this.attempt;
+    this.controller?.abort();
+    this.clearing.set(true);
+    this.phase.set('intake');
+    this.stage.set(null);
+    this.error.set(null);
+    const caseId = this.pendingIdentity?.caseId ?? this.result()?.caseId;
+    try {
+      if (caseId) {
+        const response = await fetch(`/api/cases/${encodeURIComponent(caseId)}`, { method: 'DELETE' });
+        if (!response.ok && response.status !== 404 && response.status !== 410) {
+          this.error.set(publicErrorFromResponse(response.status, await safeJson(response)));
+          return;
+        }
+      }
+      this.pendingIdentity = null;
+      this.result.set(null);
+      this.previousResults.set([]);
+      this.draftEpoch.update(value => value + 1);
+    } catch {
+      this.error.set({ code: 'unavailable', message: 'The case could not be cleared. Your draft is still available.' });
+    } finally {
+      this.clearing.set(false);
+    }
   }
 
   /** Returns to the intake form; the completed result is kept for a reassess revision. */
@@ -43,6 +75,7 @@ export class AssessmentClient {
   }
 
   async submit(payload: AssessmentSubmission): Promise<void> {
+    if (this.clearing()) return;
     const attempt = ++this.attempt;
     this.controller?.abort();
     const controller = new AbortController();
@@ -52,6 +85,7 @@ export class AssessmentClient {
     this.phase.set('running');
 
     const current = this.result();
+    this.pendingIdentity = current ? { caseId: current.caseId, revision: current.revision + 1 } : null;
     const form = new FormData();
     form.set('caseType', payload.intake.caseType);
     form.set('category', payload.intake.category);
@@ -77,6 +111,7 @@ export class AssessmentClient {
         return;
       }
       this.fail({ code: 'unavailable', message: 'The assessment service could not be reached.' });
+      if (this.pendingIdentity) await this.resync(this.pendingIdentity.caseId, attempt);
       return;
     }
     if (!response.ok) {
@@ -100,6 +135,7 @@ export class AssessmentClient {
         return;
       }
       this.fail({ code: 'unavailable', message: 'The assessment stream ended unexpectedly.' });
+      if (this.pendingIdentity) await this.resync(this.pendingIdentity.caseId, attempt);
       return;
     }
     if (attempt !== this.attempt) {
@@ -107,6 +143,7 @@ export class AssessmentClient {
     }
     if (!sawResult) {
       this.fail({ code: 'unavailable', message: 'The assessment ended before a result arrived.' });
+      if (this.pendingIdentity) await this.resync(this.pendingIdentity.caseId, attempt);
     }
   }
 
@@ -119,6 +156,7 @@ export class AssessmentClient {
     const decoder = new TextDecoder();
     let buffer = '';
     let sawResult = false;
+    let lastSequence = 0;
     for (;;) {
       const { done, value } = await reader.read();
       if (done) {
@@ -150,13 +188,27 @@ export class AssessmentClient {
         if (attempt !== this.attempt) {
           continue;
         }
+        if (!event || !Number.isSafeInteger(event.sequence) || event.sequence <= lastSequence ||
+            typeof event.caseId !== 'string' || !Number.isSafeInteger(event.revision) || event.revision < 1 || sawResult) {
+          throw new Error('Invalid assessment event');
+        }
+        this.pendingIdentity ??= { caseId: event.caseId, revision: event.revision };
+        if (event.caseId !== this.pendingIdentity.caseId || event.revision !== this.pendingIdentity.revision) {
+          throw new Error('Mismatched assessment event');
+        }
+        lastSequence = event.sequence;
         if (event.kind === 'progress') {
+          if (!(event.stage in stageLabels)) throw new Error('Invalid assessment stage');
           this.stage.set(event.stage);
         } else if (event.kind === 'result') {
-          this.result.set(event.result);
+          if (!event.result || event.result.caseId !== event.caseId || event.result.revision !== event.revision ||
+              !['completed', 'interrupted'].includes(event.result.stage)) throw new Error('Invalid assessment result');
+          this.adopt(event.result);
           this.stage.set(null);
           this.phase.set('result');
           sawResult = true;
+        } else {
+          throw new Error('Unknown assessment event');
         }
       }
     }
@@ -176,14 +228,23 @@ export class AssessmentClient {
       }
       const current = this.result();
       const found = snapshot.result ?? null;
-      if (found && (!current || found.revision > current.revision)) {
-        this.result.set(found);
+      if (found && found.caseId === caseId && found.revision >= (this.pendingIdentity?.revision ?? (current ? current.revision + 1 : 1))) {
+        this.adopt(found);
         this.error.set(null);
         this.phase.set('result');
       }
     } catch {
       /* Keep the visible error. */
     }
+  }
+
+  private adopt(result: AssessmentRevision): void {
+    const previous = this.result();
+    if (previous && previous.caseId === result.caseId && previous.revision < result.revision) {
+      this.previousResults.update(values => [...values, previous]);
+    }
+    this.result.set(result);
+    this.pendingIdentity = { caseId: result.caseId, revision: result.revision };
   }
 
   private fail(error: PublicError): void {

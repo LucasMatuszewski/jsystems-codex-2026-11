@@ -224,5 +224,29 @@ describe('Synthetic staff workspace', () => {
     expect(form.get('caseId')).toBe(CASE_ID);
     expect(form.get('expectedRevision')).toBe('1');
     expect(element.textContent).toContain('Second explanation.');
+    expect(element.textContent).toContain('Superseded revision 1');
+    expect(element.querySelectorAll('app-assessment-view').length).toBe(2);
+    const ids = [...element.querySelectorAll('[id]')].map(node => node.id);
+    expect(new Set(ids).size).toBe(ids.length);
   });
+});
+
+it('starts a clean case, deleting server evidence and destroying the previous draft preview', async () => {
+  vi.stubGlobal('fetch', vi.fn(async () => new Response(null, { status: 204 })));
+  await TestBed.configureTestingModule({ imports: [App] }).compileComponents();
+  const fixture = TestBed.createComponent(App);
+  await settle(fixture);
+  const before = intakeComponent(fixture);
+  applyIntake(before, VALID_INTAKE);
+  fixture.componentInstance.client.result.set(result());
+  fixture.componentInstance.client.phase.set('result');
+  await settle(fixture);
+  const button = [...(fixture.nativeElement as HTMLElement).querySelectorAll('button')].find(item => item.textContent?.includes('Start new case'));
+  expect(button).toBeTruthy();
+  button?.click();
+  await settle(fixture);
+  expect(intakeComponent(fixture)).not.toBe(before);
+  expect(intakeComponent(fixture).form.controls.model.value).toBe('');
+  expect(fixture.componentInstance.client.result()).toBeNull();
+  expect(fixture.nativeElement.querySelector('app-chat-panel')).toBeNull();
 });

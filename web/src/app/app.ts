@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { AssessmentClient, stageLabels } from './assessment-client/assessment-client';
 import { AssessmentView } from './assessment-view/assessment-view';
 import { ChatPanel } from './chat/chat-panel';
@@ -9,7 +10,7 @@ import type { Intake } from './assessment.types';
 
 @Component({
   selector: 'app-root',
-  imports: [MatCardModule, MatButtonModule, IntakeForm, AssessmentView, ChatPanel],
+  imports: [MatCardModule, MatButtonModule, MatExpansionModule, IntakeForm, AssessmentView, ChatPanel],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
@@ -22,6 +23,10 @@ export class App {
 
   editIntake(): void {
     this.client.editIntake();
+  }
+
+  startNewCase(): void {
+    void this.client.startNewCase();
   }
 
   stageLabel(): string {

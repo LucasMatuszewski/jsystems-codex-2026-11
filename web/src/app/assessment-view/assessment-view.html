@@ -1,9 +1,9 @@
-<article class="assessment-view" aria-labelledby="assessment-heading">
+<article class="assessment-view" [attr.aria-labelledby]="sectionId() + '-heading'">
   @if (superseded()) {
     <p class="superseded" role="status">Superseded older revision - read only</p>
-    <h2 id="assessment-heading">Older assessment result</h2>
+    <h2 [id]="sectionId() + '-heading'">Older assessment result</h2>
   } @else {
-    <h2 id="assessment-heading">Current assessment result</h2>
+    <h2 [id]="sectionId() + '-heading'">Current assessment result</h2>
   }
 
   <mat-card appearance="outlined" class="status-card" aria-live="polite">
@@ -69,8 +69,8 @@
     <h3>Initial observations</h3>
     <div class="observation-list">
       @for (observation of result().initialObservations; track observation.id) {
-        <section class="observation" [attr.aria-labelledby]="'finding-' + observation.id">
-          <h4 [id]="'finding-' + observation.id">{{ observationName(observation.id) }}: {{ labelText(observation.label) }}</h4>
+        <section class="observation" [attr.aria-labelledby]="sectionId() + '-finding-' + observation.id">
+          <h4 [id]="sectionId() + '-finding-' + observation.id">{{ observationName(observation.id) }}: {{ labelText(observation.label) }}</h4>
           <dl class="evidence-grid">
             <dt>Raw probability</dt><dd>{{ probabilityText(observation.rawProbability) }}</dd>
             <dt>Usable probability</dt><dd>{{ usableProbabilityText(observation) }}</dd>
@@ -91,8 +91,8 @@
       @if (detail.findings.length) {
         <div class="observation-list">
           @for (finding of detail.findings; track finding.id) {
-            <section class="observation" [attr.aria-labelledby]="'detail-' + finding.id">
-              <h4 [id]="'detail-' + finding.id">{{ observationName(finding.id) }}: {{ labelText(finding.label) }}</h4>
+            <section class="observation" [attr.aria-labelledby]="sectionId() + '-detail-' + finding.id">
+              <h4 [id]="sectionId() + '-detail-' + finding.id">{{ observationName(finding.id) }}: {{ labelText(finding.label) }}</h4>
               <p>{{ finding.evidence || 'No specific visible evidence returned for this finding.' }}</p>
               @if (finding.limitations.length) {
                 <h5>Limitations</h5>

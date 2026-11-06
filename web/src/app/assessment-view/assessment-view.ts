@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, computed, input } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatExpansionModule } from '@angular/material/expansion';
 import type { AssessmentRevision, Observation, ObservationId, ObservationLabel } from '../assessment.types';
@@ -13,6 +13,7 @@ import type { AssessmentRevision, Observation, ObservationId, ObservationLabel }
 export class AssessmentView {
   readonly result = input.required<AssessmentRevision>();
   readonly superseded = input(false);
+  readonly sectionId = computed(() => `assessment-${this.result().caseId}-${this.result().revision}`);
 
   readonly singleImageLimit = 'One image cannot prove hidden condition, functionality, damage cause or legal eligibility.';
   readonly noRationale = 'Typed visual assessment; this provider did not return a visual rationale.';

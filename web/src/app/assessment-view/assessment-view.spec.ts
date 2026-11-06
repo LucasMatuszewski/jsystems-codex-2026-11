@@ -69,8 +69,8 @@ describe('assessment evidence view', () => {
     const fixture = await render(result());
     const page = fixture.nativeElement.textContent as string;
     for (const label of ['Image usability', 'Item relevance', 'Crack visible', 'Dent or deformation visible', 'Scratch visible', 'Not assessable']) expect(page).toContain(label);
-    const crack = fixture.nativeElement.querySelector('#finding-crack_visible').parentElement as HTMLElement;
-    const scratch = fixture.nativeElement.querySelector('#finding-scratch_visible').parentElement as HTMLElement;
+    const crack = fixture.nativeElement.querySelector('[id$="-finding-crack_visible"]').parentElement as HTMLElement;
+    const scratch = fixture.nativeElement.querySelector('[id$="-finding-scratch_visible"]').parentElement as HTMLElement;
     expect(Array.from(crack.querySelectorAll('dd')).map(value => value.textContent?.trim())).toEqual(['0.15', '0.15', 'Decisions model: synthetic/decision']);
     expect(Array.from(scratch.querySelectorAll('dd')).map(value => value.textContent?.trim())).toEqual(['0.1', 'Not used; image usability or relevance prerequisite was not clearly positive', 'Decisions model: synthetic/decision']);
     expect(page).toContain('Typed visual assessment; this provider did not return a visual rationale.');
