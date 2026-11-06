@@ -1,0 +1,4 @@
+interface:
+  display_name: "Write Implementation Plan"
+  short_description: "Plan one verified slice with native or CLI workers"
+  default_prompt: "Use $write-implementation-plan to draft a reviewable vertical-slice plan from this session and the approved repository documents, without starting implementation or workers."
