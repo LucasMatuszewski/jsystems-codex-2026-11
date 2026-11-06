@@ -1,0 +1,6 @@
+{
+  "status": 500,
+  "body": {
+    "error": "Nie udało się przetworzyć żądania. Spróbuj rozpocząć nową sprawę."
+  }
+}

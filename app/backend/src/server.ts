@@ -5,6 +5,7 @@ import { ImagePreparationError } from './images/prepare.js';
 import { assessmentRoutes } from './routes/assessment.js';
 import { caseRoutes } from './routes/case.js';
 import multer from 'multer';
+import { chatRoutes } from './routes/chat.js';
 
 export function createApp() {
   const app = express();
@@ -20,6 +21,7 @@ export function createApp() {
   app.get('/api/health', (_request, response) => response.json({ status: 'ok' }));
   app.use('/api/assessment', assessmentRoutes(store));
   app.use('/api/case', caseRoutes(store));
+  app.use('/api/chat', chatRoutes(store));
   app.use('/api', (_request, response) => response.status(404).json({ error: 'Nie znaleziono żądanej operacji.' }));
   app.use((error: unknown, _request: express.Request, response: express.Response, _next: express.NextFunction) => {
     if (response.headersSent) { response.end(); return; }

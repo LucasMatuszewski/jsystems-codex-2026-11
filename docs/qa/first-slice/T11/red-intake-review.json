@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "reasons": [
+    {
+      "code": "unresolved_evidence",
+      "message": "Pozostały niepewności lub sprzeczności w ocenie zdjęcia. Potrzebna weryfikacja pracownika.",
+      "origin": "assessment"
+    },
+    {
+      "code": "chat_conflict",
+      "origin": "chat",
+      "message": "W rozmowie pojawiły się sprzeczne informacje. Potrzebna weryfikacja pracownika."
+    }
+  ]
+}

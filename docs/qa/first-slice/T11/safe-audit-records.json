@@ -1,0 +1,20 @@
+[
+  {
+    "event": "provider-call",
+    "stage": "initial_assessment",
+    "operationId": "891b80e7-e16d-429a-b5bd-7cea92a58297",
+    "httpStatus": 401
+  },
+  {
+    "event": "provider-error",
+    "stage": "conversation",
+    "operationId": "191fccfa-60a1-4458-bd09-0596fa00c157",
+    "errorName": "AI_APICallError"
+  },
+  {
+    "event": "provider-error",
+    "stage": "conversation",
+    "operationId": "a46dbfbe-33d0-401d-b667-cac2cab45afc",
+    "errorName": "AI_APICallError"
+  }
+]

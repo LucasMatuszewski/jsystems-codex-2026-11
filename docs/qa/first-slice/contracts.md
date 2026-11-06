@@ -68,7 +68,9 @@ never make another Decisions/escalation call. Tokens are opaque random
 bearer capabilities held in tab memory only. They never appear in URLs.
 
 Before streaming: required/date/format/decode errors are HTTP 422 with
-`{ error: { code, message, fields } }`; oversized input is 413. Dates use the
+`{ errors: FieldErrors }`; oversized input is 413. Other application failures
+use `{ error: string }` with an approved Polish message. T10 materialized these
+small application DTOs; neither shape contains provider exceptions. Dates use the
 assessment day in Europe/Warsaw, not UTC hours; receipt cannot precede purchase
 and neither date can be in the future. MIME and actual decode must agree;
 extensions are not sufficient proof. No model receives invalid/unprepared data.
@@ -80,7 +82,7 @@ NDJSON content type is `application/x-ndjson`. Each line is one JSON object:
   `validation`, `image_preparation`, `initial_assessment`, `escalation` or
   `ready_for_chat`. No countdown or invented completion percentage.
 - `result`: `{ type, operationId, caseToken, case: PublicCase }`.
-- `error`: `{ type, operationId, error: { code, message, fields? } }`.
+- `error`: `{ type, operationId, caseToken?, stage, errors: FieldErrors }`.
 
 Exactly one terminal record, `result` or `error`, may be emitted. A disconnected
 stream without a terminal record is incomplete. Input/preparation failures keep

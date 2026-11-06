@@ -1,0 +1,206 @@
+{
+  "date": "2026-11-06T15:14:22.203Z",
+  "target": "http://127.0.0.1:3001",
+  "credentialMode": "Process-local synthetic invalid credential, real official OpenRouter endpoints, .env unchanged",
+  "captures": [
+    {
+      "stage": "assessment",
+      "request": {
+        "form": {
+          "requestType": "Reklamacja",
+          "category": "Smartfon",
+          "model": "Dokładny model nieznany",
+          "purchaseDate": "2026-11-06",
+          "receiptDate": "2026-11-06",
+          "buyerType": "Konsument",
+          "purchaseChannel": "W salonie",
+          "description": "Syntetyczny opis: telefon sporadycznie wyłącza się podczas rozmowy. Objaw nie jest widoczny na zdjęciu."
+        },
+        "imageSha256": "ed4df956aa26a579ac44df2dc8a3cb5e848b29ce5e3f8898a82b8202b39a4a27"
+      },
+      "status": 200,
+      "headers": {
+        "cache-control": "no-store",
+        "connection": "keep-alive",
+        "content-type": "application/x-ndjson; charset=utf-8",
+        "date": "Fri, 06 Nov 2026 15:14:21 GMT",
+        "keep-alive": "timeout=5",
+        "transfer-encoding": "chunked",
+        "x-content-type-options": "nosniff"
+      },
+      "body": "{\"caseToken\":\"[redacted-case-token]\",\"operationId\":\"891b80e7-e16d-429a-b5bd-7cea92a58297\",\"type\":\"stage\",\"stage\":\"image_preparation\"}\n{\"caseToken\":\"[redacted-case-token]\",\"operationId\":\"891b80e7-e16d-429a-b5bd-7cea92a58297\",\"type\":\"stage\",\"stage\":\"initial_assessment\"}\n{\"caseToken\":\"[redacted-case-token]\",\"operationId\":\"891b80e7-e16d-429a-b5bd-7cea92a58297\",\"type\":\"stage\",\"stage\":\"ready_for_chat\"}\n{\"caseToken\":\"[redacted-case-token]\",\"operationId\":\"891b80e7-e16d-429a-b5bd-7cea92a58297\",\"type\":\"result\",\"case\":{\"caseToken\":\"[redacted-case-token]\",\"form\":{\"requestType\":\"Reklamacja\",\"category\":\"Smartfon\",\"model\":\"Dokładny model nieznany\",\"purchaseDate\":\"2026-11-06\",\"receiptDate\":\"2026-11-06\",\"buyerType\":\"Konsument\",\"purchaseChannel\":\"W salonie\",\"description\":\"Syntetyczny opis: telefon sporadycznie wyłącza się podczas rozmowy. Objaw nie jest widoczny na zdjęciu.\"},\"assessmentDate\":\"2026-11-06\",\"findings\":{\"assessmentDate\":\"2026-11-06\",\"daysSinceReceipt\":0,\"withinStatutoryBaseline\":true,\"withinCompanyBaseline\":true,\"withinComplaintBaseline\":true,\"sourceVersion\":\"2026-11-06\",\"sourceIds\":[\"S1\",\"S3\"],\"limitations\":[\"To bazowe wyliczenia kalendarzowe i wstępna wskazówka, nie rozstrzygnięcie uprawnień ani wygaśnięcia praw.\",\"Nietypowe dostawy, wyjątki i niepewne przedłużenia terminów wymagają weryfikacji.\",\"Data oceny nie jest datą zgłoszenia zwrotu ani reklamacji. Rozmowa niczego nie zgłasza.\"]},\"review\":{\"required\":true,\"reasons\":[{\"code\":\"initial_unavailable\",\"message\":\"Wstępna ocena zdjęcia jest niedostępna. Potrzebna weryfikacja pracownika.\",\"origin\":\"assessment\"}]},\"turns\":[],\"operation\":{\"id\":\"891b80e7-e16d-429a-b5bd-7cea92a58297\",\"kind\":\"assessment\",\"stage\":\"ready_for_chat\",\"state\":\"completed\"},\"assessment\":{\"decision\":{\"available\":false,\"observations\":[],\"model\":\"openai/gpt-6-luna-decisions\",\"unavailableReason\":\"Nie udało się uzyskać kompletnej oceny wzrokowej. Wymagana jest weryfikacja. Dostawca nie potwierdził wersji modelu; zapisano model wskazany w żądaniu.\",\"httpStatus\":401},\"escalation\":null,\"image\":{\"mime\":\"image/jpeg\",\"sourceWidth\":387,\"sourceHeight\":516,\"width\":387,\"height\":516,\"inputBytes\":14979,\"outputBytes\":17441,\"sha256\":\"67793968363a0a364f990b1c8afa1bc0a2604872679fbd19ba06835fe3aafdea\",\"pipelineVersion\":\"jpeg1568-q85-v1\",\"limitations\":[\"Kompresja zdjęcia może ograniczyć widoczność drobnych szczegółów. Brak widocznego uszkodzenia nie potwierdza jego braku.\"]},\"findings\":{\"assessmentDate\":\"2026-11-06\",\"daysSinceReceipt\":0,\"withinStatutoryBaseline\":true,\"withinCompanyBaseline\":true,\"withinComplaintBaseline\":true,\"sourceVersion\":\"2026-11-06\",\"sourceIds\":[\"S1\",\"S3\"],\"limitations\":[\"To bazowe wyliczenia kalendarzowe i wstępna wskazówka, nie rozstrzygnięcie uprawnień ani wygaśnięcia praw.\",\"Nietypowe dostawy, wyjątki i niepewne przedłużenia terminów wymagają weryfikacji.\",\"Data oceny nie jest datą zgłoszenia zwrotu ani reklamacji. Rozmowa niczego nie zgłasza.\"]},\"sourceVersions\":{\"version\":\"2026-11-06\",\"procedureSha256\":\"ba6ad915927511de06b69edb6bb51dccc1f2d3bf0227072f14a1038f36efd247\",\"instructionSha256\":\"303c1850ed0374aa7739a4465a19e238746073812b47f2a290be97f84a6b977b\"}},\"status\":\"review_required\"}}\n"
+    },
+    {
+      "stage": "intake",
+      "request": {
+        "caseToken": "[redacted-case-token]",
+        "operationId": "191fccfa-60a1-4458-bd09-0596fa00c157",
+        "turnId": "df8ee7ca-31c7-4c21-870e-8ee0a899767d",
+        "attemptId": "ac4c6691-f17b-4e23-9fc4-5308f061f29a",
+        "intent": "intake"
+      },
+      "status": 200,
+      "headers": {
+        "cache-control": "no-store",
+        "connection": "keep-alive",
+        "content-type": "text/event-stream",
+        "date": "Fri, 06 Nov 2026 15:14:21 GMT",
+        "transfer-encoding": "chunked",
+        "x-accel-buffering": "no",
+        "x-vercel-ai-ui-message-stream": "v1"
+      },
+      "body": "data: {\"type\":\"start\",\"messageId\":\"ac4c6691-f17b-4e23-9fc4-5308f061f29a\"}\n\ndata: {\"type\":\"error\",\"errorText\":\"Nie udało się wygenerować odpowiedzi. Wynik oceny pozostaje dostępny. Możesz ponowić tę odpowiedź lub rozpocząć nową sprawę.\"}\n\ndata: {\"type\":\"data-case-status\",\"data\":{\"caseToken\":\"[redacted-case-token]\",\"form\":{\"requestType\":\"Reklamacja\",\"category\":\"Smartfon\",\"model\":\"Dokładny model nieznany\",\"purchaseDate\":\"2026-11-06\",\"receiptDate\":\"2026-11-06\",\"buyerType\":\"Konsument\",\"purchaseChannel\":\"W salonie\",\"description\":\"Syntetyczny opis: telefon sporadycznie wyłącza się podczas rozmowy. Objaw nie jest widoczny na zdjęciu.\"},\"assessmentDate\":\"2026-11-06\",\"findings\":{\"assessmentDate\":\"2026-11-06\",\"daysSinceReceipt\":0,\"withinStatutoryBaseline\":true,\"withinCompanyBaseline\":true,\"withinComplaintBaseline\":true,\"sourceVersion\":\"2026-11-06\",\"sourceIds\":[\"S1\",\"S3\"],\"limitations\":[\"To bazowe wyliczenia kalendarzowe i wstępna wskazówka, nie rozstrzygnięcie uprawnień ani wygaśnięcia praw.\",\"Nietypowe dostawy, wyjątki i niepewne przedłużenia terminów wymagają weryfikacji.\",\"Data oceny nie jest datą zgłoszenia zwrotu ani reklamacji. Rozmowa niczego nie zgłasza.\"]},\"review\":{\"required\":true,\"reasons\":[{\"code\":\"initial_unavailable\",\"message\":\"Wstępna ocena zdjęcia jest niedostępna. Potrzebna weryfikacja pracownika.\",\"origin\":\"assessment\"}]},\"turns\":[{\"id\":\"df8ee7ca-31c7-4c21-870e-8ee0a899767d\",\"intent\":\"intake\",\"input\":\"Formularz sprawy: {\\\"requestType\\\":\\\"Reklamacja\\\",\\\"category\\\":\\\"Smartfon\\\",\\\"model\\\":\\\"Dokładny model nieznany\\\",\\\"purchaseDate\\\":\\\"2026-11-06\\\",\\\"receiptDate\\\":\\\"2026-11-06\\\",\\\"buyerType\\\":\\\"Konsument\\\",\\\"purchaseChannel\\\":\\\"W salonie\\\",\\\"description\\\":\\\"Syntetyczny opis: telefon sporadycznie wyłącza się podczas rozmowy. Objaw nie jest widoczny na zdjęciu.\\\"}\",\"attempts\":[{\"id\":\"ac4c6691-f17b-4e23-9fc4-5308f061f29a\",\"operationId\":\"191fccfa-60a1-4458-bd09-0596fa00c157\",\"status\":\"failed\",\"text\":\"\",\"error\":\"Nie udało się wygenerować odpowiedzi. Wynik oceny pozostaje dostępny. Możesz ponowić tę odpowiedź lub rozpocząć nową sprawę.\"}]}],\"operation\":{\"id\":\"191fccfa-60a1-4458-bd09-0596fa00c157\",\"kind\":\"chat\",\"stage\":\"conversation\",\"state\":\"failed\"},\"assessment\":{\"decision\":{\"available\":false,\"observations\":[],\"model\":\"openai/gpt-6-luna-decisions\",\"unavailableReason\":\"Nie udało się uzyskać kompletnej oceny wzrokowej. Wymagana jest weryfikacja. Dostawca nie potwierdził wersji modelu; zapisano model wskazany w żądaniu.\",\"httpStatus\":401},\"escalation\":null,\"image\":{\"mime\":\"image/jpeg\",\"sourceWidth\":387,\"sourceHeight\":516,\"width\":387,\"height\":516,\"inputBytes\":14979,\"outputBytes\":17441,\"sha256\":\"67793968363a0a364f990b1c8afa1bc0a2604872679fbd19ba06835fe3aafdea\",\"pipelineVersion\":\"jpeg1568-q85-v1\",\"limitations\":[\"Kompresja zdjęcia może ograniczyć widoczność drobnych szczegółów. Brak widocznego uszkodzenia nie potwierdza jego braku.\"]},\"findings\":{\"assessmentDate\":\"2026-11-06\",\"daysSinceReceipt\":0,\"withinStatutoryBaseline\":true,\"withinCompanyBaseline\":true,\"withinComplaintBaseline\":true,\"sourceVersion\":\"2026-11-06\",\"sourceIds\":[\"S1\",\"S3\"],\"limitations\":[\"To bazowe wyliczenia kalendarzowe i wstępna wskazówka, nie rozstrzygnięcie uprawnień ani wygaśnięcia praw.\",\"Nietypowe dostawy, wyjątki i niepewne przedłużenia terminów wymagają weryfikacji.\",\"Data oceny nie jest datą zgłoszenia zwrotu ani reklamacji. Rozmowa niczego nie zgłasza.\"]},\"sourceVersions\":{\"version\":\"2026-11-06\",\"procedureSha256\":\"ba6ad915927511de06b69edb6bb51dccc1f2d3bf0227072f14a1038f36efd247\",\"instructionSha256\":\"303c1850ed0374aa7739a4465a19e238746073812b47f2a290be97f84a6b977b\"}},\"status\":\"review_required\"},\"transient\":true}\n\ndata: {\"type\":\"finish\"}\n\ndata: [DONE]\n\n"
+    },
+    {
+      "stage": "retry",
+      "request": {
+        "caseToken": "[redacted-case-token]",
+        "operationId": "a46dbfbe-33d0-401d-b667-cac2cab45afc",
+        "turnId": "df8ee7ca-31c7-4c21-870e-8ee0a899767d",
+        "attemptId": "359f6e92-c76a-4742-8fae-e83f13bad5b1",
+        "intent": "retry"
+      },
+      "status": 200,
+      "headers": {
+        "cache-control": "no-store",
+        "connection": "keep-alive",
+        "content-type": "text/event-stream",
+        "date": "Fri, 06 Nov 2026 15:14:22 GMT",
+        "transfer-encoding": "chunked",
+        "x-accel-buffering": "no",
+        "x-vercel-ai-ui-message-stream": "v1"
+      },
+      "body": "data: {\"type\":\"start\",\"messageId\":\"359f6e92-c76a-4742-8fae-e83f13bad5b1\"}\n\ndata: {\"type\":\"error\",\"errorText\":\"Nie udało się wygenerować odpowiedzi. Wynik oceny pozostaje dostępny. Możesz ponowić tę odpowiedź lub rozpocząć nową sprawę.\"}\n\ndata: {\"type\":\"data-case-status\",\"data\":{\"caseToken\":\"[redacted-case-token]\",\"form\":{\"requestType\":\"Reklamacja\",\"category\":\"Smartfon\",\"model\":\"Dokładny model nieznany\",\"purchaseDate\":\"2026-11-06\",\"receiptDate\":\"2026-11-06\",\"buyerType\":\"Konsument\",\"purchaseChannel\":\"W salonie\",\"description\":\"Syntetyczny opis: telefon sporadycznie wyłącza się podczas rozmowy. Objaw nie jest widoczny na zdjęciu.\"},\"assessmentDate\":\"2026-11-06\",\"findings\":{\"assessmentDate\":\"2026-11-06\",\"daysSinceReceipt\":0,\"withinStatutoryBaseline\":true,\"withinCompanyBaseline\":true,\"withinComplaintBaseline\":true,\"sourceVersion\":\"2026-11-06\",\"sourceIds\":[\"S1\",\"S3\"],\"limitations\":[\"To bazowe wyliczenia kalendarzowe i wstępna wskazówka, nie rozstrzygnięcie uprawnień ani wygaśnięcia praw.\",\"Nietypowe dostawy, wyjątki i niepewne przedłużenia terminów wymagają weryfikacji.\",\"Data oceny nie jest datą zgłoszenia zwrotu ani reklamacji. Rozmowa niczego nie zgłasza.\"]},\"review\":{\"required\":true,\"reasons\":[{\"code\":\"initial_unavailable\",\"message\":\"Wstępna ocena zdjęcia jest niedostępna. Potrzebna weryfikacja pracownika.\",\"origin\":\"assessment\"}]},\"turns\":[{\"id\":\"df8ee7ca-31c7-4c21-870e-8ee0a899767d\",\"intent\":\"intake\",\"input\":\"Formularz sprawy: {\\\"requestType\\\":\\\"Reklamacja\\\",\\\"category\\\":\\\"Smartfon\\\",\\\"model\\\":\\\"Dokładny model nieznany\\\",\\\"purchaseDate\\\":\\\"2026-11-06\\\",\\\"receiptDate\\\":\\\"2026-11-06\\\",\\\"buyerType\\\":\\\"Konsument\\\",\\\"purchaseChannel\\\":\\\"W salonie\\\",\\\"description\\\":\\\"Syntetyczny opis: telefon sporadycznie wyłącza się podczas rozmowy. Objaw nie jest widoczny na zdjęciu.\\\"}\",\"attempts\":[{\"id\":\"ac4c6691-f17b-4e23-9fc4-5308f061f29a\",\"operationId\":\"191fccfa-60a1-4458-bd09-0596fa00c157\",\"status\":\"failed\",\"text\":\"\",\"error\":\"Nie udało się wygenerować odpowiedzi. Wynik oceny pozostaje dostępny. Możesz ponowić tę odpowiedź lub rozpocząć nową sprawę.\"},{\"id\":\"359f6e92-c76a-4742-8fae-e83f13bad5b1\",\"operationId\":\"a46dbfbe-33d0-401d-b667-cac2cab45afc\",\"status\":\"failed\",\"text\":\"\",\"error\":\"Nie udało się wygenerować odpowiedzi. Wynik oceny pozostaje dostępny. Możesz ponowić tę odpowiedź lub rozpocząć nową sprawę.\"}]}],\"operation\":{\"id\":\"a46dbfbe-33d0-401d-b667-cac2cab45afc\",\"kind\":\"chat\",\"stage\":\"conversation\",\"state\":\"failed\"},\"assessment\":{\"decision\":{\"available\":false,\"observations\":[],\"model\":\"openai/gpt-6-luna-decisions\",\"unavailableReason\":\"Nie udało się uzyskać kompletnej oceny wzrokowej. Wymagana jest weryfikacja. Dostawca nie potwierdził wersji modelu; zapisano model wskazany w żądaniu.\",\"httpStatus\":401},\"escalation\":null,\"image\":{\"mime\":\"image/jpeg\",\"sourceWidth\":387,\"sourceHeight\":516,\"width\":387,\"height\":516,\"inputBytes\":14979,\"outputBytes\":17441,\"sha256\":\"67793968363a0a364f990b1c8afa1bc0a2604872679fbd19ba06835fe3aafdea\",\"pipelineVersion\":\"jpeg1568-q85-v1\",\"limitations\":[\"Kompresja zdjęcia może ograniczyć widoczność drobnych szczegółów. Brak widocznego uszkodzenia nie potwierdza jego braku.\"]},\"findings\":{\"assessmentDate\":\"2026-11-06\",\"daysSinceReceipt\":0,\"withinStatutoryBaseline\":true,\"withinCompanyBaseline\":true,\"withinComplaintBaseline\":true,\"sourceVersion\":\"2026-11-06\",\"sourceIds\":[\"S1\",\"S3\"],\"limitations\":[\"To bazowe wyliczenia kalendarzowe i wstępna wskazówka, nie rozstrzygnięcie uprawnień ani wygaśnięcia praw.\",\"Nietypowe dostawy, wyjątki i niepewne przedłużenia terminów wymagają weryfikacji.\",\"Data oceny nie jest datą zgłoszenia zwrotu ani reklamacji. Rozmowa niczego nie zgłasza.\"]},\"sourceVersions\":{\"version\":\"2026-11-06\",\"procedureSha256\":\"ba6ad915927511de06b69edb6bb51dccc1f2d3bf0227072f14a1038f36efd247\",\"instructionSha256\":\"303c1850ed0374aa7739a4465a19e238746073812b47f2a290be97f84a6b977b\"}},\"status\":\"review_required\"},\"transient\":true}\n\ndata: {\"type\":\"finish\"}\n\ndata: [DONE]\n\n"
+    },
+    {
+      "stage": "reconciled-case",
+      "status": 200,
+      "headers": {
+        "cache-control": "no-store",
+        "connection": "keep-alive",
+        "content-length": "3733",
+        "content-type": "application/json; charset=utf-8",
+        "date": "Fri, 06 Nov 2026 15:14:22 GMT",
+        "etag": "W/\"e95-TRue+3w2S/z3yosbx5iByxqGKt8\"",
+        "keep-alive": "timeout=5"
+      },
+      "body": {
+        "caseToken": "[redacted-case-token]",
+        "form": {
+          "requestType": "Reklamacja",
+          "category": "Smartfon",
+          "model": "Dokładny model nieznany",
+          "purchaseDate": "2026-11-06",
+          "receiptDate": "2026-11-06",
+          "buyerType": "Konsument",
+          "purchaseChannel": "W salonie",
+          "description": "Syntetyczny opis: telefon sporadycznie wyłącza się podczas rozmowy. Objaw nie jest widoczny na zdjęciu."
+        },
+        "assessmentDate": "2026-11-06",
+        "findings": {
+          "assessmentDate": "2026-11-06",
+          "daysSinceReceipt": 0,
+          "withinStatutoryBaseline": true,
+          "withinCompanyBaseline": true,
+          "withinComplaintBaseline": true,
+          "sourceVersion": "2026-11-06",
+          "sourceIds": [
+            "S1",
+            "S3"
+          ],
+          "limitations": [
+            "To bazowe wyliczenia kalendarzowe i wstępna wskazówka, nie rozstrzygnięcie uprawnień ani wygaśnięcia praw.",
+            "Nietypowe dostawy, wyjątki i niepewne przedłużenia terminów wymagają weryfikacji.",
+            "Data oceny nie jest datą zgłoszenia zwrotu ani reklamacji. Rozmowa niczego nie zgłasza."
+          ]
+        },
+        "review": {
+          "required": true,
+          "reasons": [
+            {
+              "code": "initial_unavailable",
+              "message": "Wstępna ocena zdjęcia jest niedostępna. Potrzebna weryfikacja pracownika.",
+              "origin": "assessment"
+            }
+          ]
+        },
+        "turns": [
+          {
+            "id": "df8ee7ca-31c7-4c21-870e-8ee0a899767d",
+            "intent": "intake",
+            "input": "Formularz sprawy: {\"requestType\":\"Reklamacja\",\"category\":\"Smartfon\",\"model\":\"Dokładny model nieznany\",\"purchaseDate\":\"2026-11-06\",\"receiptDate\":\"2026-11-06\",\"buyerType\":\"Konsument\",\"purchaseChannel\":\"W salonie\",\"description\":\"Syntetyczny opis: telefon sporadycznie wyłącza się podczas rozmowy. Objaw nie jest widoczny na zdjęciu.\"}",
+            "attempts": [
+              {
+                "id": "ac4c6691-f17b-4e23-9fc4-5308f061f29a",
+                "operationId": "191fccfa-60a1-4458-bd09-0596fa00c157",
+                "status": "failed",
+                "text": "",
+                "error": "Nie udało się wygenerować odpowiedzi. Wynik oceny pozostaje dostępny. Możesz ponowić tę odpowiedź lub rozpocząć nową sprawę."
+              },
+              {
+                "id": "359f6e92-c76a-4742-8fae-e83f13bad5b1",
+                "operationId": "a46dbfbe-33d0-401d-b667-cac2cab45afc",
+                "status": "failed",
+                "text": "",
+                "error": "Nie udało się wygenerować odpowiedzi. Wynik oceny pozostaje dostępny. Możesz ponowić tę odpowiedź lub rozpocząć nową sprawę."
+              }
+            ]
+          }
+        ],
+        "operation": {
+          "id": "a46dbfbe-33d0-401d-b667-cac2cab45afc",
+          "kind": "chat",
+          "stage": "conversation",
+          "state": "failed"
+        },
+        "assessment": {
+          "decision": {
+            "available": false,
+            "observations": [],
+            "model": "openai/gpt-6-luna-decisions",
+            "unavailableReason": "Nie udało się uzyskać kompletnej oceny wzrokowej. Wymagana jest weryfikacja. Dostawca nie potwierdził wersji modelu; zapisano model wskazany w żądaniu.",
+            "httpStatus": 401
+          },
+          "escalation": null,
+          "image": {
+            "mime": "image/jpeg",
+            "sourceWidth": 387,
+            "sourceHeight": 516,
+            "width": 387,
+            "height": 516,
+            "inputBytes": 14979,
+            "outputBytes": 17441,
+            "sha256": "67793968363a0a364f990b1c8afa1bc0a2604872679fbd19ba06835fe3aafdea",
+            "pipelineVersion": "jpeg1568-q85-v1",
+            "limitations": [
+              "Kompresja zdjęcia może ograniczyć widoczność drobnych szczegółów. Brak widocznego uszkodzenia nie potwierdza jego braku."
+            ]
+          },
+          "findings": {
+            "assessmentDate": "2026-11-06",
+            "daysSinceReceipt": 0,
+            "withinStatutoryBaseline": true,
+            "withinCompanyBaseline": true,
+            "withinComplaintBaseline": true,
+            "sourceVersion": "2026-11-06",
+            "sourceIds": [
+              "S1",
+              "S3"
+            ],
+            "limitations": [
+              "To bazowe wyliczenia kalendarzowe i wstępna wskazówka, nie rozstrzygnięcie uprawnień ani wygaśnięcia praw.",
+              "Nietypowe dostawy, wyjątki i niepewne przedłużenia terminów wymagają weryfikacji.",
+              "Data oceny nie jest datą zgłoszenia zwrotu ani reklamacji. Rozmowa niczego nie zgłasza."
+            ]
+          },
+          "sourceVersions": {
+            "version": "2026-11-06",
+            "procedureSha256": "ba6ad915927511de06b69edb6bb51dccc1f2d3bf0227072f14a1038f36efd247",
+            "instructionSha256": "303c1850ed0374aa7739a4465a19e238746073812b47f2a290be97f84a6b977b"
+          }
+        },
+        "status": "review_required"
+      }
+    }
+  ]
+}
